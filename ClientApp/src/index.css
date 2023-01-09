@@ -1,0 +1,21 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: NetflixSans, sans-serif;
+    font-weight: bold;
+}
+
+:root {
+    --tf-red: #e50914;
+    --bg-color: #1e1d1d;
+    --tf-gray: #8c8c8c;
+    --tf-teal: #77867f;
+    --input-bg: #333;
+    --input-bg-active: rgb(83, 82, 82);
+}
+
+html, body, #root {
+    background-color: var(--bg-color);
+    height: 100%;
+}

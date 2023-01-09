@@ -1,0 +1,11 @@
+#navbar {
+    height: 10%;
+    padding: 2rem;
+}
+
+#logo {
+    color: var(--tf-red);
+    font-family: NetflixSans-Bold;
+    font-size: 2rem;
+    letter-spacing: 0.15em;
+}
