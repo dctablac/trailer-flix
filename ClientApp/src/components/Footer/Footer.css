@@ -1,0 +1,10 @@
+#footer {
+    background-color: var(--footer-color);
+    height: 10%;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.footer-credit {
+    color: white;
+}

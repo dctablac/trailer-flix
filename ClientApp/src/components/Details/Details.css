@@ -1,0 +1,8 @@
+#details {
+    margin: 2rem;
+}
+
+.trailer-container {
+    display: flex;
+    justify-content: center;
+}

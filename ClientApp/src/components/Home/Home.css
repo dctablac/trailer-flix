@@ -1,15 +1,19 @@
-.popular-title {
+.section-title {
     color: white;
     margin: 2rem;
 }
 
 .popular-movies {
     display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(5, 1fr);
-    justify-items: center;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, 185px);
+    justify-content: center;
 }
 
-.popular-movie {
-
+.movie-poster {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.movie-poster:hover {
+    transform: scale(1.05);
 }

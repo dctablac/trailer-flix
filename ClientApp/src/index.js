@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { 
@@ -10,12 +11,12 @@ import Register from './components/Register';
 import Home, { 
   loader as homeLoader
 } from './components/Home';
+import Details from './components/Details';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import './App.css';
 import './index.css';
 
-const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
         element: <Home />,
         loader: homeLoader
       },
+      {
+        path: '/details/:movieId',
+        element: <Details />
+      }
     ]
   },
 ]);
