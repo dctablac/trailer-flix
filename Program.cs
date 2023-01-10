@@ -1,6 +1,17 @@
+// Arbitray CORS policy name
+var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// CORS service policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: myAllowSpecificOrigins,
+    policy =>
+    {
+        policy.WithOrigins("https://localhost:44422");
+    });
+});
 
 builder.Services.AddControllersWithViews();
 
@@ -17,6 +28,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+// CORS middleware, configured above
+app.UseCors(myAllowSpecificOrigins);
 
 app.MapControllerRoute(
     name: "default",

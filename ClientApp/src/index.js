@@ -7,7 +7,9 @@ import {
 import App from './App';
 import Login from './components/Login';
 import Register from './components/Register';
-import Home from './components/Home';
+import Home, { 
+  loader as homeLoader
+} from './components/Home';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import './App.css';
@@ -32,7 +34,8 @@ const router = createBrowserRouter([
       },
       {
         path: '/browse',
-        element: <Home />
+        element: <Home />,
+        loader: homeLoader
       },
     ]
   },
