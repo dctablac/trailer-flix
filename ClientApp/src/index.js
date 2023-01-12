@@ -6,8 +6,7 @@ import {
   RouterProvider
 } from 'react-router-dom';
 import App from './App';
-import Login from './components/Login';
-import Register from './components/Register';
+import AccountForm from './components/AccountForm';
 import Home, { 
   loader as homeLoader
 } from './components/Home';
@@ -27,11 +26,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Register />
+        element: <AccountForm formType="Register"/>
       },
       {
         path: '/login',
-        element: <Login />
+        element: <AccountForm formType="Login" />
       },
       {
         path: '/browse',
