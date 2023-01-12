@@ -1,10 +1,7 @@
 #register,
 #login {
     display: flex;
-    height: 90%;
     justify-content: center;
-    padding-bottom: 0;
-    width: 100%;
 }
 
 .account-form {

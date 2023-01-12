@@ -26,11 +26,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <AccountForm formType="Register"/>
+        element: <AccountForm formType="register"/>
       },
       {
         path: '/login',
-        element: <AccountForm formType="Login" />
+        element: <AccountForm formType="login" />
       },
       {
         path: '/browse',

@@ -28,13 +28,21 @@ export default function Home() {
     const popularMovies = useLoaderData();
     const navigate = useNavigate();
     const [
-        query, 
-        setQuery, 
-        prevQuery, 
-        searchResults,
-        getSearchResults,
-        searchScrolled
+        {
+            query, 
+            setQuery, 
+            prevQuery, 
+            searchResults,
+            getSearchResults,
+            searchScrolled,
+            setDetailsShowing
+        }
     ] = useOutletContext();
+
+    useEffect(() => {
+        setDetailsShowing(false);
+    // eslint-disable-next-line
+    }, [])
 
     const [backdropIndex, setBackdropIndex] = useState(0);
     useEffect(() => {
@@ -64,10 +72,27 @@ export default function Home() {
                 getSearchResults={getSearchResults}
                 searchScrolled={searchScrolled}
             />
-                {searchResults && <>
-                <h2 className="section-title">Results for "{prevQuery}"</h2>
-                <div className="search-results">
-                    {searchResults && searchResults.map((movie, i) => {
+                {searchResults && 
+                <>
+                    <h2 className="section-title">Results for "{prevQuery}"</h2>
+                    <div className="search-results">
+                        {searchResults && searchResults.map((movie, i) => {
+                            return <img
+                            className="movie-poster" 
+                            key={i}
+                            src={`https://image.tmdb.org/t/p/w185${movie['poster_path']}`} 
+                            alt={movie['title']}
+                            onClick={() => navigate(`/details/${movie['id']}`)}
+                            />
+                        })}
+                    </div>
+                </>
+            }
+            {(!searchResults || searchResults === '') && 
+            <>
+                <h2 className="section-title">Popular Movies</h2>
+                <div className="popular-movies">
+                    {popularMovies.results.map((movie, i) => {
                         return <img
                         className="movie-poster" 
                         key={i}
@@ -77,21 +102,6 @@ export default function Home() {
                         />
                     })}
                 </div>
-            </>
-            }
-            {(!searchResults || searchResults === '') && <>
-            <h2 className="section-title">Popular Movies</h2>
-            <div className="popular-movies">
-                {popularMovies.results.map((movie, i) => {
-                    return <img
-                    className="movie-poster" 
-                    key={i}
-                    src={`https://image.tmdb.org/t/p/w185${movie['poster_path']}`} 
-                    alt={movie['title']}
-                    onClick={() => navigate(`/details/${movie['id']}`)}
-                    />
-                })}
-            </div>
             </>
             }
         </div>

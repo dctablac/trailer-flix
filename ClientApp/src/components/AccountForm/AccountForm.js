@@ -10,15 +10,15 @@ export default function AccountForm(props) {
 
     // Changes action text on label depending on register/login
     function formActionText() {
-        return formType === 'Register' ? 'Sign Up' : 'Sign In';
+        return formType === 'register' ? 'Sign Up' : 'Sign In';
     }
     // Changes action link text opposite of what the form is
     function formAltActionText() {
-        return formType === 'Register' ? 'Sign In' : 'Sign Up';
+        return formType === 'register' ? 'Sign In' : 'Sign Up';
     }
-    // Changes action link navigation opposite of what the form is
+    // Changes navigation opposite of what the form is
     function formAltActionLink() {
-        return formType === 'Register' ? '/login' : '/';
+        return formType === 'register' ? '/login' : '/';
     }
 
     return (

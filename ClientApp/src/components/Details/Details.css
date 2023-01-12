@@ -1,20 +1,28 @@
-#details {
-    margin: 2rem;
+.browse-return {
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    text-decoration: none;
+}
+.browse-return:hover {
+    text-decoration: underline;
 }
 
 .detail-title {
     color: white;
+    display: flex;
+    flex-direction: column;
     font-size: 2rem;
-    margin: 2rem 0;
+    margin: 2rem;
 }
 .section-title {
+    position: relative;
     font-size: 1.75rem;
 }
 
 .trailer-container {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
 }
 
 .info-container {
@@ -29,16 +37,55 @@
     padding-bottom: 1rem;
 }
 
-.people-container {
-    border: 1px solid red;
+.people-carousel-container {
+    /* border: 1px solid red; */
     display: flex;
+    margin: 0 2rem;
     overflow-x: scroll;
-}
-.people-carousel {
-    border: 1px solid blue;
-    display: flex;
+    position: relative;
     scroll-behavior: smooth;
+}
+/* .people-carousel-container::-webkit-scrollbar {
+    display: none;
+} */
+.people-carousel {
+    display: flex;
 }
 .people-carousel > * {
     margin-right: 1rem;
+}
+.person-poster-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.person-poster-name {
+    color: white;
+    text-shadow: 0 0 2px black;
+}
+
+.carousel-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 1rem;
+    position: sticky;
+    transition: background-color 0.2s;
+    z-index: 1;
+}
+.carousel-btn:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+.carousel-btn-left
+{
+    left: 0;
+    opacity: 0;
+}
+.carousel-btn-right
+{
+    right: 0;
+}
+.bi {
+    pointer-events: none;
 }
