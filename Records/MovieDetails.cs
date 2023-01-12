@@ -37,7 +37,7 @@ public record MovieCredits
 public record CastMember
 (
     [property: JsonPropertyName("id")] int Id,
-    [property: JsonPropertyName("known_for_department")] string KnownForDepartment,
+    [property: JsonPropertyName("profile_path")] string ProfilePath,
     [property: JsonPropertyName("name")] string Name,
     [property: JsonPropertyName("character")] string Character
 );
@@ -45,7 +45,7 @@ public record CastMember
 public record CrewMember
 (
     [property: JsonPropertyName("id")] int Id,
-    [property: JsonPropertyName("known_for_department")] string KnownForDepartment,
+    [property: JsonPropertyName("profile_path")] string ProfilePath,
     [property: JsonPropertyName("name")] string Name,
     [property: JsonPropertyName("department")] string Department,
     [property: JsonPropertyName("job")] string Job

@@ -1,8 +1,16 @@
+.home-backdrop {
+    object-fit: contain;
+    position: absolute;
+    height: 80vh;
+    width: 100%;
+}
+
 .section-title {
     color: white;
     margin: 2rem;
 }
 
+.search-results,
 .popular-movies {
     display: grid;
     gap: 2rem;

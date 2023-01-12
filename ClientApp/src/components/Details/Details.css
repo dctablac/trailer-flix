@@ -2,7 +2,43 @@
     margin: 2rem;
 }
 
+.detail-title {
+    color: white;
+    font-size: 2rem;
+    margin: 2rem 0;
+}
+.section-title {
+    font-size: 1.75rem;
+}
+
 .trailer-container {
     display: flex;
     justify-content: center;
+    margin-top: 2rem;
+}
+
+.info-container {
+    color: white;
+    font-size: 1.2rem;
+    padding: 1rem;
+    margin: auto;
+    width: 50%;
+}
+
+.info-overview {
+    padding-bottom: 1rem;
+}
+
+.people-container {
+    border: 1px solid red;
+    display: flex;
+    overflow-x: scroll;
+}
+.people-carousel {
+    border: 1px solid blue;
+    display: flex;
+    scroll-behavior: smooth;
+}
+.people-carousel > * {
+    margin-right: 1rem;
 }

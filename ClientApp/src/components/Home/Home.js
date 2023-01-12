@@ -1,9 +1,11 @@
 import React, {
-    useState
+    useState,
+    useEffect
 } from "react";
 import { 
     useNavigate, 
-    useLoaderData
+    useLoaderData,
+    useOutletContext
  } from "react-router-dom";
 import Search from "../Search";
 import './Home.css';
@@ -23,45 +25,64 @@ export async function loader() {
 }
 
 export default function Home() {
-    const popular = useLoaderData();
+    const popularMovies = useLoaderData();
     const navigate = useNavigate();
+    const [
+        query, 
+        setQuery, 
+        prevQuery, 
+        searchResults,
+        getSearchResults,
+        searchScrolled
+    ] = useOutletContext();
 
-    const [query, setQuery] = useState('');
-    const [prevQuery, setPrevQuery] = useState('');
-    const [searchResults, setSearchResults] = useState(null);
-    async function getSearchResults() {
-        setPrevQuery(query);
-        if (query !== '') {
-            const res = await fetch(`https://localhost:7234/api/movies/search?query=${query}`);
-            const data = await res.json();
-            setSearchResults(data.results);
-        } else {
-            setSearchResults(null);
-        }
-    }
+    const [backdropIndex, setBackdropIndex] = useState(0);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (backdropIndex === popularMovies.results.length - 1) {
+                setBackdropIndex(() => 0);
+            } else {
+                setBackdropIndex((prevBackdropIndex) => prevBackdropIndex + 1);
+            }
+        }, 4000);
+
+        return () => clearInterval(interval);
+        // eslint-disable-next-line
+    }, [backdropIndex]);
 
     return (
         <div id="home">
-            <Search query={query} setQuery={setQuery} getSearchResults={getSearchResults}/>
-            {searchResults && <>
-            <h2 className="section-title">Results for "{prevQuery}"</h2>
-            <div className="popular-movies">
-                {searchResults.map((movie, i) => {
-                    return <img
-                    className="movie-poster" 
-                    key={i}
-                    src={`https://image.tmdb.org/t/p/w185${movie['poster_path']}`} 
-                    alt={movie['title']}
-                    onClick={() => navigate(`/details/${movie['id']}`)}
-                    />
-                })}
-            </div>
+            <img
+                id="home-backdrop"
+                className="home-backdrop" 
+                src={`https://image.tmdb.org/t/p/original${popularMovies.results[backdropIndex].backdrop_path}`} 
+                alt={popularMovies.results[backdropIndex].title}
+            />
+            <Search 
+                query={query} 
+                setQuery={setQuery} 
+                getSearchResults={getSearchResults}
+                searchScrolled={searchScrolled}
+            />
+                {searchResults && <>
+                <h2 className="section-title">Results for "{prevQuery}"</h2>
+                <div className="search-results">
+                    {searchResults && searchResults.map((movie, i) => {
+                        return <img
+                        className="movie-poster" 
+                        key={i}
+                        src={`https://image.tmdb.org/t/p/w185${movie['poster_path']}`} 
+                        alt={movie['title']}
+                        onClick={() => navigate(`/details/${movie['id']}`)}
+                        />
+                    })}
+                </div>
             </>
             }
             {(!searchResults || searchResults === '') && <>
             <h2 className="section-title">Popular Movies</h2>
             <div className="popular-movies">
-                {popular.results.map((movie, i) => {
+                {popularMovies.results.map((movie, i) => {
                     return <img
                     className="movie-poster" 
                     key={i}

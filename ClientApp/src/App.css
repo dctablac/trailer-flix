@@ -9,3 +9,9 @@
     src: local('NetflixSans'),
     url(./fonts/netflix-sans-font/NetflixSans-Bold.woff2) format('woff')
 }
+
+@font-face {
+    font-family: 'NetflixSans-Light';
+    src: local('NetflixSans'),
+    url(./fonts/netflix-sans-font/NetflixSans-Light.woff2) format('woff')
+}
