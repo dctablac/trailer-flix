@@ -15,3 +15,13 @@
     src: local('NetflixSans'),
     url(./fonts/netflix-sans-font/NetflixSans-Light.woff2) format('woff')
 }
+
+.poster-fill {
+    align-items: center;
+    background: var(--footer-color);
+    color: white;
+    display: flex;
+    justify-content: center;
+    height: 278px;
+    min-width: 185px;
+}

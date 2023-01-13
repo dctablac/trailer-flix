@@ -1,4 +1,7 @@
 .home-backdrop {
+    animation: fadeIn 4s infinite;
+    /* border: 1px solid green; */
+    background-color: black;
     object-fit: contain;
     position: absolute;
     height: 80vh;
@@ -24,4 +27,13 @@
 }
 .movie-poster:hover {
     transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0.2;
+    }
+    to {
+        opacity: 1;
+    }
 }

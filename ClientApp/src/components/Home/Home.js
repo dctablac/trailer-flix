@@ -16,11 +16,8 @@ export async function loader() {
         const res = await fetch('https://localhost:7234/api/movies/popular');
         const data = await res.json();
         return data;
-    } catch {
-        throw new Response("", {
-            status: 404,
-            statusText: 'Not Found'
-        });
+    } catch(err) {
+        console.error(err);
     }
 }
 

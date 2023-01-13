@@ -4,6 +4,7 @@
     overflow-x: scroll;
     position: relative;
     scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
 }
 .carousel-container::-webkit-scrollbar {
     /* background: none; */
@@ -18,6 +19,7 @@
     display: flex;
 }
 .carousel > * {
+    scroll-snap-align: start;
     margin-right: 1rem;
 }
 .carousel-btn {

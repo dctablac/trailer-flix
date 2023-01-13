@@ -38,14 +38,6 @@
     width: 50%;
 }
 
-.poster-fill {
-    background: grey;
-    border: 1px solid black;
-    color: white;
-    height: 278px;
-    min-width: 185px;
-}
-
 @keyframes fadeIn {
     from {
         opacity: 0;
