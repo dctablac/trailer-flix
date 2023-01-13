@@ -88,12 +88,41 @@ export default function Details() {
                 </table>
             }
             <h3 className="detail-title section-title">Cast</h3>
-            {credits && <Carousel carouselId="cast" items={credits.cast} itemType="person"/>}
+            {credits && <Carousel carouselId="cast" items={formatPeople(credits.cast)} itemType="person"/>}
             <h3 className="detail-title section-title">Crew</h3>
-            {credits && <Carousel carouselId="crew" items={credits.crew} itemType="person"/>}
+            {credits && <Carousel carouselId="crew" items={formatPeople(credits.crew)} itemType="person"/>}
 
         </div>
     );
+
+    function formatPeople(people) {
+        return people.map((person, i) => {
+            return <div key={i} className="person-poster-container">
+                        {
+                            person.profile_path &&
+                            <img 
+                            className="person-poster"
+                            src={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
+                            alt={person.name}/> 
+                        }
+                        {
+                            !person.profile_path &&
+                            <div className="poster-fill">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" fill="grey" className="bi bi-person-square" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z"/>
+                                </svg>
+                            </div>
+                        }
+                        <label className="person-poster-name">
+                            {`${person.name} `}
+                            <br/>
+                            {person.character && `(${person.character})`}
+                            {person.job && `(${person.job})`}
+                        </label>
+                    </div>
+        });
+    }
 
     function formatObjectList(list) {
         let formatted = '';
