@@ -19,8 +19,8 @@
     display: flex;
 }
 .carousel > * {
-    scroll-snap-align: start;
     margin-right: 1rem;
+    scroll-snap-align: start;
 }
 .carousel-btn {
     background: none;

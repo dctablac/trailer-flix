@@ -7,7 +7,7 @@ import {
     useLoaderData,
     useOutletContext
  } from "react-router-dom";
-import Search from "../Search";
+import Search from '../Search';
 import './Home.css';
 
 
@@ -42,28 +42,27 @@ export default function Home() {
     }, [])
 
     const [backdropIndex, setBackdropIndex] = useState(0);
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         if (backdropIndex === popularMovies.results.length - 1) {
-    //             setBackdropIndex(() => 0);
-    //         } else {
-    //             setBackdropIndex((prevBackdropIndex) => prevBackdropIndex + 1);
-    //         }
-    //     }, 4000);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (backdropIndex === popularMovies.results.length - 1) {
+                setBackdropIndex(() => 0);
+            } else {
+                setBackdropIndex((prevBackdropIndex) => prevBackdropIndex + 1);
+            }
+        }, 4000);
 
-    //     return () => clearInterval(interval);
-    //     // eslint-disable-next-line
-    // }, [backdropIndex]);
+        return () => clearInterval(interval);
+        // eslint-disable-next-line
+    }, [backdropIndex]);
 
     return (
         <div id="home">
-            {/* <img
+            <img
                 id="home-backdrop"
                 className="home-backdrop" 
                 src={`https://image.tmdb.org/t/p/original${popularMovies.results[backdropIndex].backdrop_path}`} 
                 alt={popularMovies.results[backdropIndex].title}
-            /> */}
-            {/* <Carousel carouselId="home-backdrop" items={popularMovies} */}
+            />
             <Search 
                 query={query} 
                 setQuery={setQuery} 

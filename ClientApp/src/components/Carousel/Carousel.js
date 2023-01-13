@@ -9,6 +9,7 @@ export default function Carousel(props) {
         // depending on scrollLeft values
         const carouselContainer = document.getElementById(carouselId);
         carouselContainer.addEventListener('scroll', scrollListener);
+        
         return () => {
             carouselContainer.removeEventListener('scroll', scrollListener);
         }

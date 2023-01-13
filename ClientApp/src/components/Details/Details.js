@@ -14,7 +14,7 @@ export default function Details() {
     // Remove navbar on page mount
     const [{ setDetailsShowing }] = useOutletContext();
     useEffect(() => {
-        window.scroll(0,50);
+        // window.scroll(0,50);
         setDetailsShowing(true);
         // Returns nav to page
         return () => {
@@ -41,10 +41,12 @@ export default function Details() {
     }, [movieId])
 
     return (
+        <>
+        {info && credits &&
         <div id="details">
             <h2 className="detail-title">
                 <Link to='/browse' className="browse-return">{'< '}Back to Browse</Link>
-                {info && info.original_title}
+                {info.original_title}
             </h2>
             <div className="trailer-container">
                 <iframe id="player" className="trailer" width="1080" height="607.5" 
@@ -54,7 +56,6 @@ export default function Details() {
                 encrypted-media; gyroscope; picture-in-picture; web-share" 
                 allowFullScreen></iframe>
             </div>
-            {info &&
                 <table className="info-container">
                     <tbody>
                         <tr>
@@ -86,13 +87,13 @@ export default function Details() {
                         </tr>
                     </tbody>
                 </table>
-            }
             <h3 className="detail-title section-title">Cast</h3>
-            {credits && <Carousel carouselId="cast" items={formatPeople(credits.cast)} itemType="person"/>}
+            <Carousel carouselId="cast" items={formatPeople(credits.cast)}/>
             <h3 className="detail-title section-title">Crew</h3>
-            {credits && <Carousel carouselId="crew" items={formatPeople(credits.crew)} itemType="person"/>}
-
+            <Carousel carouselId="crew" items={formatPeople(credits.crew)}/>
         </div>
+        }
+        </>
     );
 
     function formatPeople(people) {
