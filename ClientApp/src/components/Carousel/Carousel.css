@@ -1,0 +1,47 @@
+.carousel-container {
+    display: flex;
+    margin: 0 2rem;
+    overflow-x: scroll;
+    position: relative;
+    scroll-behavior: smooth;
+}
+.carousel-container::-webkit-scrollbar {
+    /* background: none; */
+    display: none;
+}
+/* .people-carousel-container::-webkit-scrollbar-thumb {
+    background-color: var(--tf-gray);
+    border-radius: 1rem;
+} */
+
+.carousel {
+    display: flex;
+}
+.carousel > * {
+    margin-right: 1rem;
+}
+.carousel-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 1rem;
+    position: sticky;
+    transition: background-color 0.2s;
+    z-index: 1;
+}
+.carousel-btn:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+.carousel-btn-left
+{
+    left: 0;
+    opacity: 0;
+}
+.carousel-btn-right
+{
+    right: 0;
+}
+.bi {
+    pointer-events: none;
+}
