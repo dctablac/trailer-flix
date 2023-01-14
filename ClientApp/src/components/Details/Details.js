@@ -1,24 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { 
     Link,
     useNavigate,
-    useLocation, 
-    useOutletContext
+    useOutletContext,
+    useLoaderData
 } from 'react-router-dom';
-import Carousel from "../Carousel/Carousel";
 import { useAuth } from "../../contexts/AuthContext";
+import { ROUTE } from "../../text";
+import Carousel from "../Carousel/Carousel";
 import './Details.css';
+
+export async function loader({ params }) {
+    const res = await fetch(`https://localhost:7234/api/movies/${params.movieId}`);
+    const details = await res.json();
+    window.scroll(0,0);
+    return details;
+}
 
 export default function Details() {
     const { currentUser } = useAuth();
     const navigate = useNavigate();
-
+    // Get movie details before page render
+    const { info, credits } = useLoaderData();
     // Remove navbar on page mount
     const [{ setDetailsShowing }] = useOutletContext();
     useEffect(() => {
         // Redirect if not logged in
         if (!currentUser) {
-            navigate('/');
+            navigate(ROUTE.REGISTER);
         }
         setDetailsShowing(true);
         // Returns nav to page
@@ -27,82 +36,6 @@ export default function Details() {
         };
     // eslint-disable-next-line
     }, []);
-
-    const url = useLocation();
-    const movieId = url.pathname.split('/')[2];
-    
-    // Get movie details on page render
-    const [credits, setCredits] = useState(null);
-    const [info, setInfo] = useState(null);
-    useEffect(() => {
-        async function getMovieDetails() {
-            try {
-                const res = await fetch(`https://localhost:7234/api/movies/${movieId}`);
-                const data = await res.json();
-                setInfo(data.info);
-                setCredits(data.credits);
-            } catch(err) {
-                console.error(err);
-            }
-        }
-        getMovieDetails();
-    }, [movieId])
-
-    return (
-        <>
-        {info && credits &&
-        <div id="details">
-            <h2 className="detail-title">
-                <Link to='/browse' className="browse-return">{'< '}Back to Browse</Link>
-                {info.original_title}
-            </h2>
-            <div className="trailer-container">
-                <iframe id="player" className="trailer" width="1080" height="607.5" 
-                src="https://www.youtube.com/embed/jfKfPfyJRdk?rel=0&autoplay=1&controls=0" 
-                title="YouTube video player" frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; 
-                encrypted-media; gyroscope; picture-in-picture; web-share" 
-                allowFullScreen></iframe>
-            </div>
-                <table className="info-container">
-                    <tbody>
-                        <tr>
-                            <td className="info-overview" colSpan={2}>{info.overview}</td>
-                        </tr>
-                        <tr>
-                            <td>Release Date</td>
-                            <td>{info.release_date}</td>
-                        </tr>
-                        <tr>
-                            <td>Revenue</td>
-                            <td>{formatMoney(info.revenue)}</td>
-                        </tr>
-                        <tr>
-                            <td>Genres</td>
-                            <td>{formatObjectList(info.genres)}</td>
-                        </tr>
-                        <tr>
-                            <td>Budget</td>
-                            <td>{formatMoney(info.budget)}</td>
-                        </tr>
-                        <tr>
-                            <td>Production</td>
-                            <td>{formatObjectList(info.production_companies)}</td>
-                        </tr>
-                        <tr>
-                            <td>Runtime</td>
-                            <td>{`${info.runtime} minutes`}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            <h3 className="detail-title section-title">Cast</h3>
-            <Carousel carouselId="cast" items={formatPeople(credits.cast)}/>
-            <h3 className="detail-title section-title">Crew</h3>
-            <Carousel carouselId="crew" items={formatPeople(credits.crew)}/>
-        </div>
-        }
-        </>
-    );
 
     function formatPeople(people) {
         return people.map((person, i) => {
@@ -154,4 +87,60 @@ export default function Details() {
         });
         return formatter.format(money);
     }
+
+    return (
+        <>
+        {info && credits &&
+        <div id="details">
+            <h2 className="detail-title">
+                <Link to={ROUTE.BROWSE} className="browse-return">{'< '}Back to Browse</Link>
+                {info.original_title}
+            </h2>
+            <div className="trailer-container">
+                <iframe id="player" className="trailer" width="1080" height="607.5" 
+                src="https://www.youtube.com/embed/jfKfPfyJRdk?rel=0&autoplay=1&controls=0" 
+                title="YouTube video player" frameBorder="0" 
+                allow="accelerometer; clipboard-write; encrypted-media; 
+                gyroscope; picture-in-picture; web-share" 
+                allowFullScreen></iframe>
+            </div>
+                <table className="info-container">
+                    <tbody>
+                        <tr>
+                            <td className="info-overview" colSpan={2}>{info.overview}</td>
+                        </tr>
+                        <tr>
+                            <td>Release Date</td>
+                            <td>{info.release_date}</td>
+                        </tr>
+                        <tr>
+                            <td>Revenue</td>
+                            <td>{formatMoney(info.revenue)}</td>
+                        </tr>
+                        <tr>
+                            <td>Genres</td>
+                            <td>{formatObjectList(info.genres)}</td>
+                        </tr>
+                        <tr>
+                            <td>Budget</td>
+                            <td>{formatMoney(info.budget)}</td>
+                        </tr>
+                        <tr>
+                            <td>Production</td>
+                            <td>{formatObjectList(info.production_companies)}</td>
+                        </tr>
+                        <tr>
+                            <td>Runtime</td>
+                            <td>{`${info.runtime} minutes`}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            <h3 className="detail-title section-title">Cast</h3>
+            <Carousel carouselId="cast" items={formatPeople(credits.cast)}/>
+            <h3 className="detail-title section-title">Crew</h3>
+            <Carousel carouselId="crew" items={formatPeople(credits.crew)}/>
+        </div>
+        }
+        </>
+    );
 }

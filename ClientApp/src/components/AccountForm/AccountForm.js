@@ -10,17 +10,18 @@ import {
 import './AccountForm.css';
 import { useAuth } from "../../contexts/AuthContext";
 import { authErrorMessages } from "../../firebase.js";
+import { FORM_TYPE, FORM_TEXT, ROUTE } from "../../text";
 
 export default function AccountForm(props) {
-    const { currentUser, signUp, logIn } = useAuth();
+    const { formType } = props;
     const navigate = useNavigate();
+    const { currentUser, signUp, logIn } = useAuth();
     useEffect(() => {
         if (currentUser) {
-            navigate('/browse');
+            navigate(ROUTE.BROWSE);
         }
         // eslint-disable-next-line
     }, [currentUser]);
-    const { formType } = props;
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -28,15 +29,15 @@ export default function AccountForm(props) {
 
     // Changes action text on label depending on register/login
     function formActionText() {
-        return formType === 'register' ? 'Sign Up' : 'Sign In';
+        return formType === FORM_TYPE.REGISTER ? FORM_TEXT.SIGNUP : FORM_TEXT.SIGNIN;
     }
     // Changes action link text opposite of what the form is
     function formAltActionText() {
-        return formType === 'register' ? 'Sign In' : 'Sign Up';
+        return formType === FORM_TYPE.REGISTER ? FORM_TEXT.SIGNIN : FORM_TEXT.SIGNUP;
     }
     // Changes navigation opposite of what the form is
     function formAltActionLink() {
-        return formType === 'register' ? '/login' : '/';
+        return formType === FORM_TYPE.REGISTER ? ROUTE.LOGIN : ROUTE.REGISTER;
     }
 
     // onSubmit changes depending if register/login
@@ -44,14 +45,14 @@ export default function AccountForm(props) {
         e.preventDefault();
         try {
             if (email !== '' && password !== '') {
-                if (formType === 'register' && password === confirmPassword) {
+                if (formType === FORM_TYPE.REGISTER && password === confirmPassword) {
                     await signUp(email, password);
                     alert('User registered successfully');
-                    navigate('/login');
-                } else if (formType === 'login') {
+                    navigate(ROUTE.LOGIN);
+                } else if (formType === FORM_TYPE.LOGIN) {
                     await logIn(email, password);
                     alert('User logged in successfully');
-                    navigate('/browse');
+                    navigate(ROUTE.BROWSE);
                 }
             } else {
                 alert('Please enter an email and password.');
