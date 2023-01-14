@@ -22,6 +22,7 @@ export default function Details() {
     const navigate = useNavigate();
     // Get movie details before page render
     const { info, credits } = useLoaderData();
+    const backgroundImg = `https://image.tmdb.org/t/p/original${info.backdrop_path}`;
     // Remove navbar on page mount
     const [{ setDetailsShowing }] = useOutletContext();
     useEffect(() => {
@@ -92,49 +93,57 @@ export default function Details() {
         <>
         {info && credits &&
         <div id="details">
-            <h2 className="details-title">
-                <Link to={ROUTE.BROWSE} className="browse-return">{'< '}Back to Browse</Link>
-                {info.original_title}
-            </h2>
-            <div className="trailer-container">
-                <iframe id="player" className="trailer" width="1080" height="607.5" 
-                src="https://www.youtube.com/embed/jfKfPfyJRdk?rel=0&autoplay=1&controls=0" 
-                title="YouTube video player" frameBorder="0" 
-                allow="accelerometer; clipboard-write; encrypted-media; 
-                gyroscope; picture-in-picture; web-share" 
-                allowFullScreen></iframe>
+            <div className="trailer-wrapper">
+                <img 
+                    className="trailer-backdrop" 
+                    src={backgroundImg}
+                    alt={info.title}
+                />
+                <div className="trailer-backdrop-screen"></div>
+                <h2 className="details-title" >
+                    <Link to={ROUTE.BROWSE} className="browse-return">{'< '}Back to Browse</Link>
+                    {info.original_title}
+                </h2>
+                <div className="trailer-container">
+                    <iframe id="player" className="trailer" width="1080" height="607.5" 
+                    src="https://www.youtube.com/embed/jfKfPfyJRdk?" 
+                    title="YouTube video player" frameBorder="0" 
+                    allow="accelerometer; clipboard-write; encrypted-media; 
+                    gyroscope; picture-in-picture; web-share" 
+                    allowFullScreen></iframe>
+                </div>
             </div>
-                <table className="info-container">
-                    <tbody>
-                        <tr>
-                            <td className="info-overview" colSpan={2}>{info.overview}</td>
-                        </tr>
-                        <tr>
-                            <td>Release Date</td>
-                            <td>{info.release_date}</td>
-                        </tr>
-                        <tr>
-                            <td>Revenue</td>
-                            <td>{formatMoney(info.revenue)}</td>
-                        </tr>
-                        <tr>
-                            <td>Genres</td>
-                            <td>{formatObjectList(info.genres)}</td>
-                        </tr>
-                        <tr>
-                            <td>Budget</td>
-                            <td>{formatMoney(info.budget)}</td>
-                        </tr>
-                        <tr>
-                            <td>Production</td>
-                            <td>{formatObjectList(info.production_companies)}</td>
-                        </tr>
-                        <tr>
-                            <td>Runtime</td>
-                            <td>{`${info.runtime} minutes`}</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <table className="info-container">
+                <tbody>
+                    <tr>
+                        <td className="info-overview" colSpan={2}>{info.overview}</td>
+                    </tr>
+                    <tr>
+                        <td>Release Date</td>
+                        <td>{info.release_date}</td>
+                    </tr>
+                    <tr>
+                        <td>Revenue</td>
+                        <td>{formatMoney(info.revenue)}</td>
+                    </tr>
+                    <tr>
+                        <td>Genres</td>
+                        <td>{formatObjectList(info.genres)}</td>
+                    </tr>
+                    <tr>
+                        <td>Budget</td>
+                        <td>{formatMoney(info.budget)}</td>
+                    </tr>
+                    <tr>
+                        <td>Production</td>
+                        <td>{formatObjectList(info.production_companies)}</td>
+                    </tr>
+                    <tr>
+                        <td>Runtime</td>
+                        <td>{`${info.runtime} minutes`}</td>
+                    </tr>
+                </tbody>
+            </table>
             <h3 className="detail-title section-title">Cast</h3>
             <Carousel carouselId="cast" items={formatPeople(credits.cast)}/>
             <h3 className="detail-title section-title">Crew</h3>

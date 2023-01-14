@@ -67,7 +67,7 @@ export default function AccountForm(props) {
         <div id={formType}>
             <Form className="account-form" onSubmit={handleSubmit}>
                 <h2 className="account-form-title">{formActionText()}</h2>
-                <label for="email" className="account-form-label">Email</label>
+                <label htmlFor="email" className="account-form-label">Email</label>
                 <input 
                 id="email" 
                 className="account-form-input" 
@@ -75,7 +75,7 @@ export default function AccountForm(props) {
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
                 />
-                <label for="password" className="account-form-label">Password</label>
+                <label htmlFor="password" className="account-form-label">Password</label>
                 <input 
                 id="password" 
                 className="account-form-input" 
@@ -86,7 +86,7 @@ export default function AccountForm(props) {
                 {
                     formType === 'register' &&
                     <>
-                    <label for="confirm-password" className="account-form-label">Confirm password</label>
+                    <label htmlFor="confirm-password" className="account-form-label">Confirm password</label>
                     <input
                     id="confirm-password"
                     className="account-form-input"

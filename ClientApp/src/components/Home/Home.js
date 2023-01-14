@@ -31,6 +31,7 @@ export default function Home() {
         if (!currentUser) {
             navigate(ROUTE.REGISTER);
         }
+        window.scroll(0,1);
         setDetailsShowing(false);
     // eslint-disable-next-line
     }, [])

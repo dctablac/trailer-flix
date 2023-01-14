@@ -11,7 +11,7 @@ public record MovieDetails
 public record MovieInfo
 (
     [property: JsonPropertyName("backdrop_path")] string BackdropPath,
-    [property: JsonPropertyName("budget")] int Budget,
+    [property: JsonPropertyName("budget")] double Budget,
     [property: JsonPropertyName("genres")] List<Genre> Genres,
     [property: JsonPropertyName("id")] int Id,
     [property: JsonPropertyName("original_title")] string Title,
@@ -19,7 +19,7 @@ public record MovieInfo
     [property: JsonPropertyName("poster_path")] string PosterPath,
     [property: JsonPropertyName("production_companies")] List<Object> ProductionCompanies,
     [property: JsonPropertyName("release_date")] string ReleaseDate,
-    [property: JsonPropertyName("revenue")] int Revenue,
+    [property: JsonPropertyName("revenue")] double Revenue,
     [property: JsonPropertyName("runtime")] int Runtime
 );
 
