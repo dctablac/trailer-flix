@@ -1,12 +1,22 @@
-import React from "react";
+import React, {
+    useState
+} from "react";
 import {
     Form,
-    Link
+    Link,
+    useNavigate
 } from 'react-router-dom';
 import './AccountForm.css';
+import { useAuth } from "../../contexts/AuthContext";
+import { authErrorMessages } from "../../firebase.js";
 
 export default function AccountForm(props) {
     const { formType } = props;
+    const { signUp, logIn } = useAuth();
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     // Changes action text on label depending on register/login
     function formActionText() {
@@ -21,12 +31,49 @@ export default function AccountForm(props) {
         return formType === 'register' ? '/login' : '/';
     }
 
+    // onSubmit changes depending if register/login
+    async function handleSubmit(e) {
+        e.preventDefault();
+        try {
+            if (email !== '' && password !== '') {
+                if (formType === 'register') {
+                    await signUp(email, password);
+                    alert('User registered successfully');
+                    navigate('/login');
+                } else if (formType === 'login') {
+                    await logIn(email, password);
+                    alert('User logged in successfully');
+                    navigate('/browse');
+                }
+            } else {
+                alert('Please enter an email and password.');
+            }
+        } catch(err) {
+            console.error(err.code);
+            alert(authErrorMessages[err.code]);
+        }
+    }
+
     return (
         <div id={formType}>
-            <Form className="account-form">
+            <Form className="account-form" onSubmit={handleSubmit}>
                 <h2 className="account-form-title">{formActionText()}</h2>
-                <input className="account-form-input" type="email" placeholder="Email"/>
-                <input className="account-form-input" type="password" placeholder="Password"/>
+                <input 
+                id="email" 
+                className="account-form-input" 
+                type="email" 
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                />
+                <input 
+                id="password" 
+                className="account-form-input" 
+                type="password" 
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                />
                 <button className="account-form-btn">{formActionText()}</button>
                 <Link className="account-form-link" to={formAltActionLink()}>{formAltActionText()}</Link>
             </Form>
