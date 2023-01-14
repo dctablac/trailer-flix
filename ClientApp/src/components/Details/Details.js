@@ -16,6 +16,7 @@ export default function Details() {
     // Remove navbar on page mount
     const [{ setDetailsShowing }] = useOutletContext();
     useEffect(() => {
+        // Redirect if not logged in
         if (!currentUser) {
             navigate('/');
         }
@@ -134,6 +135,9 @@ export default function Details() {
 
     function formatObjectList(list) {
         let formatted = '';
+        if (list.length === 0) {
+            return formatted;
+        }
         const lastIndex = list.length - 1;
         for (let i = 0; i < lastIndex; i++) {
             formatted += `${list[i].name}, `;

@@ -5,12 +5,10 @@
     height: 80vh;
     width: 100%;
 }
-
 .section-title {
     color: white;
     margin: 2rem;
 }
-
 .search-results,
 .popular-movies {
     display: grid;
@@ -18,11 +16,27 @@
     grid-template-columns: repeat(auto-fill, 185px);
     justify-content: center;
 }
-
+.movie-poster-container {
+    position: relative;
+}
 .movie-poster {
+    border-radius: 0.3rem;
     cursor: pointer;
     transition: transform 0.2s ease;
 }
 .movie-poster:hover {
     transform: scale(1.05);
+}
+.movie-poster-fill-title {
+    background-color: rgba(0,0,0,0.2);
+    color: white;
+    opacity: 0;
+    height: 100%;
+    padding: 1rem;
+    position: absolute;
+    transition: opacity 0.2s;
+    top: 0;
+}
+.movie-poster-fill-title:hover {
+    opacity: 1;
 }

@@ -11,7 +11,6 @@ export default function Navbar(props) {
     const navigate = useNavigate();
     const { currentUser, logOut } = useAuth();
 
-
     // Change navbar color on scroll
     function changeBackgroundColor() {
         if (window.scrollY > 0) {
@@ -34,7 +33,6 @@ export default function Navbar(props) {
     async function handleLogOut() {
         try {
             await logOut();
-            console.log(currentUser);
             navigate('/');
         } catch(err) {
             console.error(err);
