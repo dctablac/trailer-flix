@@ -1,4 +1,5 @@
 import React, {
+    useEffect,
     useState
 } from "react";
 import {
@@ -11,9 +12,15 @@ import { useAuth } from "../../contexts/AuthContext";
 import { authErrorMessages } from "../../firebase.js";
 
 export default function AccountForm(props) {
-    const { formType } = props;
-    const { signUp, logIn } = useAuth();
+    const { currentUser, signUp, logIn } = useAuth();
     const navigate = useNavigate();
+    useEffect(() => {
+        if (currentUser) {
+            navigate('/browse');
+        }
+        // eslint-disable-next-line
+    }, [currentUser]);
+    const { formType } = props;
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

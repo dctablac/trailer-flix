@@ -10,10 +10,13 @@ import { AuthProvider } from './contexts/AuthContext';
 
 export default function App() {
   const [query, setQuery] = useState('');
+  // For search result tag so user can repopulate query in search bar
+  // without changing the tag text
   const [prevQuery, setPrevQuery] = useState('');
+  // Search results on the home page
   const [searchResults, setSearchResults] = useState(null);
+  // To hide navbar when on movie details page
   const [detailsShowing, setDetailsShowing] = useState(false);
-  
   // Track if user has scrolled past the search bar position in backdrop
   const [searchScrolled, setSearchScrolled] = useState(false);
 
