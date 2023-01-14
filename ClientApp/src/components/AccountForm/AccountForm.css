@@ -18,8 +18,7 @@
 .account-form-title {
     color: white;
     font-size: 2rem;
-    margin-bottom: 1rem; 
-    margin-top: 7rem;
+    margin: 2rem 0;
 }
 
 .account-form-input {
@@ -27,15 +26,20 @@
     border: none;
     border-radius: 0.25rem;
     color: white;
+    font-size: 1rem;
     margin-bottom: 1rem;
     padding: 1rem;
+}
+.account-form-label {
+    color: white;
+    margin-bottom: 0.5rem;
 }
 .account-form-input::placeholder {
     color: #8c8c8c;
 }
 .account-form-input:focus {
     background-color: var(--input-bg-active);
-    outline: none;
+    outline: 1px solid grey;
 }
 
 .account-form-btn {
