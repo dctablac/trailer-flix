@@ -92,7 +92,7 @@ export default function Details() {
         <>
         {info && credits &&
         <div id="details">
-            <h2 className="detail-title">
+            <h2 className="details-title">
                 <Link to={ROUTE.BROWSE} className="browse-return">{'< '}Back to Browse</Link>
                 {info.original_title}
             </h2>

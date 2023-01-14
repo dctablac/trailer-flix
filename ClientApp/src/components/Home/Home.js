@@ -8,8 +8,9 @@ import {
     useOutletContext
  } from "react-router-dom";
 import Search from '../Search';
-import './Home.css';
 import { useAuth } from "../../contexts/AuthContext";
+import { ROUTE } from '../../text';
+import './Home.css';
 
 
 export async function loader() {
@@ -28,7 +29,7 @@ export default function Home() {
     useEffect(() => {
         // Redirect if not logged in
         if (!currentUser) {
-            navigate('/');
+            navigate(ROUTE.REGISTER);
         }
         setDetailsShowing(false);
     // eslint-disable-next-line
@@ -63,7 +64,7 @@ export default function Home() {
     // Navigate to movie details
     function goToMovieDetails(movieId)
     {
-        navigate(`/details/${movieId}`);
+        navigate(`${ROUTE.DETAILS}/${movieId}`);
     }
 
     return (
@@ -80,17 +81,17 @@ export default function Home() {
                 getSearchResults={getSearchResults}
                 searchScrolled={searchScrolled}
             />
-                {searchResults && 
+            {
+                searchResults && 
                 <>
                     <h2 className="section-title">Results for "{prevQuery}"</h2>
-                    <div className="search-results">
+                    <div className="movie-results">
                         {
                             searchResults && searchResults.map((movie, i) => {
-                                    return <div className="movie-poster-container">
+                                    return <div className="movie-poster-container" key={movie.id}>
                                         {
                                             movie.poster_path && 
                                             <img
-                                            key={i}
                                             className="movie-poster" 
                                             src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`} 
                                             alt={movie.title}
@@ -100,7 +101,6 @@ export default function Home() {
                                         {
                                             !movie.poster_path &&
                                             <div 
-                                            key={i}
                                             className="movie-poster poster-fill"
                                             onClick={() => goToMovieDetails(movie.id)}>
                                                 <p className="movie-poster-fill-title">{movie.title}</p>
@@ -115,21 +115,26 @@ export default function Home() {
                     </div>
                 </>
             }
-            {(!searchResults || searchResults === '') && 
-            <>
-                <h2 className="section-title">Popular Movies</h2>
-                <div className="popular-movies">
-                    {popularMovies.results.map((movie, i) => {
-                        return <img
-                        className="movie-poster" 
-                        key={i}
-                        src={`https://image.tmdb.org/t/p/w185${movie['poster_path']}`} 
-                        alt={movie['title']}
-                        onClick={() => navigate(`/details/${movie['id']}`)}
-                        />
-                    })}
-                </div>
-            </>
+            {
+                !searchResults && 
+                <>
+                    <h2 className="section-title">Popular Movies</h2>
+                    <div className="movie-results">
+                        {popularMovies.results.map((movie, i) => {
+                            return <img
+                            className="movie-poster" 
+                            key={movie.id}
+                            src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`} 
+                            alt={movie.title}
+                            onClick={() => navigate(`/details/${movie.id}`)}
+                            />
+                        })}
+                    </div>
+                </>
+            }
+            {
+                searchResults === '' &&
+                <h2 className="section-title">No results for "{prevQuery}"</h2>
             }
         </div>
     )

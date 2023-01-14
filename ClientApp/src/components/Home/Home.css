@@ -9,8 +9,7 @@
     color: white;
     margin: 2rem;
 }
-.search-results,
-.popular-movies {
+.movie-results {
     display: grid;
     gap: 2rem;
     grid-template-columns: repeat(auto-fill, 185px);
