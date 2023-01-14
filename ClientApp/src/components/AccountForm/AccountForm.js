@@ -7,10 +7,10 @@ import {
     Link,
     useNavigate
 } from 'react-router-dom';
-import './AccountForm.css';
 import { useAuth } from "../../contexts/AuthContext";
 import { authErrorMessages } from "../../firebase.js";
 import { FORM_TYPE, FORM_TEXT, ROUTE } from "../../text";
+import './AccountForm.css';
 
 export default function AccountForm(props) {
     const { formType } = props;
@@ -48,7 +48,7 @@ export default function AccountForm(props) {
                 if (formType === FORM_TYPE.REGISTER && password === confirmPassword) {
                     await signUp(email, password);
                     alert('User registered successfully');
-                    navigate(ROUTE.LOGIN);
+                    navigate(ROUTE.BROWSE);
                 } else if (formType === FORM_TYPE.LOGIN) {
                     await logIn(email, password);
                     alert('User logged in successfully');

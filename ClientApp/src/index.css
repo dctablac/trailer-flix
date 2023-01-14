@@ -16,7 +16,7 @@
     --input-bg-active: rgb(83, 82, 82);
 }
 
-html, body, #root {
+html, body {
     background-color: var(--bg-color);
     scroll-behavior: smooth;
     height: 100%;
