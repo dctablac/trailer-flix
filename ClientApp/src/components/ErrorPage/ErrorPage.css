@@ -1,0 +1,20 @@
+.error-page {
+    align-items: center;
+    color: white;
+    display: flex;
+    height: 80vh;
+    justify-content: center;
+}
+.error-page-content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    justify-content: center;
+}
+.error-page-content > * {
+    margin: 1rem;
+}
+.error-page-content h2 {
+    font-size: 2rem;
+}

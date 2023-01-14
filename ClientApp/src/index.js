@@ -15,6 +15,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import './App.css';
 import './index.css';
+import ErrorPage from './components/ErrorPage';
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '/',
