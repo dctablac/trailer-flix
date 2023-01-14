@@ -17,6 +17,7 @@ export default function AccountForm(props) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     // Changes action text on label depending on register/login
     function formActionText() {
@@ -36,7 +37,7 @@ export default function AccountForm(props) {
         e.preventDefault();
         try {
             if (email !== '' && password !== '') {
-                if (formType === 'register') {
+                if (formType === 'register' && password === confirmPassword) {
                     await signUp(email, password);
                     alert('User registered successfully');
                     navigate('/login');
@@ -74,6 +75,17 @@ export default function AccountForm(props) {
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 />
+                {
+                    formType === 'register' &&
+                    <input
+                    id="confirm-password"
+                    className="account-form-input"
+                    type="password"
+                    placeholder="Confirm password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    value={confirmPassword}
+                    />
+                }
                 <button className="account-form-btn">{formActionText()}</button>
                 <Link className="account-form-link" to={formAltActionLink()}>{formAltActionText()}</Link>
             </Form>

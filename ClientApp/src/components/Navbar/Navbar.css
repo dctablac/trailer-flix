@@ -24,3 +24,9 @@
     text-shadow: 0 0 2px black;
     user-select: none;
 }
+
+.account-settings-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+}

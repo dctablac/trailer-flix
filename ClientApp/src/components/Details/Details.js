@@ -1,27 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { 
     Link,
+    useNavigate,
     useLocation, 
     useOutletContext
 } from 'react-router-dom';
 import Carousel from "../Carousel/Carousel";
+import { useAuth } from "../../contexts/AuthContext";
 import './Details.css';
 
 export default function Details() {
-    const url = useLocation();
-    const movieId = url.pathname.split('/')[2];
+    const { currentUser } = useAuth();
+    const navigate = useNavigate();
 
     // Remove navbar on page mount
     const [{ setDetailsShowing }] = useOutletContext();
     useEffect(() => {
-        // window.scroll(0,50);
+        if (!currentUser) {
+            navigate('/');
+        }
         setDetailsShowing(true);
         // Returns nav to page
         return () => {
             setDetailsShowing(false);
         };
     // eslint-disable-next-line
-    }, [])
+    }, []);
+
+    const url = useLocation();
+    const movieId = url.pathname.split('/')[2];
     
     // Get movie details on page render
     const [credits, setCredits] = useState(null);

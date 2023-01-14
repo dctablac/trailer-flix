@@ -9,6 +9,7 @@ import {
  } from "react-router-dom";
 import Search from '../Search';
 import './Home.css';
+import { useAuth } from "../../contexts/AuthContext";
 
 
 export async function loader() {
@@ -22,8 +23,16 @@ export async function loader() {
 }
 
 export default function Home() {
-    const popularMovies = useLoaderData();
+    const { currentUser } = useAuth();
     const navigate = useNavigate();
+    useEffect(() => {
+        if (!currentUser) {
+            navigate('/');
+        }
+        setDetailsShowing(false);
+    // eslint-disable-next-line
+    }, [])
+    const popularMovies = useLoaderData();
     const [
         {
             query, 
@@ -35,11 +44,6 @@ export default function Home() {
             setDetailsShowing
         }
     ] = useOutletContext();
-
-    useEffect(() => {
-        setDetailsShowing(false);
-    // eslint-disable-next-line
-    }, [])
 
     const [backdropIndex, setBackdropIndex] = useState(0);
     useEffect(() => {

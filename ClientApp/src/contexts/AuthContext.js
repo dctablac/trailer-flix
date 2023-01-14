@@ -31,9 +31,7 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         // Upon app load, global auth observer is instantiated
         const unsubscribe = auth.onAuthStateChanged((user) => {
-            if (user) {
-                setCurrentUser(user);
-            }
+            setCurrentUser(user);
         });
 
         // Upon app exit, observer is destructed thanks to useEffect
