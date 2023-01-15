@@ -21,7 +21,8 @@ export default function Details() {
     const { currentUser } = useAuth();
     const navigate = useNavigate();
     // Get movie details before page render
-    const { info, credits } = useLoaderData();
+    // const { info, credits, ytId } = useLoaderData();
+    const { info, credits, youtubeId } = useLoaderData();
     const backgroundImg = `https://image.tmdb.org/t/p/original${info.backdrop_path}`;
     // Remove navbar on page mount
     const [{ setDetailsShowing }] = useOutletContext();
@@ -106,7 +107,7 @@ export default function Details() {
                 </h2>
                 <div className="trailer-container">
                     <iframe id="player" className="trailer" width="1080" height="607.5" 
-                    src="https://www.youtube.com/embed/jfKfPfyJRdk?" 
+                    src={`https://www.youtube.com/embed/${youtubeId}`} 
                     title="YouTube video player" frameBorder="0" 
                     allow="accelerometer; clipboard-write; encrypted-media; 
                     gyroscope; picture-in-picture; web-share" 
