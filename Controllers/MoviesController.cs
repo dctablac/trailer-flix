@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using TrailerFlix.Services;
+using TrailerFlix.Models;
 
 namespace TrailerFlix.Controllers;
 
@@ -6,11 +8,13 @@ namespace TrailerFlix.Controllers;
 [Route("api/[controller]")]
 public class MoviesController : ControllerBase
 {
-    private static readonly HttpClient httpClient;
+    private static readonly HttpClient httpClient = new HttpClient();
+    
+    TrailerService _service;
 
-    static MoviesController()
+    public MoviesController(TrailerService service)
     {
-        httpClient = new HttpClient();
+        _service = service;
     }
 
     [HttpGet("popular")]
@@ -28,9 +32,23 @@ public class MoviesController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetMovieById(string id)
+    public async Task<ActionResult> GetMovieById(int id)
     {
         var response = await Movies.GetById(httpClient, id);
         return response is null ? NotFound() : Ok(response);
+    }
+
+    [HttpGet("trailer/{id}")]
+    public ActionResult<Trailer> GetTrailerByMovieId(int id)
+    {
+        var trailer = _service.GetTrailerByMovieId(id);
+        return trailer;
+    }
+
+    [HttpPost("trailer")]
+    public IActionResult AddTrailer(Trailer newTrailer)
+    {
+        var trailer = _service.AddMovieTrailer(newTrailer);
+        return CreatedAtAction(nameof(AddTrailer), new { MovieId = trailer!.MovieId }, trailer);
     }
 }

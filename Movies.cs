@@ -2,18 +2,14 @@
 namespace TrailerFlix;
 
 using System.Text.Json;
-using System.Linq;
+using System.Text;
 
 public static class Movies
 {
     private static readonly string TMDBUri = "https://api.themoviedb.org/3";
     private static readonly string TMDBApiKey = "106bb0c01a5baebe8e721233be42eb3a";
-
     private static readonly string YoutubeAPIKey = "AIzaSyAG57UZIEQyZzxvpe_Zp0ZVidzDk-SMN7Q";
     private static readonly string YoutubeUri = $"https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&key={YoutubeAPIKey}";
-
-    // &q=Avatar%202009%20trailer
-
 
     // Get all popular movies
     public static async Task<MoviePosters> GetPopular(HttpClient client)
@@ -37,42 +33,60 @@ public static class Movies
     }
 
     // Get movie by id
-    public static async Task<MovieDetails> GetById(HttpClient client, string id)
+    public static async Task<MovieDetails> GetById(HttpClient client, int id)
     {
         // Get movie details
         string infoUri = $"{TMDBUri}/movie/{id}?api_key={TMDBApiKey}";
         Stream stream = await client.GetStreamAsync(infoUri);
         var infoResponse = 
-            await JsonSerializer.DeserializeAsync<MovieInfo>(stream);
-        if (infoResponse is null)
-        {
-            return null;
-        }
+                await JsonSerializer.DeserializeAsync<MovieInfo>(stream);
 
         // Get cast and crew
         string creditsUri = $"{TMDBUri}/movie/{id}/credits?api_key={TMDBApiKey}";
         stream = await client.GetStreamAsync(creditsUri);
         var creditsResponse = 
             await JsonSerializer.DeserializeAsync<MovieCredits>(stream);
-        if (creditsResponse is null)
-        {
-            return null;
-        }
 
-        // Get movie trailer from YouTube search API
-        // Build search query: [title] [year] 'trailer'
-        string year = infoResponse.ReleaseDate.Split("-")[0];
-        string search = $"{infoResponse.Title} {year} trailer";
-
-        string ytUri = $"{YoutubeUri}&q={search}";
-        stream = await client.GetStreamAsync(ytUri);
-        var searchResponse =
-            await JsonSerializer.DeserializeAsync<YoutubeSearch>(stream);
-        if (searchResponse is null)
+        // Retrieve from database, otherwise YouTube if not found
+        var videoId = "";
+        string getTrailerUri = $"https://localhost:7234/api/movies/trailer/{id}";
+        stream = await client.GetStreamAsync(getTrailerUri);
+        try 
         {
-            return null;
+            var trailersResponse = 
+                await JsonSerializer.DeserializeAsync<Records.Trailer>(stream);
+            videoId = trailersResponse.VideoId;
+            // Console.WriteLine($"Trailer for movie: {id} found in the db.");
         }
-        
-        return new MovieDetails(infoResponse, creditsResponse, searchResponse.Items[0].ItemId.VideoId);
+        catch
+        {
+            // Get movie trailer from YouTube search API
+            // Build search query: [title] [year] 'trailer'
+            string year = infoResponse.ReleaseDate.Split("-")[0];
+            string search = $"{infoResponse.Title} {year} trailer";
+
+            string ytUri = $"{YoutubeUri}&q={search}";
+            stream = await client.GetStreamAsync(ytUri);
+            try
+            {
+                var searchResponse =
+                    await JsonSerializer.DeserializeAsync<YoutubeSearch>(stream);
+                videoId = searchResponse.Items[0].ItemId.VideoId;
+
+                // Cache this result into db
+                var trailer = new Records.Trailer(id, videoId);
+                var json = JsonSerializer.Serialize(trailer);
+                var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+                string postTrailerUri = "https://localhost:7234/api/movies/trailer";
+                var response = await client.PostAsync(postTrailerUri, stringContent);
+                var responseString = await response.Content.ReadAsStringAsync();
+                // Console.WriteLine(responseString);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        return new MovieDetails(infoResponse, creditsResponse, videoId);
     }
 }

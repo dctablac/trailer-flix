@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using TrailerFlix.Services;
+using TrailerFlix.Data;
+
 // Arbitray CORS policy name
 var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
@@ -12,8 +16,18 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("https://localhost:44422");
     });
 });
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+// Add MySql connection / Register TrailerContext
+builder.Services.AddDbContext<TrailerContext>(
+    options => options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"), 
+        new MySqlServerVersion(new Version(8, 0, 31))
+    )
+);
+// Register TrailerService 
+builder.Services.AddScoped<TrailerService>();
 
-builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
