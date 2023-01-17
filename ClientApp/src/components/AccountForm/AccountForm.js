@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
 import { authErrorMessages } from "../../firebase.js";
-import { FORM_TYPE, FORM_TEXT, ROUTE } from "../../text";
+import { FORM_TYPE, FORM_TEXT, ROUTE, FORM_MSG } from "../../text";
 import './AccountForm.css';
 
 export default function AccountForm(props) {
@@ -28,6 +28,8 @@ export default function AccountForm(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [errorMsg, setErrorMsg] = useState(null);
+    const [mismatch, setMismatch] = useState(false);
 
     // Changes action text on label depending on register/login
     function formActionText() {
@@ -46,24 +48,50 @@ export default function AccountForm(props) {
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading(true);
+        setMismatch(false);
+        setErrorMsg(null);
         try {
             if (email !== '' && password !== '') {
-                if (formType === FORM_TYPE.REGISTER && password === confirmPassword) {
-                    await signUp(email, password);
-                    alert('User registered successfully');
-                    navigate(ROUTE.BROWSE);
-                } else if (formType === FORM_TYPE.LOGIN) {
+                if (formType === FORM_TYPE.REGISTER) {
+                    if (confirmPassword === '') {
+                        setErrorMsg(FORM_MSG.NO_PASS_CONFIRM);
+                    } else if (password !== confirmPassword) {
+                        setMismatch(true);
+                        setErrorMsg(FORM_MSG.PASS_MISMATCH);
+                    } else {    
+                        await signUp(email, password);
+                        navigate(ROUTE.BROWSE);
+                    } 
+                } else if (formType === FORM_TYPE.LOGIN) { // Errors caught in catch
                     await logIn(email, password);
-                    alert('User logged in successfully');
                     navigate(ROUTE.BROWSE);
                 }
             } else {
-                alert('Please enter an email and password.');
+                setErrorMsg(FORM_MSG.NO_EMAIL_PASS);
             }
         } catch(err) {
-            setLoading(false);
             console.error(err.code);
-            alert(authErrorMessages[err.code]);
+            setErrorMsg(authErrorMessages[err.code]);
+            setLoading(false);
+        }
+        setLoading(false);
+    }
+
+    function handleChange(value, inputId) {
+        setErrorMsg(null);
+        setMismatch(false);
+        switch (inputId) {
+            case "email":
+                setEmail(value);
+                break;
+            case "password":
+                setPassword(value);
+                break;
+            case "confirm-password":
+                setConfirmPassword(value);
+                break;
+            default:
+                break;
         }
     }
 
@@ -71,32 +99,34 @@ export default function AccountForm(props) {
         <div id={formType}>
             <Form className="account-form" onSubmit={handleSubmit}>
                 <h2 className="account-form-title">{formActionText()}</h2>
+                {errorMsg && <p className="account-form-error">{errorMsg}</p>}
                 <label htmlFor="email" className="account-form-label">Email</label>
                 <input 
-                id="email" 
-                className="account-form-input" 
-                type="email" 
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
+                    id="email" 
+                    // className={errorMsg && email === '' ? "account-form-input account-form-input-error"  : "account-form-input"}
+                    className={`account-form-input ${errorMsg && email === '' && "account-form-input-error"}`}
+                    type="email" 
+                    onChange={(e) => handleChange(e.target.value, "email")}
+                    value={email}
                 />
                 <label htmlFor="password" className="account-form-label">Password</label>
                 <input 
-                id="password" 
-                className="account-form-input" 
-                type="password" 
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
+                    id="password" 
+                    className={`account-form-input ${errorMsg && password === '' ? "account-form-input-error" : mismatch && "mismatch"}`} // 
+                    type="password" 
+                    onChange={(e) => handleChange(e.target.value, "password")}
+                    value={password}
                 />
-                {
-                    formType === 'register' &&
+                { // Show Confirm Password field in Sign Up
+                    formType === FORM_TYPE.REGISTER &&
                     <>
                     <label htmlFor="confirm-password" className="account-form-label">Confirm password</label>
                     <input
-                    id="confirm-password"
-                    className="account-form-input"
-                    type="password"
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    value={confirmPassword}
+                        id="confirm-password"
+                        className={`account-form-input ${errorMsg && confirmPassword === '' ? "account-form-input-error" : mismatch && "mismatch"}`}
+                        type="password"
+                        onChange={(e) => handleChange(e.target.value, "confirm-password")}
+                        value={confirmPassword}
                     />
                     </>
                 }
