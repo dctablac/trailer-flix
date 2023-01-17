@@ -6,14 +6,16 @@
 }
 
 :root {
-    --tf-red: #e50914;
-    --tf-red-hover: #f51f2a;
-    --bg-color: #1e1d1d;
-    --tf-gray: #8c8c8c;
-    --tf-teal: #77867f;
-    --footer-color: #333;
-    --input-bg: #333;
-    --input-bg-active: rgb(83, 82, 82);
+    --tf-red: hsl(357, 92%, 47%);
+    --tf-red-hover: hsl(357, 91%, 54%);
+    --bg-color: hsl(0, 2%, 12%);
+    --tf-gray: hsl(0, 0%, 55%);
+    --tf-teal: hsl(152, 6%, 50%);
+    --footer-color: hsl(0, 0%, 20%);
+    --input-bg: hsl(0, 0%, 20%);
+    --input-bg-active: hsl(0, 1%, 32%);
+    --loader: 0 2% 12%;
+    --spinner: 357 92% 47%;
 }
 
 html, body {

@@ -26,6 +26,16 @@ export async function loader() {
 export default function Home() {
     const { currentUser } = useAuth();
     const navigate = useNavigate();
+    const [{
+        query, 
+        handleSearchChange, 
+        prevQuery, 
+        searchResults,
+        getSearchResults,
+        searchScrolled,
+        setDetailsShowing,
+        setLoading
+    }] = useOutletContext();
     useEffect(() => {
         // Redirect if not logged in
         if (!currentUser) {
@@ -33,20 +43,10 @@ export default function Home() {
         }
         window.scroll(0,1);
         setDetailsShowing(false);
+        setLoading(false);
     // eslint-disable-next-line
     }, [])
     const popularMovies = useLoaderData();
-    const [
-        {
-            query, 
-            handleSearchChange, 
-            prevQuery, 
-            searchResults,
-            getSearchResults,
-            searchScrolled,
-            setDetailsShowing
-        }
-    ] = useOutletContext();
 
     const [backdropIndex, setBackdropIndex] = useState(0);
     useEffect(() => {
@@ -65,6 +65,7 @@ export default function Home() {
     // Navigate to movie details
     function goToMovieDetails(movieId)
     {
+        setLoading(true);
         navigate(`${ROUTE.DETAILS}/${movieId}`);
     }
 

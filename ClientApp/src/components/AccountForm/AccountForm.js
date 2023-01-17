@@ -5,7 +5,8 @@ import React, {
 import {
     Form,
     Link,
-    useNavigate
+    useNavigate,
+    useOutletContext
 } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
 import { authErrorMessages } from "../../firebase.js";
@@ -14,6 +15,7 @@ import './AccountForm.css';
 
 export default function AccountForm(props) {
     const { formType } = props;
+    const [{ setLoading }] = useOutletContext();
     const navigate = useNavigate();
     const { currentUser, signUp, logIn } = useAuth();
     useEffect(() => {
@@ -43,6 +45,7 @@ export default function AccountForm(props) {
     // onSubmit changes depending if register/login
     async function handleSubmit(e) {
         e.preventDefault();
+        setLoading(true);
         try {
             if (email !== '' && password !== '') {
                 if (formType === FORM_TYPE.REGISTER && password === confirmPassword) {
@@ -58,6 +61,7 @@ export default function AccountForm(props) {
                 alert('Please enter an email and password.');
             }
         } catch(err) {
+            setLoading(false);
             console.error(err.code);
             alert(authErrorMessages[err.code]);
         }

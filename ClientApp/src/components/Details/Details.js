@@ -25,13 +25,14 @@ export default function Details() {
     const { info, credits, youtubeId } = useLoaderData();
     const backgroundImg = `https://image.tmdb.org/t/p/original${info.backdrop_path}`;
     // Remove navbar on page mount
-    const [{ setDetailsShowing }] = useOutletContext();
+    const [{ setDetailsShowing, setLoading }] = useOutletContext();
     useEffect(() => {
         // Redirect if not logged in
         if (!currentUser) {
             navigate(ROUTE.REGISTER);
         }
         setDetailsShowing(true);
+        setLoading(false);
         // Returns nav to page
         return () => {
             setDetailsShowing(false);
