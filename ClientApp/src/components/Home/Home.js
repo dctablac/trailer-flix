@@ -84,7 +84,28 @@ export default function Home() {
                 searchScrolled={searchScrolled}
             />
             {
-                searchResults && 
+                !searchResults && 
+                <>
+                    <h2 className="section-title">Popular Movies</h2>
+                    <div className="movie-results">
+                        {popularMovies.results.map((movie, i) => {
+                            return <img
+                            className="movie-poster" 
+                            key={movie.id}
+                            src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`} 
+                            alt={movie.title}
+                            onClick={() => navigate(`/details/${movie.id}`)}
+                            />
+                        })}
+                    </div>
+                </>
+            }
+            {
+                searchResults && searchResults.length === 0 &&
+                <h2 className="section-title">No results for "{prevQuery}"</h2>
+            }
+            {
+                searchResults && searchResults.length > 0 &&
                 <>
                     <h2 className="section-title">Results for "{prevQuery}"</h2>
                     <div className="movie-results">
@@ -116,27 +137,6 @@ export default function Home() {
                         }
                     </div>
                 </>
-            }
-            {
-                !searchResults && 
-                <>
-                    <h2 className="section-title">Popular Movies</h2>
-                    <div className="movie-results">
-                        {popularMovies.results.map((movie, i) => {
-                            return <img
-                            className="movie-poster" 
-                            key={movie.id}
-                            src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`} 
-                            alt={movie.title}
-                            onClick={() => navigate(`/details/${movie.id}`)}
-                            />
-                        })}
-                    </div>
-                </>
-            }
-            {
-                searchResults === '' &&
-                <h2 className="section-title">No results for "{prevQuery}"</h2>
             }
         </div>
     )
