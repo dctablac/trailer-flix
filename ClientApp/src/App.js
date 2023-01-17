@@ -37,15 +37,22 @@ export default function App() {
       }
   }
 
+  function handleSearchChange(e) {
+    setQuery(e.target.value);
+    if (e.target.value === '') {
+      setSearchResults(null);
+    }
+  }
+
   return (
     <AuthProvider>
       {!detailsShowing &&
         <Navbar 
-        query={query} 
-        setQuery={setQuery} 
-        searchScrolled={searchScrolled} 
-        setSearchScrolled={setSearchScrolled}
-        getSearchResults={getSearchResults}
+          query={query} 
+          handleSearchChange={handleSearchChange} 
+          searchScrolled={searchScrolled} 
+          setSearchScrolled={setSearchScrolled}
+          getSearchResults={getSearchResults}
         />
       }
       <Outlet 
@@ -53,13 +60,14 @@ export default function App() {
           [
             {
               query, 
-              setQuery, 
+              handleSearchChange,
               prevQuery, 
               searchResults, 
               getSearchResults,
               searchScrolled,
               setSearchScrolled,
-              setDetailsShowing
+              setDetailsShowing,
+
             }
           ]
         }

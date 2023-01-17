@@ -39,7 +39,7 @@ export default function Home() {
     const [
         {
             query, 
-            setQuery, 
+            handleSearchChange, 
             prevQuery, 
             searchResults,
             getSearchResults,
@@ -78,7 +78,7 @@ export default function Home() {
             />
             <Search 
                 query={query} 
-                setQuery={setQuery} 
+                handleSearchChange={handleSearchChange}
                 getSearchResults={getSearchResults}
                 searchScrolled={searchScrolled}
             />

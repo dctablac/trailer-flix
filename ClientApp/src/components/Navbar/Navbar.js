@@ -63,7 +63,7 @@ export default function Navbar(props) {
                 <input
                     id="q" 
                     className="search-bar search-bar-nav" 
-                    onChange={({target}) => props.setQuery(target.value)}
+                    onChange={props.handleSearchChange}
                     placeholder="Search titles or genres"
                     type="search"
                     value={props.query}/>
