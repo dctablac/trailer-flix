@@ -55,9 +55,11 @@ export default function AccountForm(props) {
                 if (formType === FORM_TYPE.REGISTER) {
                     if (confirmPassword === '') {
                         setErrorMsg(FORM_MSG.NO_PASS_CONFIRM);
+                        setLoading(false);
                     } else if (password !== confirmPassword) {
                         setMismatch(true);
                         setErrorMsg(FORM_MSG.PASS_MISMATCH);
+                        setLoading(false);
                     } else {    
                         await signUp(email, password);
                         navigate(ROUTE.BROWSE);
@@ -68,13 +70,13 @@ export default function AccountForm(props) {
                 }
             } else {
                 setErrorMsg(FORM_MSG.NO_EMAIL_PASS);
+                setLoading(false);
             }
         } catch(err) {
             console.error(err.code);
             setErrorMsg(authErrorMessages[err.code]);
             setLoading(false);
         }
-        setLoading(false);
     }
 
     function handleChange(value, inputId) {

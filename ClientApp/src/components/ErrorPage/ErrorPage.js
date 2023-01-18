@@ -17,7 +17,7 @@ export default function ErrorPage() {
                 <h2>Oops!</h2>
                 <p>Sorry, an unexpected error has occurred.</p>
                 <p>
-                    <i>{`${error.status} ${error.statusText || error.message}: ${error.data.split(': ')[1]}`}</i>
+                    <i>{error.statusText || error.message}</i>
                 </p>
             </div>
         </div>
