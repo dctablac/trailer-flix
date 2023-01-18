@@ -4,24 +4,27 @@
     box-sizing: border-box;
     font-family: NetflixSans;
 }
-
 :root {
     --tf-red: hsl(357, 92%, 47%);
     --tf-red-hover: hsl(357, 91%, 54%);
     --bg-color: hsl(0, 2%, 12%);
     --tf-gray: hsl(0, 0%, 55%);
     --tf-teal: hsl(152, 6%, 50%);
+    --tf-blue: hsl(210, 100%, 45%);
     --footer-color: hsl(0, 0%, 20%);
     --input-bg: hsl(0, 0%, 20%);
     --input-bg-active: hsl(0, 1%, 32%);
     --loader: 0 2% 12%;
     --spinner: 357 92% 47%;
 }
-
 html, body {
     background-color: var(--bg-color);
     scroll-behavior: smooth;
     height: 100%;
+}
+button {
+    cursor: pointer;
+    font: inherit;
 }
 
 @font-face {

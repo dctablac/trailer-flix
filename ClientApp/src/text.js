@@ -15,5 +15,6 @@ export const ROUTE = {
     REGISTER: '/',
     LOGIN: '/login',
     BROWSE: '/browse',
-    DETAILS: '/details'
+    DETAILS: '/details',
+    ACCOUNT: '/account'
 }

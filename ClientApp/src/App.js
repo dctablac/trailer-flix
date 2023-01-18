@@ -72,6 +72,7 @@ export default function App() {
               searchScrolled,
               setSearchScrolled,
               setDetailsShowing,
+              loading,
               setLoading
             }
           ]

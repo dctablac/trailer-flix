@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import { FORM_TYPE, ROUTE } from './text';
 import App from './App';
+import Account from './components/Account';
 import AccountForm from './components/AccountForm';
 import Home, { 
   loader as homeLoader
@@ -15,8 +16,6 @@ import Details, {
   loader as detailsLoader
 } from './components/Details';
 import ErrorPage from './components/ErrorPage';
-// import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-// import reportWebVitals from './reportWebVitals';
 import './App.css';
 import './index.css';
 
@@ -46,6 +45,10 @@ const router = createBrowserRouter([
         path: `${ROUTE.DETAILS}/:movieId`,
         element: <Details />,
         loader: detailsLoader
+      },
+      {
+        path: ROUTE.ACCOUNT,
+        element: <Account />
       }
     ]
   },
