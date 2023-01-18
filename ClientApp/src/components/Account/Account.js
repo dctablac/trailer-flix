@@ -30,7 +30,7 @@ export default function Account() {
             <div id="account">
                 <div className="account-details-container">
                     <h1>Account</h1>
-                    <h2>Account Details</h2>
+                    {/* <h2>Account Details</h2> */}
                     <div className="account-detail">
                         <p>test@test.com</p>
                         <Link className="reset-link" to="/account">Change account email</Link>

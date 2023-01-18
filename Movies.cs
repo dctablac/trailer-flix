@@ -11,6 +11,26 @@ public static class Movies
     private static readonly string YoutubeAPIKey = "AIzaSyAG57UZIEQyZzxvpe_Zp0ZVidzDk-SMN7Q";
     private static readonly string YoutubeUri = $"https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&key={YoutubeAPIKey}";
 
+    // Get upcoming movies
+    public static async Task<MoviePosters> GetUpcoming(HttpClient client)
+    {
+        string uri = $"{TMDBUri}/movie/upcoming?api_key={TMDBApiKey}";
+        await using Stream stream = await client.GetStreamAsync(uri);
+        var response = 
+            await JsonSerializer.DeserializeAsync<MoviePosters>(stream);
+        return response;
+    }
+
+    // Get now playing movies
+    public static async Task<MoviePosters> GetNowPlaying(HttpClient client)
+    {
+        string uri = $"{TMDBUri}/movie/now_playing?api_key={TMDBApiKey}";
+        await using Stream stream = await client.GetStreamAsync(uri);
+        var response = 
+            await JsonSerializer.DeserializeAsync<MoviePosters>(stream);
+        return response;
+    }
+    
     // Get all popular movies
     public static async Task<MoviePosters> GetPopular(HttpClient client)
     {

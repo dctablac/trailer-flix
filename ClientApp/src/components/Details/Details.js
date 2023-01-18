@@ -13,7 +13,7 @@ import './Details.css';
 export async function loader({ params }) {
     const res = await fetch(`https://localhost:7234/api/movies/${params.movieId}`);
     const details = await res.json();
-    window.scroll(0,0);
+    window.scroll(0,100);
     return details;
 }
 

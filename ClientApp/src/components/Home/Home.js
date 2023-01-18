@@ -8,6 +8,7 @@ import {
     useOutletContext
  } from "react-router-dom";
 import Search from '../Search';
+import Carousel from "../Carousel";
 import { useAuth } from "../../contexts/AuthContext";
 import { ROUTE } from '../../text';
 import './Home.css';
@@ -15,9 +16,17 @@ import './Home.css';
 
 export async function loader() {
     try {
-        const res = await fetch('https://localhost:7234/api/movies/popular');
-        const data = await res.json();
-        return data;
+        const upcomingRes = await fetch('https://localhost:7234/api/movies/upcoming');
+        const upcomingMovies = await upcomingRes.json();
+        const nowPlayingRes = await fetch('https://localhost:7234/api/movies/now_playing');
+        const nowPlayingMovies = await nowPlayingRes.json();
+        const popularRes = await fetch('https://localhost:7234/api/movies/popular');
+        const popularMovies = await popularRes.json();
+        return {
+            upcomingMovies,
+            nowPlayingMovies,
+            popularMovies
+        }
     } catch(err) {
         console.error(err);
     }
@@ -46,7 +55,11 @@ export default function Home() {
         setLoading(false);
     // eslint-disable-next-line
     }, [])
-    const popularMovies = useLoaderData();
+    const { 
+        nowPlayingMovies,
+        popularMovies, 
+        upcomingMovies
+    } = useLoaderData();
 
     const [backdropIndex, setBackdropIndex] = useState(0);
     useEffect(() => {
@@ -63,10 +76,22 @@ export default function Home() {
     }, [backdropIndex]);
 
     // Navigate to movie details
-    function goToMovieDetails(movieId)
-    {
+    function goToMovieDetails(movieId) {
         setLoading(true);
         navigate(`${ROUTE.DETAILS}/${movieId}`);
+    }
+
+    // Popular movies
+    function formatMovies(movies) {
+        return movies.results.map((movie, i) => {
+            return <img
+            className="movie-poster" 
+            key={movie.id}
+            src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`} 
+            alt={movie.title}
+            onClick={() => goToMovieDetails(movie.id)}
+            />
+        });
     }
 
     return (
@@ -84,27 +109,24 @@ export default function Home() {
                 searchScrolled={searchScrolled}
             />
             {
+                // Initial page load, no search requests made or empty search bar
                 !searchResults && 
                 <>
-                    <h2 className="section-title">Popular Movies</h2>
-                    <div className="movie-results">
-                        {popularMovies.results.map((movie, i) => {
-                            return <img
-                            className="movie-poster" 
-                            key={movie.id}
-                            src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`} 
-                            alt={movie.title}
-                            onClick={() => goToMovieDetails(movie.id)}
-                            />
-                        })}
-                    </div>
+                <h2 className="section-title">Upcoming</h2>
+                <Carousel carouselId="upcoming-movies" items={formatMovies(upcomingMovies)} />
+                <h2 className="section-title">Now Playing</h2>
+                <Carousel carouselId="now-playing-movie" items={formatMovies(nowPlayingMovies)} />
+                <h2 className="section-title">Popular</h2>
+                <Carousel carouselId="popular-movies" items={formatMovies(popularMovies)} />
                 </>
             }
             {
+                // Search request success but no results
                 searchResults && searchResults.length === 0 &&
                 <h2 className="section-title">No results for "{prevQuery}"</h2>
             }
             {
+                // Search request success with movies to show
                 searchResults && searchResults.length > 0 &&
                 <>
                     <h2 className="section-title">Results for "{prevQuery}"</h2>

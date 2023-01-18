@@ -18,10 +18,15 @@ public record MovieInfo
     [property: JsonPropertyName("original_title")] string Title,
     [property: JsonPropertyName("overview")] string Overview,
     [property: JsonPropertyName("poster_path")] string PosterPath,
-    [property: JsonPropertyName("production_companies")] List<Object> ProductionCompanies,
+    [property: JsonPropertyName("production_companies")] List<ProductionCompany> ProductionCompanies,
     [property: JsonPropertyName("release_date")] string ReleaseDate,
     [property: JsonPropertyName("revenue")] double Revenue,
     [property: JsonPropertyName("runtime")] int Runtime
+);
+
+public record ProductionCompany
+(
+    [property: JsonPropertyName("name")] string Name
 );
 
 public record Genre

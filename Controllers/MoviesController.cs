@@ -24,6 +24,20 @@ public class MoviesController : ControllerBase
         return response is null ? NotFound() : Ok(response);
     }
 
+    [HttpGet("upcoming")]
+    public async Task<ActionResult> GetUpcomingMovies()
+    {
+        var response = await Movies.GetUpcoming(httpClient);
+        return response is null ? NotFound() : Ok(response);
+    }
+
+    [HttpGet("now_playing")]
+    public async Task<ActionResult> GetNowPlayingMovies()
+    {
+        var response = await Movies.GetNowPlaying(httpClient);
+        return response is null ? NotFound() : Ok(response);
+    }
+
     [HttpGet("search")]
     public async Task<ActionResult> GetMoviesBySearch(string query)
     {

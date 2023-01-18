@@ -2,6 +2,7 @@
     display: flex;
     margin: 0 2rem;
     overflow-x: scroll;
+    overflow-y: hidden;
     position: relative;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
