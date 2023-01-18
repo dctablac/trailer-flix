@@ -94,7 +94,7 @@ export default function Home() {
                             key={movie.id}
                             src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`} 
                             alt={movie.title}
-                            onClick={() => navigate(`/details/${movie.id}`)}
+                            onClick={() => goToMovieDetails(movie.id)}
                             />
                         })}
                     </div>
