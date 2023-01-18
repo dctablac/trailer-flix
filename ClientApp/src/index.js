@@ -18,6 +18,9 @@ import Details, {
 import ErrorPage from './components/ErrorPage';
 import './App.css';
 import './index.css';
+import AccountFormBackdrop, {
+  loader as accountFormBackdropLoader
+} from './components/AccountFormBackdrop';
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
@@ -30,11 +33,25 @@ const router = createBrowserRouter([
     children: [
       {
         path: ROUTE.REGISTER,
-        element: <AccountForm formType={FORM_TYPE.REGISTER}/>
+        element: <AccountForm formType={FORM_TYPE.REGISTER}/>,
+        children: [
+          {
+            path: ROUTE.REGISTER,
+            element: <AccountFormBackdrop />,
+            loader: accountFormBackdropLoader
+          }
+        ]
       },
       {
         path: ROUTE.LOGIN,
-        element: <AccountForm formType={FORM_TYPE.LOGIN} />
+        element: <AccountForm formType={FORM_TYPE.LOGIN} />,
+        children: [
+          {
+            path: ROUTE.LOGIN,
+            element: <AccountFormBackdrop />,
+            loader: accountFormBackdropLoader
+          }
+        ]
       },
       {
         path: ROUTE.BROWSE,

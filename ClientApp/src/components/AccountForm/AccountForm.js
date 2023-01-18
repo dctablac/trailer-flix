@@ -5,6 +5,7 @@ import React, {
 import {
     Form,
     Link,
+    Outlet,
     useNavigate,
     useOutletContext
 } from 'react-router-dom';
@@ -98,6 +99,8 @@ export default function AccountForm(props) {
     }
 
     return (
+        <>
+        <Outlet />
         <div id={formType}>
             <Form className="account-form" onSubmit={handleSubmit}>
                 <h2 className="account-form-title">{formActionText()}</h2>
@@ -136,5 +139,6 @@ export default function AccountForm(props) {
                 <Link className="account-form-link" to={formAltActionLink()}>{formAltActionText()}</Link>
             </Form>
         </div>
+        </>
     )
 }

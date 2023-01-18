@@ -1,0 +1,15 @@
+#account-form-backdrop {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    /* height: 90vh; */
+    justify-content: center;
+    overflow: hidden;
+    position: absolute;
+    z-index: 0;
+    width: 100%;
+}
+
+.account-form-backdrop-img {
+    height: 402px;
+    width: 250px;
+}

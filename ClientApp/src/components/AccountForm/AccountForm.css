@@ -2,17 +2,18 @@
 #login {
     display: flex;
     justify-content: center;
-    padding: 2rem;
+    padding: 1rem;
 }
 
 .account-form {
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0,0,0,0.95);
     display: flex;
     flex-direction: column;
     padding: 2rem;
     max-width: 400px;
     min-height: 600px;
     width: 100%;
+    z-index: 0;
 }
 
 .account-form-title {
