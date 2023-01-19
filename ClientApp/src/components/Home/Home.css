@@ -1,3 +1,6 @@
+#home {
+    padding-bottom: 2rem;
+}
 .home-backdrop {
     background-color: black;
     object-fit: contain;
