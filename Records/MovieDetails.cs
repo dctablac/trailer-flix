@@ -2,6 +2,16 @@ namespace TrailerFlix;
 
 using System.Text.Json.Serialization;
 
+
+// On initial response before credits are altered
+public record MovieDetailsRaw
+(
+    [property: JsonPropertyName("info")] MovieInfo Info,
+    [property: JsonPropertyName("credits")] MovieCreditsRaw Credits,
+    [property: JsonPropertyName("youtubeId")] string YoutubeId
+);
+
+// Final representation of movie details response
 public record MovieDetails
 (
     [property: JsonPropertyName("info")] MovieInfo Info,
@@ -34,6 +44,14 @@ public record Genre
     [property: JsonPropertyName("name")] string Name
 );
 
+// With raw crew member data
+public record MovieCreditsRaw
+(
+    [property: JsonPropertyName("cast")] List<CastMember> Cast,
+    [property: JsonPropertyName("crew")] List<CrewMemberRaw> Crew
+);
+
+// Final representation of movie credits with crew members jobs' consolidated
 public record MovieCredits
 (
     [property: JsonPropertyName("cast")] List<CastMember> Cast,
@@ -48,11 +66,22 @@ public record CastMember
     [property: JsonPropertyName("character")] string Character
 );
 
-public record CrewMember
+// Initial POCO when obtained from request
+public record CrewMemberRaw
 (
     [property: JsonPropertyName("id")] int Id,
     [property: JsonPropertyName("profile_path")] string ProfilePath,
     [property: JsonPropertyName("name")] string Name,
     [property: JsonPropertyName("department")] string Department,
     [property: JsonPropertyName("job")] string Job
+);
+
+// Final representation of a crew member with their jobs consolidated into one array
+public record CrewMember
+(
+    [property: JsonPropertyName("id")] int Id,
+    [property: JsonPropertyName("profile_path")] string ProfilePath,
+    [property: JsonPropertyName("name")] string Name,
+    [property: JsonPropertyName("department")] string Department,
+    [property: JsonPropertyName("jobs")] List<string> Jobs
 );

@@ -66,7 +66,7 @@ export default function Details() {
                             {person.name}
                             <br/>
                             {person.character && `(${person.character})`}
-                            {person.job && `(${person.job})`}
+                            {person.jobs && `(${formatJobs(person.jobs)})`}
                         </label>
                     </div>
         });
@@ -92,6 +92,17 @@ export default function Details() {
             maximumFractionDigits: 0
         });
         return formatter.format(money);
+    }
+
+    function formatJobs(jobs) {
+        let jobsString = '';
+        if (jobs.length > 0) {
+            jobsString += jobs[0];
+        }
+        for (let i = 1; i < jobs.length; i++) {
+            jobsString += `, ${jobs[i]}`;
+        }
+        return jobsString;
     }
 
     return (
@@ -155,7 +166,7 @@ export default function Details() {
             {
                 credits.cast.length > 0 &&
                 <>
-                <h3 className="detail-title section-title">Cast</h3>
+                <h3 className="section-title">Cast</h3>
                 <Carousel carouselId="cast" items={formatPeople(credits.cast)}/>
                 </>
             }

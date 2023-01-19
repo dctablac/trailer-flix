@@ -55,9 +55,11 @@ public static class Movies
     // Get movie by id
     public static async Task<MovieDetails> GetById(HttpClient client, int id)
     {
+        Stream stream;
+
         // Get movie details
         string infoUri = $"{TMDBUri}/movie/{id}?api_key={TMDBApiKey}";
-        Stream stream = await client.GetStreamAsync(infoUri);
+        stream = await client.GetStreamAsync(infoUri);
         var infoResponse = 
                 await JsonSerializer.DeserializeAsync<MovieInfo>(stream);
 
@@ -65,9 +67,38 @@ public static class Movies
         string creditsUri = $"{TMDBUri}/movie/{id}/credits?api_key={TMDBApiKey}";
         stream = await client.GetStreamAsync(creditsUri);
         var creditsResponse = 
-            await JsonSerializer.DeserializeAsync<MovieCredits>(stream);
+            await JsonSerializer.DeserializeAsync<MovieCreditsRaw>(stream); // Initial crew without jobs consolidated
 
-        // Retrieve from database, otherwise YouTube if not found
+        // Consolidate crew with their jobs to prevent repeated entries
+        Dictionary <int,CrewMember> crewJobs = new(); // Map crew ID to their list of jobs
+        List<CrewMember> consolidatedCrew = new(); // Final Crew list
+        // Map each crew member id to their job list
+        creditsResponse.Crew.ForEach((member) => {
+            // If we haven't seen this crew member before, create an entry
+            if (!crewJobs.ContainsKey(member.Id)) 
+            {
+                crewJobs.Add(
+                    member.Id, 
+                    new CrewMember(
+                        member.Id, 
+                        member.ProfilePath, 
+                        member.Name, 
+                        member.Department, 
+                        new List<string>()
+                    )
+                );
+            }
+            crewJobs[member.Id].Jobs.Add(member.Job); // Add job to their list
+        });
+        // Add to consolidatedCrew
+        foreach( int memberId in crewJobs.Keys )
+        {
+            consolidatedCrew.Add(crewJobs[memberId]);
+        }
+        // Create a finalCreditsResponse with crew jobs consolidated
+        var finalCreditsResponse = new MovieCredits(creditsResponse.Cast, consolidatedCrew);
+
+        // Retrieve videoId from database, otherwise use YouTube API if not found
         var videoId = "";
         string getTrailerUri = $"https://localhost:7234/api/movies/trailer/{id}";
         stream = await client.GetStreamAsync(getTrailerUri);
@@ -76,15 +107,14 @@ public static class Movies
             var trailersResponse = 
                 await JsonSerializer.DeserializeAsync<Records.Trailer>(stream);
             videoId = trailersResponse.VideoId;
-            // Console.WriteLine($"Trailer for movie: {id} found in the db.");
         }
         catch
-        {
-            // Get movie trailer from YouTube search API
+        { // Get videoId of first result from YouTube instead
             // Build search query: [title] [year] 'trailer'
             string year = infoResponse.ReleaseDate.Split("-")[0];
             string search = $"{infoResponse.Title} {year} trailer";
 
+            // Get movie trailer from YouTube search API
             string ytUri = $"{YoutubeUri}&q={search}";
             stream = await client.GetStreamAsync(ytUri);
             try
@@ -98,15 +128,14 @@ public static class Movies
                 var json = JsonSerializer.Serialize(trailer);
                 var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
                 string postTrailerUri = "https://localhost:7234/api/movies/trailer";
-                var response = await client.PostAsync(postTrailerUri, stringContent);
-                var responseString = await response.Content.ReadAsStringAsync();
-                // Console.WriteLine(responseString);
+                var cacheResponse = await client.PostAsync(postTrailerUri, stringContent);
+                // var responseString = await cacheResponse.Content.ReadAsStringAsync();
             }
             catch
             {
                 return null;
             }
         }
-        return new MovieDetails(infoResponse, creditsResponse, videoId);
+        return new MovieDetails(infoResponse, finalCreditsResponse, videoId);
     }
 }
