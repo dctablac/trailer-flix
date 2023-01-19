@@ -152,10 +152,20 @@ export default function Details() {
                     </tr>
                 </tbody>
             </table>
-            <h3 className="detail-title section-title">Cast</h3>
-            <Carousel carouselId="cast" items={formatPeople(credits.cast)}/>
-            <h3 className="detail-title section-title">Crew</h3>
-            <Carousel carouselId="crew" items={formatPeople(credits.crew)}/>
+            {
+                credits.cast.length > 0 &&
+                <>
+                <h3 className="detail-title section-title">Cast</h3>
+                <Carousel carouselId="cast" items={formatPeople(credits.cast)}/>
+                </>
+            }
+            {
+                credits.crew.length > 0 &&
+                <>
+                <h3 className="detail-title section-title">Crew</h3>
+                <Carousel carouselId="crew" items={formatPeople(credits.crew)}/>
+                </>
+            }
         </div>
         }
         </>
