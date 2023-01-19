@@ -27,6 +27,7 @@
     background: none;
     border: none;
     color: white;
+    cursor: default;
     font-size: 2rem;
     padding: 1rem;
     position: sticky;
