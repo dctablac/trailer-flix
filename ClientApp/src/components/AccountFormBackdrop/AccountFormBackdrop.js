@@ -14,13 +14,14 @@ export default function AccountFormBackdrop() {
     function formatPopularMovies() {
         return popularMovies.map((movie, i) => {
             if (movie.poster_path) {
-            return <img
-                    className="account-form-backdrop-img"
-                    src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`}
-                    alt={movie.title}
-                    />
+                return <img
+                        key={movie.id}
+                        className="account-form-backdrop-img"
+                        src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`}
+                        alt={movie.title}
+                        />
             }
-            return <div className="poster-fill"></div>
+            return <div key={movie.id} className="poster-fill"></div>
         })
     }
 

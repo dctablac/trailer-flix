@@ -13,7 +13,7 @@ import './Details.css';
 export async function loader({ params }) {
     const res = await fetch(`https://localhost:7234/api/movies/${params.movieId}`);
     const details = await res.json();
-    window.scroll(0,100);
+    window.scroll(0,0);
     return details;
 }
 
@@ -23,7 +23,10 @@ export default function Details() {
     // Get movie details before page render
     // const { info, credits, ytId } = useLoaderData();
     const { info, credits, youtubeId } = useLoaderData();
-    const backgroundImg = `https://image.tmdb.org/t/p/original${info.backdrop_path}`;
+    let backgroundImg = null;
+    if (info.backdrop_path) {
+        backgroundImg = `https://image.tmdb.org/t/p/original${info.backdrop_path}`;
+    }
     // Remove navbar on page mount
     const [{ setDetailsShowing, setLoading }] = useOutletContext();
     useEffect(() => {
@@ -60,7 +63,7 @@ export default function Details() {
                             </div>
                         }
                         <label className="person-poster-name">
-                            {`${person.name} `}
+                            {person.name}
                             <br/>
                             {person.character && `(${person.character})`}
                             {person.job && `(${person.job})`}
@@ -96,11 +99,14 @@ export default function Details() {
         {info && credits &&
         <div id="details">
             <div className="trailer-wrapper">
-                <img 
-                    className="trailer-backdrop" 
-                    src={backgroundImg}
-                    alt={info.title}
-                />
+                {
+                    backgroundImg &&
+                    <img 
+                        className="trailer-backdrop" 
+                        src={backgroundImg}
+                        alt={info.title}
+                    />
+                }
                 <div className="trailer-backdrop-screen"></div>
                 <h2 className="details-title" >
                     <Link to={ROUTE.BROWSE} className="browse-return">{'< '}Back to Browse</Link>
