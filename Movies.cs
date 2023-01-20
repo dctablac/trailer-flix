@@ -6,10 +6,23 @@ using System.Text;
 
 public static class Movies
 {
-    private static readonly string TMDBUri = "https://api.themoviedb.org/3";
-    private static readonly string TMDBApiKey = "106bb0c01a5baebe8e721233be42eb3a";
-    private static readonly string YoutubeAPIKey = "AIzaSyAG57UZIEQyZzxvpe_Zp0ZVidzDk-SMN7Q";
-    private static readonly string YoutubeUri = $"https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&key={YoutubeAPIKey}";
+    // Config for getting API key
+    private static IConfiguration config = new ConfigurationBuilder()
+                                                    .SetBasePath(Directory.GetCurrentDirectory())
+                                                    .AddJsonFile("appsettings.json", false)
+                                                    .AddJsonFile("appsettings.Development.json", true)
+                                                    .AddEnvironmentVariables()
+                                                    .Build();
+    private static readonly string TMDBUri = config["TMDB_URL"];
+    private static readonly string TMDBApiKey = config["TMDB_KEY"];
+    private static readonly string YoutubeApiKey = config["YT_KEY"];
+    private static readonly string YoutubeUri = config["YT_URL"] + YoutubeApiKey;
+
+    private static readonly string TrailerUri = config["TRAILER_URL"];
+
+    
+    
+    
 
     // Get upcoming movies
     public static async Task<MoviePosters> GetUpcoming(HttpClient client)
@@ -100,7 +113,7 @@ public static class Movies
 
         // Retrieve videoId from database, otherwise use YouTube API if not found
         var videoId = "";
-        string getTrailerUri = $"https://localhost:7234/api/movies/trailer/{id}";
+        string getTrailerUri = $"{TrailerUri}/{id}";
         stream = await client.GetStreamAsync(getTrailerUri);
         try 
         {
@@ -127,8 +140,7 @@ public static class Movies
                 var trailer = new Records.Trailer(id, videoId);
                 var json = JsonSerializer.Serialize(trailer);
                 var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
-                string postTrailerUri = "https://localhost:7234/api/movies/trailer";
-                var cacheResponse = await client.PostAsync(postTrailerUri, stringContent);
+                var cacheResponse = await client.PostAsync(TrailerUri, stringContent);
                 // var responseString = await cacheResponse.Content.ReadAsStringAsync();
             }
             catch
