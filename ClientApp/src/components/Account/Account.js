@@ -5,6 +5,7 @@ import {
     Link 
 } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { ROUTE } from "../../text";
 import Loader from "../Loader";
 import './Account.css';
 
@@ -17,7 +18,7 @@ export default function Account() {
     async function handleLogOut() {
         try {
             await logOut();
-            navigate('/');
+            navigate(ROUTE.REGISTER);
         } catch(err) {
             console.error(err);
         }

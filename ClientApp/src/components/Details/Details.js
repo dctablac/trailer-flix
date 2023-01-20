@@ -6,12 +6,12 @@ import {
     useLoaderData
 } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
-import { ROUTE } from "../../text";
+import { API_URL, ROUTE, TMDB } from "../../text";
 import Carousel from "../Carousel/Carousel";
 import './Details.css';
 
 export async function loader({ params }) {
-    const res = await fetch(`https://localhost:7234/api/movies/${params.movieId}`);
+    const res = await fetch(`${API_URL.DETAILS}/${params.movieId}`);
     const details = await res.json();
     window.scroll(0,0);
     return details;
@@ -25,7 +25,7 @@ export default function Details() {
     const { info, credits, youtubeId } = useLoaderData();
     let backgroundImg = null;
     if (info.backdrop_path) {
-        backgroundImg = `https://image.tmdb.org/t/p/original${info.backdrop_path}`;
+        backgroundImg = `${TMDB.IMG_URL}${TMDB.IMG_SIZE.BACKDROP}${info.backdrop_path}`;
     }
     // Remove navbar on page mount
     const [{ setDetailsShowing, setLoading }] = useOutletContext();
@@ -50,7 +50,7 @@ export default function Details() {
                             person.profile_path &&
                             <img 
                             className="person-poster"
-                            src={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
+                            src={`${TMDB.IMG_URL}${TMDB.IMG_SIZE.POSTER}${person.profile_path}`}
                             alt={person.name}/> 
                         }
                         {
@@ -74,14 +74,12 @@ export default function Details() {
 
     function formatObjectList(list) {
         let formatted = '';
-        if (list.length === 0) {
-            return formatted;
+        if (list.length > 0) {
+            formatted += list[0].name;
         }
-        const lastIndex = list.length - 1;
-        for (let i = 0; i < lastIndex; i++) {
-            formatted += `${list[i].name}, `;
+        for (let i = 1; i < list.length; i++) {
+            formatted += `, ${list[i].name}`;
         }
-        formatted += list[lastIndex].name;
         return formatted;
     }
     

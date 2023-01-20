@@ -10,18 +10,24 @@ import {
 import Search from '../Search';
 import Carousel from "../Carousel";
 import { useAuth } from "../../contexts/AuthContext";
-import { ROUTE } from '../../text';
+import { API_URL, ROUTE, TMDB } from '../../text';
 import './Home.css';
 
 
 export async function loader() {
     try {
-        const upcomingRes = await fetch('https://localhost:7234/api/movies/upcoming');
-        const upcomingMovies = await upcomingRes.json();
-        const nowPlayingRes = await fetch('https://localhost:7234/api/movies/now_playing');
-        const nowPlayingMovies = await nowPlayingRes.json();
-        const popularRes = await fetch('https://localhost:7234/api/movies/popular');
-        const popularMovies = await popularRes.json();
+        const upcomingRes = await fetch(API_URL.UPCOMING);
+        let upcomingMovies = await upcomingRes.json();
+        upcomingMovies = upcomingMovies.results;
+
+        const nowPlayingRes = await fetch(API_URL.NOW_PLAYING);
+        let nowPlayingMovies = await nowPlayingRes.json();
+        nowPlayingMovies = nowPlayingMovies.results;
+
+        const popularRes = await fetch(API_URL.POPULAR);
+        let popularMovies = await popularRes.json();
+        popularMovies = popularMovies.results;
+        
         return {
             upcomingMovies,
             nowPlayingMovies,
@@ -41,7 +47,6 @@ export default function Home() {
         prevQuery, 
         searchResults,
         getSearchResults,
-        searchScrolled,
         setDetailsShowing,
         setLoading
     }] = useOutletContext();
@@ -61,10 +66,14 @@ export default function Home() {
         upcomingMovies
     } = useLoaderData();
 
+    const nowPlaying = formatMovies(nowPlayingMovies);
+    const popular = formatMovies(popularMovies);
+    const upcoming = formatMovies(upcomingMovies);
+
     const [backdropIndex, setBackdropIndex] = useState(0);
     useEffect(() => {
         const interval = setInterval(() => {
-            if (backdropIndex === popularMovies.results.length - 1) {
+            if (backdropIndex === popularMovies.length - 1) {
                 setBackdropIndex(() => 0);
             } else {
                 setBackdropIndex((prevBackdropIndex) => prevBackdropIndex + 1);
@@ -83,14 +92,30 @@ export default function Home() {
 
     // Popular movies
     function formatMovies(movies) {
-        return movies.results.map((movie, i) => {
-            return <img
-            className="movie-poster" 
-            key={movie.id}
-            src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`} 
-            alt={movie.title}
-            onClick={() => goToMovieDetails(movie.id)}
-            />
+        return movies.map((movie, i) => {
+            return (
+                <div className="movie-poster-container" key={movie.id}>
+                    {
+                        movie.poster_path &&
+                        <img
+                            className="movie-poster" 
+                            src={`${TMDB.IMG_URL}${TMDB.IMG_SIZE.POSTER}${movie.poster_path}`} 
+                            alt={movie.title}
+                            onClick={() => goToMovieDetails(movie.id)}
+                        />
+                    }
+                    {
+                        !movie.poster_path &&
+                        <div className="movie-poster poster-fill"
+                        onClick={() => goToMovieDetails(movie.id)}>
+                            <p className="movie-poster-fill-title">{movie.title}</p>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" fill="grey" className="bi bi-film" viewBox="0 0 16 16">
+                                <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>
+                            </svg>
+                        </div>
+                    }
+                </div>
+            );
         });
     }
 
@@ -99,25 +124,24 @@ export default function Home() {
             <img
                 id="home-backdrop"
                 className="home-backdrop" 
-                src={`https://image.tmdb.org/t/p/original${popularMovies.results[backdropIndex].backdrop_path}`} 
-                alt={popularMovies.results[backdropIndex].title}
+                src={`${TMDB.IMG_URL}${TMDB.IMG_SIZE.BACKDROP}${popularMovies[backdropIndex].backdrop_path}`} 
+                alt={popularMovies[backdropIndex].title}
             />
             <Search 
                 query={query} 
                 handleSearchChange={handleSearchChange}
                 getSearchResults={getSearchResults}
-                searchScrolled={searchScrolled}
             />
             {
                 // Initial page load, no search requests made or empty search bar
                 !searchResults && 
                 <>
                 <h2 className="section-title">Upcoming</h2>
-                <Carousel carouselId="upcoming-movies" items={formatMovies(upcomingMovies)} />
+                <Carousel carouselId="upcoming-movies" items={upcoming} />
                 <h2 className="section-title">Now Playing</h2>
-                <Carousel carouselId="now-playing-movie" items={formatMovies(nowPlayingMovies)} />
+                <Carousel carouselId="now-playing-movie" items={nowPlaying} />
                 <h2 className="section-title">Popular</h2>
-                <Carousel carouselId="popular-movies" items={formatMovies(popularMovies)} />
+                <Carousel carouselId="popular-movies" items={popular} />
                 </>
             }
             {
@@ -132,30 +156,8 @@ export default function Home() {
                     <h2 className="section-title">Results for "{prevQuery}"</h2>
                     <div className="movie-results">
                         {
-                            searchResults && searchResults.map((movie, i) => {
-                                    return <div className="movie-poster-container" key={movie.id}>
-                                        {
-                                            movie.poster_path && 
-                                            <img
-                                            className="movie-poster" 
-                                            src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`} 
-                                            alt={movie.title}
-                                            onClick={() => goToMovieDetails(movie.id)}
-                                            />
-                                        }
-                                        {
-                                            !movie.poster_path &&
-                                            <div 
-                                            className="movie-poster poster-fill"
-                                            onClick={() => goToMovieDetails(movie.id)}>
-                                                <p className="movie-poster-fill-title">{movie.title}</p>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" fill="grey" className="bi bi-film" viewBox="0 0 16 16">
-                                                    <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>
-                                                </svg>
-                                            </div>
-                                        }
-                                    </div>
-                            })
+                            searchResults && 
+                            formatMovies(searchResults)
                         }
                     </div>
                 </>

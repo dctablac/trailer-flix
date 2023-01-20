@@ -9,7 +9,13 @@ import { useAuth } from '../../contexts/AuthContext';
 import { ROUTE } from '../../text';
 
 export default function Navbar(props) {
-    const { setSearchScrolled } = props;
+    const { 
+        getSearchResults,
+        handleSearchChange,
+        searchScrolled, 
+        setSearchScrolled,
+        query 
+    } = props;
     // To navigate upon logo click
     const navigate = useNavigate();
     const { currentUser } = useAuth();
@@ -52,21 +58,23 @@ export default function Navbar(props) {
     <nav id="navbar" className={scrolled ? "navbar scrolled" : "navbar"}>
         <h1 id="logo" onClick={navToHome}>TRAILERFLIX</h1>
         {
-            props.searchScrolled && 
+            // Navbar is scrolled past search bar
+            searchScrolled && 
             <Form 
                 className="search-bar-nav-form"
                 action="/browse" 
-                onSubmit={props.getSearchResults}>
+                onSubmit={getSearchResults}>
                 <input
                     id="q" 
                     className="search-bar search-bar-nav" 
-                    onChange={props.handleSearchChange}
+                    onChange={handleSearchChange}
                     placeholder="Search titles or genres"
                     type="search"
-                    value={props.query}/>
+                    value={query}/>
             </Form>
         }
         {
+            // If logged in
             currentUser && 
             <Link className="account-settings-icon" to={ROUTE.ACCOUNT}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" fill="white" className="bi bi-person-gear" viewBox="0 0 16 16">

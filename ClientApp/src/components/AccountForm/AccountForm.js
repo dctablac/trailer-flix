@@ -17,8 +17,8 @@ import './AccountForm.css';
 export default function AccountForm(props) {
     const { formType } = props;
     const [{ setLoading }] = useOutletContext();
-    const navigate = useNavigate();
     const { currentUser, signUp, logIn } = useAuth();
+    const navigate = useNavigate();
     useEffect(() => {
         if (currentUser) {
             navigate(ROUTE.BROWSE);
@@ -52,27 +52,35 @@ export default function AccountForm(props) {
         setMismatch(false);
         setErrorMsg(null);
         try {
+            // If email and password are given
             if (email !== '' && password !== '') {
+                // If this is the register form
                 if (formType === FORM_TYPE.REGISTER) {
-                    if (confirmPassword === '') {
+                    // If user has not confirmed password
+                    if (confirmPassword === '') { 
                         setErrorMsg(FORM_MSG.NO_PASS_CONFIRM);
                         setLoading(false);
+                    // If user did not correctly confirm password
                     } else if (password !== confirmPassword) {
                         setMismatch(true);
                         setErrorMsg(FORM_MSG.PASS_MISMATCH);
                         setLoading(false);
+                    // Email, password, and password confirmed correctly
                     } else {    
                         await signUp(email, password);
                         navigate(ROUTE.BROWSE);
                     } 
+                // If this is the login form
                 } else if (formType === FORM_TYPE.LOGIN) { // Errors caught in catch
                     await logIn(email, password);
                     navigate(ROUTE.BROWSE);
                 }
+            // If email or password is missing    
             } else {
                 setErrorMsg(FORM_MSG.NO_EMAIL_PASS);
                 setLoading(false);
             }
+        // Catch invalid emails, passwords, or already in use, or server error
         } catch(err) {
             console.error(err.code);
             setErrorMsg(authErrorMessages[err.code]);
@@ -104,7 +112,10 @@ export default function AccountForm(props) {
         <div id={formType}>
             <Form className="account-form" onSubmit={handleSubmit}>
                 <h2 className="account-form-title">{formActionText()}</h2>
-                {errorMsg && <p className="account-form-error">{errorMsg}</p>}
+                {
+                    errorMsg && 
+                    <p className="account-form-error">{errorMsg}</p>
+                }
                 <label htmlFor="email" className="account-form-label">Email</label>
                 <input 
                     id="email" 

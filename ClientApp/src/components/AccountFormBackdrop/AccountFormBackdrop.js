@@ -1,9 +1,10 @@
 import React from "react";
 import { useLoaderData } from "react-router-dom";
+import { API_URL, TMDB } from "../../text";
 import './AccountFormBackdrop.css';
 
 export async function loader() {
-    const res = await fetch('https://localhost:7234/api/movies/popular');
+    const res = await fetch(API_URL.POPULAR);
     const data = await res.json();
     return data.results;
 }
@@ -17,7 +18,7 @@ export default function AccountFormBackdrop() {
                 return <img
                         key={movie.id}
                         className="account-form-backdrop-img"
-                        src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`}
+                        src={`${TMDB.IMG_URL}${TMDB.IMG_SIZE.POSTER}${movie.poster_path}`}
                         alt={movie.title}
                         />
             }

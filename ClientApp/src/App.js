@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { AuthProvider } from './contexts/AuthContext';
 import Loader from './components/Loader';
+import { API_URL } from './text';
 
 export default function App() {
   const [query, setQuery] = useState('');
@@ -28,7 +29,8 @@ export default function App() {
       setPrevQuery(query);
       if (query !== '') {
           try {
-              const res = await fetch(`https://localhost:7234/api/movies/search?query=${query}`);
+              const uri = `${API_URL.SEARCH}?query=${query}`;
+              const res = await fetch(uri);
               const data = await res.json();
               setSearchResults(data.results);
               setLoading(false);
@@ -41,9 +43,9 @@ export default function App() {
       setLoading(false);
   }
 
-  function handleSearchChange(e) {
-    setQuery(e.target.value);
-    if (e.target.value === '') {
+  function handleSearchChange({ target }) {
+    setQuery(target.value);
+    if (target.value === '') {
       setSearchResults(null);
     }
   }
