@@ -11,10 +11,15 @@ import Carousel from "../Carousel/Carousel";
 import './Details.css';
 
 export async function loader({ params }) {
-    const res = await fetch(`${API_URL.DETAILS}/${params.movieId}`);
-    const details = await res.json();
-    window.scroll(0,0);
-    return details;
+    try {
+        const res = await fetch(`${API_URL.DETAILS}/${params.movieId}`);
+        const details = await res.json();
+        window.scroll(0,0);
+        return details;
+    } catch(err) {
+        console.error(err);
+        return null;
+    }
 }
 
 export default function Details() {
