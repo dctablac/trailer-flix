@@ -90,7 +90,7 @@ export default function Home() {
         navigate(`${ROUTE.DETAILS}/${movieId}`);
     }
 
-    // Popular movies
+    // Movie poster format
     function formatMovies(movies) {
         return movies.map((movie, i) => {
             return (

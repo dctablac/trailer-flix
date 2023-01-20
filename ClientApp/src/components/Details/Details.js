@@ -73,14 +73,7 @@ export default function Details() {
     }
 
     function formatObjectList(list) {
-        let formatted = '';
-        if (list.length > 0) {
-            formatted += list[0].name;
-        }
-        for (let i = 1; i < list.length; i++) {
-            formatted += `, ${list[i].name}`;
-        }
-        return formatted;
+        return list.map(item => item.name).join(', ');
     }
     
     function formatMoney(money) {
@@ -93,14 +86,7 @@ export default function Details() {
     }
 
     function formatJobs(jobs) {
-        let jobsString = '';
-        if (jobs.length > 0) {
-            jobsString += jobs[0];
-        }
-        for (let i = 1; i < jobs.length; i++) {
-            jobsString += `, ${jobs[i]}`;
-        }
-        return jobsString;
+        return jobs.join(', ');
     }
 
     return (
