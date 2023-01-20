@@ -27,6 +27,7 @@ export default function AccountFormBackdrop() {
 
     return (
         <div id="account-form-backdrop">
+            <div className="account-form-backdrop-screen"></div>
             {formatPopularMovies()}
         </div>
     )
