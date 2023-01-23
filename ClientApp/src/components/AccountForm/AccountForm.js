@@ -16,7 +16,7 @@ import './AccountForm.css';
 
 export default function AccountForm(props) {
     const { formType } = props;
-    const [{ setLoading }] = useOutletContext();
+    const [{ setLoading, setRegisterOrLoginShowing }] = useOutletContext();
     const { currentUser, signUp, logIn } = useAuth();
     const navigate = useNavigate();
     useEffect(() => {
@@ -68,11 +68,13 @@ export default function AccountForm(props) {
                     // Email, password, and password confirmed correctly
                     } else {    
                         await signUp(email, password);
+                        setRegisterOrLoginShowing(false);
                         navigate(ROUTE.BROWSE);
                     } 
                 // If this is the login form
                 } else if (formType === FORM_TYPE.LOGIN) { // Errors caught in catch
                     await logIn(email, password);
+                    setRegisterOrLoginShowing(false);
                     navigate(ROUTE.BROWSE);
                 }
             // If email or password is missing    
@@ -108,8 +110,9 @@ export default function AccountForm(props) {
 
     return (
         <>
-        <Outlet />
-        <div id={formType}>
+        <h1 id="logo" className="account-form-logo">TRAILERFLIX</h1>
+        <div id={formType} className="content">
+            <Outlet />
             <Form className="account-form" onSubmit={handleSubmit}>
                 <h2 className="account-form-title">{formActionText()}</h2>
                 {
@@ -119,7 +122,6 @@ export default function AccountForm(props) {
                 <label htmlFor="email" className="account-form-label">Email</label>
                 <input 
                     id="email" 
-                    // className={errorMsg && email === '' ? "account-form-input account-form-input-error"  : "account-form-input"}
                     className={`account-form-input ${errorMsg && email === '' && "account-form-input-error"}`}
                     type="email" 
                     onChange={(e) => handleChange(e.target.value, "email")}

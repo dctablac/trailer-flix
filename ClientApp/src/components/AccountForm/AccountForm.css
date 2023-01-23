@@ -1,15 +1,22 @@
 #register,
 #login {
+    align-items: center;
     display: flex;
+    height: 100%;
     justify-content: center;
-    padding-top: 2rem;
+    position: relative;
 }
-
+.account-form-logo {
+    position: absolute;
+    margin: 2rem;
+}
 .account-form {
+    align-self: center;
     background-color: rgba(0,0,0,0.95);
     display: flex;
     flex-direction: column;
     padding: 2rem;
+    height: 50%;
     max-width: 400px;
     min-height: 600px;
     width: 100%;

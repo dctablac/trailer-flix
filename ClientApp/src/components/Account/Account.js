@@ -10,7 +10,7 @@ import Loader from "../Loader";
 import './Account.css';
 
 export default function Account() {
-    const [{ loading }] = useOutletContext();
+    const [{ loading, setRegisterOrLoginShowing }] = useOutletContext();
     const { logOut } = useAuth();
     const navigate = useNavigate();
     
@@ -18,6 +18,7 @@ export default function Account() {
     async function handleLogOut() {
         try {
             await logOut();
+            setRegisterOrLoginShowing(true);
             navigate(ROUTE.REGISTER);
         } catch(err) {
             console.error(err);
