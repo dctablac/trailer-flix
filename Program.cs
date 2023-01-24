@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: myAllowSpecificOrigins,
     policy =>
     {
-        policy.WithOrigins("https://localhost:44422");
+        policy.WithOrigins(builder.Configuration["ALLOWED_ORIGIN"]);
     });
 });
 builder.Services.AddControllers();
