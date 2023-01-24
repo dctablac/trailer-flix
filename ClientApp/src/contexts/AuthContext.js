@@ -16,7 +16,7 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-    const [currentUser, setCurrentUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState(localStorage.getItem('user')); // To prevent null value on page refresh
     // Get functions associated with auth
     function signUp(email, password) {
         return createUserWithEmailAndPassword(auth, email, password);
@@ -25,12 +25,16 @@ export function AuthProvider({ children }) {
         return signInWithEmailAndPassword(auth, email, password);
     }
     function logOut() {
+        localStorage.removeItem('user');
         return signOut(auth);
     }
 
     useEffect(() => {
         // Upon app load, global auth observer is instantiated
         const unsubscribe = auth.onAuthStateChanged((user) => {
+            if (user) {
+                localStorage.setItem('user', user);
+            }
             setCurrentUser(user);
         });
 

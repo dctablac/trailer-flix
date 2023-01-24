@@ -20,7 +20,7 @@ export default function App() {
   // To hide navbar when on movie details page
   const [detailsShowing, setDetailsShowing] = useState(false);
   // To hide navbar and footer when at login/register pages
-  const [registerOrLoginShowing, setRegisterOrLoginShowing] = useState(true);
+  const [registerOrLoginShowing, setRegisterOrLoginShowing] = useState(false);
   // Track if user has scrolled past the search bar position in backdrop
   const [searchScrolled, setSearchScrolled] = useState(false);
   // Track if app is loading a page

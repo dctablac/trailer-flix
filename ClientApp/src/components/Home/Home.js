@@ -9,7 +9,6 @@ import {
  } from "react-router-dom";
 import Search from '../Search';
 import Carousel from "../Carousel";
-import { useAuth } from "../../contexts/AuthContext";
 import { API_URL, ROUTE, TMDB } from '../../text';
 import './Home.css';
 
@@ -40,8 +39,8 @@ export async function loader() {
 }
 
 export default function Home() {
-    const { currentUser } = useAuth();
     const navigate = useNavigate();
+
     const [{
         query, 
         handleSearchChange, 
@@ -52,15 +51,11 @@ export default function Home() {
         setLoading
     }] = useOutletContext();
     useEffect(() => {
-        // Redirect if not logged in
-        if (!currentUser) {
-            navigate(ROUTE.REGISTER);
-        }
         window.scroll(0,1);
         setDetailsShowing(false);
         setLoading(false);
     // eslint-disable-next-line
-    }, [])
+    }, []);
     const { 
         nowPlayingMovies,
         popularMovies, 

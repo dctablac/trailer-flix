@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import { 
     Link,
-    useNavigate,
     useOutletContext,
     useLoaderData
 } from 'react-router-dom';
-import { useAuth } from "../../contexts/AuthContext";
 import { API_URL, ROUTE, TMDB } from "../../text";
 import Carousel from "../Carousel/Carousel";
 import './Details.css';
@@ -23,8 +21,6 @@ export async function loader({ params }) {
 }
 
 export default function Details() {
-    const { currentUser } = useAuth();
-    const navigate = useNavigate();
     // Get movie details before page render
     // const { info, credits, ytId } = useLoaderData();
     const { info, credits, youtubeId } = useLoaderData();
@@ -35,10 +31,6 @@ export default function Details() {
     // Remove navbar on page mount
     const [{ setDetailsShowing, setLoading }] = useOutletContext();
     useEffect(() => {
-        // Redirect if not logged in
-        if (!currentUser) {
-            navigate(ROUTE.REGISTER);
-        }
         setDetailsShowing(true);
         setLoading(false);
         // Returns nav to page

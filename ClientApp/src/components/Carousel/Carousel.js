@@ -5,17 +5,18 @@ export default function Carousel(props) {
     const { carouselId, items } = props;
 
     useEffect(() => {
+        const carouselContainer = document.getElementById(carouselId);
         // Get event listeners on the carousels to disable buttons
         // depending on scrollLeft values
-        const carouselContainer = document.getElementById(carouselId);
         carouselContainer.addEventListener('scroll', scrollListener);
-        
+
         return () => {
             carouselContainer.removeEventListener('scroll', scrollListener);
         }
         //eslint-disable-next-line
-    }, []) 
+    }, []);
 
+    // 
     function scrollListener() {
         const carouselContainer = document.getElementById(carouselId);
         const maxScroll = carouselContainer.scrollWidth - carouselContainer.clientWidth;

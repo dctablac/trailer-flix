@@ -17,20 +17,23 @@ import './AccountForm.css';
 export default function AccountForm(props) {
     const { formType } = props;
     const [{ setLoading, setRegisterOrLoginShowing }] = useOutletContext();
-    const { currentUser, signUp, logIn } = useAuth();
+    const { signUp, logIn } = useAuth();
     const navigate = useNavigate();
-    useEffect(() => {
-        if (currentUser) {
-            navigate(ROUTE.BROWSE);
-        }
-        // eslint-disable-next-line
-    }, [currentUser]);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMsg, setErrorMsg] = useState(null);
     const [mismatch, setMismatch] = useState(false);
+
+    useEffect(() => {
+        setRegisterOrLoginShowing(true);
+        
+        return () => {
+            setRegisterOrLoginShowing(false);
+        }
+        // eslint-disable-next-line
+    }, []);
 
     // Changes action text on label depending on register/login
     function formActionText() {

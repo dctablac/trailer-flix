@@ -38,6 +38,7 @@
     position: absolute;
     transition: opacity 0.2s;
     top: 0;
+    width: 100%;
 }
 .movie-poster-fill-title:hover {
     opacity: 1;
