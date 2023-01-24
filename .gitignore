@@ -4,6 +4,7 @@
 
 # Dev files
 appsettings.development.json
+appsettings.json
 
 # User-specific files
 *.suo
