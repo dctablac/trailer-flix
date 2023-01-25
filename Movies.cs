@@ -9,8 +9,8 @@ public static class Movies
     // Config for getting API key
     private static IConfiguration config = new ConfigurationBuilder()
                                                     .SetBasePath(Directory.GetCurrentDirectory())
+                                                    .AddJsonFile("appsettings.development.json", true)
                                                     .AddJsonFile("appsettings.json", false)
-                                                    .AddJsonFile("appsettings.Development.json", true)
                                                     .AddEnvironmentVariables()
                                                     .Build();
     private static readonly string TMDBUri = config["TMDB_URL"];
@@ -66,7 +66,7 @@ public static class Movies
     }
 
     // Get movie by id
-    public static async Task<MovieDetails> GetById(HttpClient client, int id)
+    public static async Task<MovieDetails> GetById(HttpClient client, int id, HttpRequest request)
     {
         Stream stream;
 
@@ -113,7 +113,8 @@ public static class Movies
 
         // Retrieve videoId from database, otherwise use YouTube API if not found
         var videoId = "";
-        string getTrailerUri = $"{TrailerUri}/{id}";
+        // Send a request to the trailer endpoint in this server domain
+        string getTrailerUri = $"https://{request.Host.Value}{TrailerUri}/{id}";
         stream = await client.GetStreamAsync(getTrailerUri);
         try 
         {

@@ -48,7 +48,7 @@ public class MoviesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult> GetMovieById(int id)
     {
-        var response = await Movies.GetById(httpClient, id);
+        var response = await Movies.GetById(httpClient, id, Request);
         return response is null ? NotFound() : Ok(response);
     }
 

@@ -8,14 +8,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // CORS service policy
-builder.Services.AddCors(options =>
+if (builder.Environment.IsDevelopment())
 {
-    options.AddPolicy(name: myAllowSpecificOrigins,
-    policy =>
+    builder.Services.AddCors(options =>
     {
-        policy.WithOrigins(builder.Configuration["ALLOWED_ORIGIN"]);
+        options.AddPolicy(name: myAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins(builder.Configuration["ALLOWED_ORIGIN"]);
+        });
     });
-});
+}
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 // Add MySql connection / Register TrailerContext
