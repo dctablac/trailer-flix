@@ -1,10 +1,9 @@
 const {
     REACT_APP_SERVER_HOST: host,
-    REACT_APP_SERVER_PORT: port,
     REACT_APP_SERVER_MOVIES: moviesUrl
 } = process.env;
 
-const serverUri = `${host}:${port}${moviesUrl}`;
+const serverUri = new URL(`${host}${moviesUrl}`);
 
 export const API_URL = {
     DETAILS: serverUri,

@@ -29,10 +29,6 @@ builder.Services.AddScoped<TrailerService>();
 
 var app = builder.Build();
 
-// Ensure the database is created
-var context = app.Services.GetRequiredService<TrailerContext>();
-context.Database.EnsureCreated();
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -51,6 +47,9 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 
-app.MapFallbackToFile("index.html");;
+app.MapFallbackToFile("index.html");
+
+// Ensure db is created
+app.CreateDbIfNotExists();
 
 app.Run();
