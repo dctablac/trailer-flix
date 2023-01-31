@@ -18,37 +18,37 @@ public class MoviesController : ControllerBase
     }
 
     [HttpGet("popular")]
-    public async Task<ActionResult> GetPopularMovies()
+    public ActionResult<MoviePosters> GetPopularMovies()
     {
-        var response = await Movies.GetPopular(httpClient);
+        var response = Movies.GetPopular(httpClient);
         return response is null ? NotFound() : Ok(response);
     }
 
     [HttpGet("upcoming")]
-    public async Task<ActionResult> GetUpcomingMovies()
+    public ActionResult<MoviePosters> GetUpcomingMovies()
     {
-        var response = await Movies.GetUpcoming(httpClient);
+        var response = Movies.GetUpcoming(httpClient);
         return response is null ? NotFound() : Ok(response);
     }
 
     [HttpGet("now_playing")]
-    public async Task<ActionResult> GetNowPlayingMovies()
+    public ActionResult<MoviePosters> GetNowPlayingMovies()
     {
-        var response = await Movies.GetNowPlaying(httpClient);
+        var response = Movies.GetNowPlaying(httpClient);
         return response is null ? NotFound() : Ok(response);
     }
 
     [HttpGet("search")]
-    public async Task<ActionResult> GetMoviesBySearch(string query)
+    public ActionResult GetMoviesBySearch(string query)
     {
-        var response = await Movies.GetSearch(httpClient, query);
+        var response = Movies.GetSearch(httpClient, query);
         return response is null ? NotFound() : Ok(response);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetMovieById(int id)
+    public ActionResult<MovieDetails> GetMovieById(int id)
     {
-        var response = await Movies.GetById(httpClient, id, Request);
+        var response = Movies.GetById(httpClient, Request, id);
         return response is null ? NotFound() : Ok(response);
     }
 
@@ -56,7 +56,7 @@ public class MoviesController : ControllerBase
     public ActionResult<Trailer> GetTrailerByMovieId(int id)
     {
         var trailer = _service.GetTrailerByMovieId(id);
-        return trailer;
+        return trailer is null ? NotFound() : Ok(trailer);
     }
 
     [HttpPost("trailer")]

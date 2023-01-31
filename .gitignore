@@ -5,6 +5,8 @@
 # Dev files
 appsettings.development.json
 appsettings.json
+TrailerFlix.db*
+Migrations
 
 # User-specific files
 *.suo
