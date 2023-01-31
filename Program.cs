@@ -21,12 +21,17 @@ if (builder.Environment.IsDevelopment())
 }
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+// Register database context, TrailerContext
 builder.Services.AddSqlite<TrailerContext>("Data Source=TrailerFlix.db");
-// Register TrailerService 
+// Register TrailerService that uses the TrailerContext
 builder.Services.AddScoped<TrailerService>();
 
 
 var app = builder.Build();
+
+// Ensure the database is created
+var context = app.Services.GetRequiredService<TrailerContext>();
+context.Database.EnsureCreated();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
