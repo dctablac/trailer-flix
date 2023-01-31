@@ -16,7 +16,7 @@ public record MovieDetails
 (
     [property: JsonPropertyName("info")] MovieInfo Info,
     [property: JsonPropertyName("credits")] MovieCredits Credits,
-    [property: JsonPropertyName("youtubeId")] string YoutubeId
+    [property: JsonPropertyName("youtubeId")] string? YoutubeId
 );
 
 public record MovieInfo
