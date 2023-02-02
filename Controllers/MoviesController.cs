@@ -92,7 +92,7 @@ public class MoviesController : ControllerBase
         if (favorite is not null)
         {
             _service.DeleteFavorite(favorite);
-            return Ok();
+            return NoContent();
         }
         return NotFound();
     }
