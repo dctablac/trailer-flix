@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TrailerFlix.Services;
 using TrailerFlix.Models;
+using System.Net;
 
 namespace TrailerFlix.Controllers;
 
@@ -63,6 +64,18 @@ public class MoviesController : ControllerBase
     public IActionResult AddTrailer(Trailer newTrailer)
     {
         var trailer = _service.AddMovieTrailer(newTrailer);
-        return CreatedAtAction(nameof(AddTrailer), new { MovieId = trailer!.MovieId }, trailer);
+        return CreatedAtAction(nameof(AddTrailer), 
+                               new { MovieId = trailer!.MovieId }, 
+                               trailer);
+    }
+
+    [HttpPost("favorites")]
+    public IActionResult AddFavorite(Favorite newFavorite)
+    {
+        var favorite = _service.AddFavorite(newFavorite);
+        return favorite is null ? Problem(detail: "Movie already in favorites.") : 
+            CreatedAtAction(nameof(AddFavorite), 
+                            new { UserId = favorite!.UserId, MovieId = favorite!.MovieId }, 
+                            favorite);
     }
 }

@@ -28,4 +28,19 @@ public class TrailerService {
 
         return newTrailer;
     }
+
+    // Favorite a movie trailer entry
+    public Favorite? AddFavorite(Favorite newFavorite)
+    {
+        try {
+            _context.Favorites.Add(newFavorite);
+            _context.SaveChanges();
+            return newFavorite;
+        }
+        catch
+        {
+            return null;
+        }    
+    }
+
 }
