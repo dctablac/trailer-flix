@@ -69,6 +69,12 @@ public class MoviesController : ControllerBase
                                trailer);
     }
 
+    [HttpGet("favorites/{userId}")]
+    public List<int> GetUserFavorites(string userId)
+    {
+        return _service.GetFavorites(userId);
+    }
+
     [HttpPost("favorites")]
     public IActionResult AddFavorite(Favorite newFavorite)
     {
@@ -78,4 +84,10 @@ public class MoviesController : ControllerBase
                             new { UserId = favorite!.UserId, MovieId = favorite!.MovieId }, 
                             favorite);
     }
+
+    // [HttpDelete("favorites/{userId}/{movieId}")]
+    // public IActionResult RemoveFavorite(string userId, int movieId)
+    // {
+    //     var favorite = _service.
+    // }
 }
