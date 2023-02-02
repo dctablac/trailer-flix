@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using TrailerFlix.Services;
 using TrailerFlix.Data;
 
@@ -21,11 +20,18 @@ if (builder.Environment.IsDevelopment())
 }
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-// Register database context, TrailerContext
+// // Register HttpClients
+builder.Services.AddHttpClient("TMDB", httpClient =>
+{
+    httpClient.BaseAddress = new Uri(builder.Configuration["TMDB_URL"]);
+});
+// Register database contexts
 builder.Services.AddSqlite<TrailerContext>("Data Source=TrailerFlix.db");
-// Register TrailerService that uses the TrailerContext
+builder.Services.AddSqlite<FavoriteContext>("Data Source=TrailerFlix.db");
+// Register services
+builder.Services.AddScoped<MovieService>();
 builder.Services.AddScoped<TrailerService>();
-
+builder.Services.AddScoped<FavoriteService>();
 
 var app = builder.Build();
 

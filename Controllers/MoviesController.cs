@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using TrailerFlix.Services;
-using TrailerFlix.Models;
-using System.Net;
 
 namespace TrailerFlix.Controllers;
 
@@ -9,11 +7,9 @@ namespace TrailerFlix.Controllers;
 [Route("api/[controller]")]
 public class MoviesController : ControllerBase
 {
-    private static readonly HttpClient httpClient = new HttpClient();
-    
-    TrailerService _service;
+    private MovieService _service;
 
-    public MoviesController(TrailerService service)
+    public MoviesController(MovieService service)
     {
         _service = service;
     }
@@ -21,79 +17,35 @@ public class MoviesController : ControllerBase
     [HttpGet("popular")]
     public ActionResult<MoviePosters> GetPopularMovies()
     {
-        var response = Movies.GetPopular(httpClient);
+        var response = _service.GetPopular();
         return response is null ? NotFound() : Ok(response);
     }
 
     [HttpGet("upcoming")]
     public ActionResult<MoviePosters> GetUpcomingMovies()
     {
-        var response = Movies.GetUpcoming(httpClient);
+        var response = _service.GetUpcoming();
         return response is null ? NotFound() : Ok(response);
     }
 
     [HttpGet("now_playing")]
     public ActionResult<MoviePosters> GetNowPlayingMovies()
     {
-        var response = Movies.GetNowPlaying(httpClient);
+        var response = _service.GetNowPlaying();
         return response is null ? NotFound() : Ok(response);
     }
 
     [HttpGet("search")]
     public ActionResult GetMoviesBySearch(string query)
     {
-        var response = Movies.GetSearch(httpClient, query);
+        var response = _service.GetSearch(query);
         return response is null ? NotFound() : Ok(response);
     }
 
     [HttpGet("{id}")]
     public ActionResult<MovieDetails> GetMovieById(int id)
     {
-        var response = Movies.GetById(httpClient, Request, id);
+        var response = _service.GetById(Request, id);
         return response is null ? NotFound() : Ok(response);
-    }
-
-    [HttpGet("trailer/{id}")]
-    public ActionResult<Trailer> GetTrailerByMovieId(int id)
-    {
-        var trailer = _service.GetTrailerByMovieId(id);
-        return trailer is null ? NotFound() : Ok(trailer);
-    }
-
-    [HttpPost("trailer")]
-    public IActionResult AddTrailer(Trailer newTrailer)
-    {
-        var trailer = _service.AddMovieTrailer(newTrailer);
-        return CreatedAtAction(nameof(AddTrailer), 
-                               new { MovieId = trailer!.MovieId }, 
-                               trailer);
-    }
-
-    [HttpGet("favorites/{userId}")]
-    public List<int> GetUserFavorites(string userId)
-    {
-        return _service.GetFavorites(userId);
-    }
-
-    [HttpPost("favorites")]
-    public IActionResult AddFavorite(Favorite newFavorite)
-    {
-        var favorite = _service.AddFavorite(newFavorite);
-        return favorite is null ? Problem(detail: "Movie already in favorites.") : 
-            CreatedAtAction(nameof(AddFavorite), 
-                            new { UserId = favorite!.UserId, MovieId = favorite!.MovieId }, 
-                            favorite);
-    }
-
-    [HttpDelete("favorites/{userId}/{movieId}")]
-    public IActionResult RemoveFavorite(string userId, int movieId)
-    {
-        var favorite = _service.GetFavoriteById(userId, movieId);
-        if (favorite is not null)
-        {
-            _service.DeleteFavorite(favorite);
-            return NoContent();
-        }
-        return NotFound();
     }
 }
