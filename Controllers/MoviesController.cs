@@ -85,9 +85,15 @@ public class MoviesController : ControllerBase
                             favorite);
     }
 
-    // [HttpDelete("favorites/{userId}/{movieId}")]
-    // public IActionResult RemoveFavorite(string userId, int movieId)
-    // {
-    //     var favorite = _service.
-    // }
+    [HttpDelete("favorites/{userId}/{movieId}")]
+    public IActionResult RemoveFavorite(string userId, int movieId)
+    {
+        var favorite = _service.GetFavoriteById(userId, movieId);
+        if (favorite is not null)
+        {
+            _service.DeleteFavorite(favorite);
+            return Ok();
+        }
+        return NotFound();
+    }
 }

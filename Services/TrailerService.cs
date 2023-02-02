@@ -38,14 +38,13 @@ public class TrailerService {
             .ToList();
     }
 
-    // Get a favorite of a user
-    // Used to delete favorite
-    // private Favorite? _GetFavoriteById(string userId, int movieId)
-    // {
-    //     return _context.Favorites
-    //         .AsNoTracking()
-    //         .SingleOrDefault(f => f.UserId == userId && f.MovieId == movieId);
-    // }
+    // Get a favorite of a user (used in deleting a favorite)
+    public Favorite? GetFavoriteById(string userId, int movieId)
+    {
+        return _context.Favorites
+            .AsNoTracking()
+            .SingleOrDefault(f => f.UserId == userId && f.MovieId == movieId);
+    }
 
     // Favorite a movie trailer entry
     public Favorite? AddFavorite(Favorite newFavorite)
@@ -62,15 +61,14 @@ public class TrailerService {
         }    
     }
 
-    // // Delete a movie trailer entry
-    // public void DeleteFavorite(string userId, int movieId)
-    // {
-    //     var favoriteToDelete = _context.Favorites.Find(userId, movieId);
-    //     if (favoriteToDelete is not null)
-    //     {
-    //         _context.Favorites.Remove(favoriteToDelete);
-    //         _context.SaveChanges();
-    //     }
-    // }
+    // Delete a movie trailer entry
+    public void DeleteFavorite(Favorite favoriteToDelete)
+    {
+        if (favoriteToDelete is not null)
+        {
+            _context.Favorites.Remove(favoriteToDelete);
+            _context.SaveChanges();
+        }
+    }
 
 }
