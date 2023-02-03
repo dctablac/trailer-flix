@@ -43,6 +43,7 @@ export function AuthProvider({ children }) {
     }, []);
 
     const value = {
+        auth,
         currentUser,
         signUp, 
         logIn, 

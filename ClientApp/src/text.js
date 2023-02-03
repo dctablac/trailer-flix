@@ -11,6 +11,7 @@ export const API_URL = {
     POPULAR: `${serverUri}/popular`,
     SEARCH: `${serverUri}/search`,
     UPCOMING: `${serverUri}/upcoming`,
+    FAVORITES: `${serverUri}/favorites`
 }
 
 export const TMDB = {

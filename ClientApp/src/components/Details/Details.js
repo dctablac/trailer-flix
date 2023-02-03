@@ -5,50 +5,66 @@ import {
     useLoaderData
 } from 'react-router-dom';
 import { API_URL, ROUTE, TMDB } from "../../text";
+import { useAuth } from "../../contexts/AuthContext";
 import Carousel from "../Carousel/Carousel";
 import './Details.css';
 
 export async function loader({ params }) {
     try {
+        // Get movie details
         const res = await fetch(`${API_URL.DETAILS}/${params.movieId}`);
         const details = await res.json();
         window.scroll(0,0);
+        
         return details;
     } catch(err) {
         console.error(err);
+
         return null;
     }
 }
 
 export default function Details() {
     // Get movie details before page render
-    // const { info, credits, ytId } = useLoaderData();
+    const { currentUser } = useAuth();
     const { info, credits, youtubeId } = useLoaderData();
+    // Set backgroundImg if available
     let backgroundImg = null;
     if (info.backdrop_path) {
         backgroundImg = `${TMDB.IMG_URL}${TMDB.IMG_SIZE.BACKDROP}${info.backdrop_path}`;
-    }
+    } 
+
+    // Update favorite in database
+    const [isFavorite, setIsFavorite] = useState(false);
+    useEffect(() => {
+        setLoading(false);
+    // eslint-disable-next-line
+    }, [isFavorite]);
+
+    useEffect(() => {
+        async function getFavoriteStatus() {
+            if (currentUser.uid !== undefined) {
+                const res = await fetch(`${API_URL.FAVORITES}/${currentUser.uid}/${info.id}`);
+                setIsFavorite(res.ok);
+                setLoading(false);
+            }
+        }
+
+        getFavoriteStatus();
+    }, [currentUser])
+
     // Remove navbar on page mount
     const [{ setDetailsShowing, setLoading }] = useOutletContext();
     useEffect(() => {
+        setLoading(true);
         setDetailsShowing(true);
-        setLoading(false);
+
         // Returns nav to page
         return () => {
             setDetailsShowing(false);
         };
     // eslint-disable-next-line
     }, []);
-
-    // Update favorite in database
-    const [isFavorite, setIsFavorite] = useState(false);
-    // useEffect(() => {
-
-    // }, [isFavorite]);
-
-    // function updateFavorite() {
-
-    // }
 
     function formatPeople(people) {
         return people.map((person, i) => {
