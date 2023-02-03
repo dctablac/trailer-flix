@@ -22,6 +22,13 @@ public class FavoritesController: ControllerBase
         return _service.GetFavorites(userId);
     }
 
+    [HttpGet("{userId}/{movieId}")]
+    public IActionResult GetUserFavorite(string userId, int movieId)
+    {
+        var favorite = _service.GetFavoriteById(userId, movieId);
+        return favorite is not null ? Ok(favorite) : NotFound(null);
+    }
+
     [HttpPost]
     public IActionResult AddFavorite(Favorite newFavorite)
     {

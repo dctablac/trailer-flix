@@ -22,7 +22,7 @@ public class FavoriteService
             .ToList();
     }
 
-    // Get a favorite of a user (used in deleting a favorite)
+    // Get a favorite of a user
     public Favorite? GetFavoriteById(string userId, int movieId)
     {
         return _context.Favorites

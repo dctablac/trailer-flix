@@ -40,7 +40,15 @@ export default function Details() {
     // eslint-disable-next-line
     }, []);
 
+    // Update favorite in database
     const [isFavorite, setIsFavorite] = useState(false);
+    // useEffect(() => {
+
+    // }, [isFavorite]);
+
+    // function updateFavorite() {
+
+    // }
 
     function formatPeople(people) {
         return people.map((person, i) => {
