@@ -1,5 +1,6 @@
 using TrailerFlix.Services;
 using TrailerFlix.Data;
+using Microsoft.Net.Http.Headers;
 
 // Arbitray CORS policy name
 var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -14,7 +15,9 @@ if (builder.Environment.IsDevelopment())
         options.AddPolicy(name: myAllowSpecificOrigins,
         policy =>
         {
-            policy.WithOrigins(builder.Configuration["ALLOWED_ORIGIN"]);
+            policy.WithOrigins(builder.Configuration["ALLOWED_ORIGIN"])
+                  .WithHeaders(HeaderNames.ContentType)
+                  .WithMethods("GET", "POST", "DELETE");
         });
     });
 }

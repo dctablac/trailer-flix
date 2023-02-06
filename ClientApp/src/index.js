@@ -13,7 +13,8 @@ import Home, {
   loader as homeLoader
 } from './components/Home';
 import Details, {
-  loader as detailsLoader
+  loader as detailsLoader,
+  action as detailsAction
 } from './components/Details';
 import ErrorPage from './components/ErrorPage';
 import './App.css';
@@ -81,6 +82,7 @@ const router = createBrowserRouter([
       {
         path: `${ROUTE.DETAILS}/:movieId`,
         element: <ProtectedRoute />,
+        action: detailsAction,
         children: [
           {
             path: '',

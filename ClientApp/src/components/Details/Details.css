@@ -37,6 +37,9 @@
     font-size: 3rem;
     padding: 2rem;
 }
+.favorite-form {
+    display: inline;
+}
 .star-container {
     background: none;
     border: none;
