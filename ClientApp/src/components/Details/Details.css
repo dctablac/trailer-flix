@@ -44,6 +44,21 @@
     cursor: pointer;
     margin-left: 1rem;
 }
+/* .star-container:hover > .bi-star {
+    fill : orange;
+} */
+.star-container:hover > .bi-star-fill,
+.star-container:hover > .bi-star {
+    transform: scale(1.2);
+}
+.star-container:active > .bi-star-fill,
+.star-container:active > .bi-star {
+    transform: scale(1);
+}
+.bi-star,
+.bi-star-fill {
+    transition: all 0.2s ease;
+}
 .bi-star-fill {
     fill: orange;
 }

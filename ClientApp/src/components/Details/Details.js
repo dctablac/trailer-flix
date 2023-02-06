@@ -51,6 +51,7 @@ export default function Details() {
         }
 
         getFavoriteStatus();
+    // eslint-disable-next-line
     }, [currentUser])
 
     // Remove navbar on page mount
