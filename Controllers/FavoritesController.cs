@@ -17,7 +17,7 @@ public class FavoritesController: ControllerBase
     }
 
     [HttpGet("{userId}")]
-    public List<int> GetUserFavorites(string userId)
+    public MoviePosters GetUserFavorites(string userId)
     {
         return _service.GetFavorites(userId);
     }

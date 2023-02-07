@@ -3,23 +3,65 @@ namespace TrailerFlix.Services;
 using TrailerFlix.Data;
 using TrailerFlix.Models;
 using Microsoft.EntityFrameworkCore;
+using TrailerFlix.Util;
 
 public class FavoriteService
 {
-    FavoriteContext _context;
+    private readonly IHttpClientFactory _httpClientFactory;
+    private FavoriteContext _context;
+    private readonly string? TMDBApiKey;
 
-    public FavoriteService(FavoriteContext context)
+    public FavoriteService(FavoriteContext context, IHttpClientFactory httpClientFactory)
     {
+        // Set context and client factory
         _context = context;
+        _httpClientFactory = httpClientFactory;
+
+        // Load configurations
+        ConfigurationBuilder _configBuilder = new ConfigurationBuilder();
+        _configBuilder.SetBasePath(Directory.GetCurrentDirectory());
+        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+        {
+            _configBuilder.AddJsonFile("appsettings.development.json", true);
+        }
+        else
+        {
+            _configBuilder.AddJsonFile("appsettings.json", false);
+        }
+        _configBuilder.AddEnvironmentVariables();
+        IConfiguration _config = _configBuilder.Build();
+
+        // TMDB Api Key
+        TMDBApiKey = _config["TMDB_Key"];
     }
     
     // Get all favorites of a user
-    public List<int> GetFavorites(string userId)
+    public MoviePosters GetFavorites(string userId)
     {
-        return _context.Favorites
-            .Where(f => f.UserId == userId)
-            .Select(f => f.MovieId)
-            .ToList();
+        // Get id list of favorite movies
+        List<int> favoriteIds =  _context.Favorites
+                                    .Where(f => f.UserId == userId)
+                                    .Select(f => f.MovieId)
+                                    .ToList();
+
+        // Make API calls to retrieve movie title and posters for each id
+        HttpClient httpClient = _httpClientFactory.CreateClient("TMDB");
+        List<MoviePoster> favorites = new();
+        foreach (int id in favoriteIds)
+        {
+            Uri favoriteUri = new Uri($"/movie/{id}?api_key={TMDBApiKey}");
+            var res = Request.Get(httpClient, favoriteUri.LocalPath.Substring(1));
+            if (res.IsSuccessStatusCode)
+            {
+                var favorite = res.Content.ReadFromJsonAsync<MoviePoster>().Result;
+                if (favorite is not null)
+                {
+                    favorites.Add(favorite);
+                }
+            }
+        }
+
+        return new MoviePosters(favorites);
     }
 
     // Get a favorite of a user
