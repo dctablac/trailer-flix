@@ -1,7 +1,6 @@
 import React, {
     useState,
-    useEffect,
-    useRef
+    useEffect
 } from "react";
 import { 
     useNavigate, 
@@ -43,7 +42,6 @@ export async function loader() {
 export default function Home() {
     const navigate = useNavigate();
     const { currentUser }  = useAuth();
-    const favorites = useRef(null);
 
     const [{
         query, 
@@ -70,17 +68,20 @@ export default function Home() {
     const upcoming = formatMovies(upcomingMovies);
 
     // Get user's favorite movies
+    const [favorites, setFavorites] = useState(null);
     useEffect(() => {
         async function getUserFavorites() {
             const favoriteRes = await fetch(`${API_URL.FAVORITES}/${currentUser.uid}`);
-            const favorites = await favoriteRes.json();
-            console.log(favorites);
+            const favoriteMovies = await favoriteRes.json();
+            const favoriteFormatted = formatMovies(favoriteMovies.results);
+            setFavorites(favoriteFormatted);
         }
 
         if (currentUser.uid !== undefined) {
             getUserFavorites();
             setLoading(false);
         }
+    // eslint-disable-next-line
     }, [currentUser]);
 
 
@@ -91,7 +92,7 @@ export default function Home() {
             if (backdropIndex === popularMovies.length - 1) {
                 setBackdropIndex(() => 0);
             } else {
-                setBackdropIndex((prevBackdropIndex) => prevBackdropIndex + 1);
+                setBackdropIndex((prevBackdropIndex) => { return prevBackdropIndex + 1; });
             }
         }, 4000);
 
@@ -153,10 +154,11 @@ export default function Home() {
             
             <div className="home-results">
             {
-                !searchResults && favorites.Length > 0 &&
+                // 
+                !searchResults && favorites != null && favorites.length > 0 &&
                 <>
                     <h2 className="section-title">Favorites</h2>
-                    <Carousel carouselId="favorite-movies" items={favorites.current} />
+                    <Carousel carouselId="favorite-movies" items={favorites} />
                 </>
             }
             {
