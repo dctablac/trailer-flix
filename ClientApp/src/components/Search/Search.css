@@ -1,11 +1,10 @@
 #search {
     align-items: center;
     display: flex;
-    height: 80vh;
     justify-content: center;
-    margin-bottom: 2rem;
-    overflow: hidden;
-    position: relative;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     width: 100%;
 }
 
@@ -15,13 +14,11 @@
     border: none;
     box-shadow: 0 0 5px 1px black;
     color: white;
-    font-size: 100%;
+    font-size: 1.5rem;
     height: 4rem;
     max-width: 600px;
     padding: 2rem;
-    position: absolute;
-    width: 50%;
-    z-index: 1;
+    width: 100%;
 }
 .search-bar:focus {
     outline: none;

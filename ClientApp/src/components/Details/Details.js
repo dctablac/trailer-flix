@@ -13,7 +13,6 @@ import './Details.css';
 export async function loader({ params }) {
     try {
         // Get movie details
-
         const res = await fetch(`${API_URL.DETAILS}/${params.movieId}`);
         const details = await res.json();
         window.scroll(0,0);

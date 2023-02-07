@@ -1,6 +1,7 @@
 import React, {
     useState,
-    useEffect
+    useEffect,
+    useRef
 } from "react";
 import { 
     useNavigate, 
@@ -10,6 +11,7 @@ import {
 import Search from '../Search';
 import Carousel from "../Carousel";
 import { API_URL, ROUTE, TMDB } from '../../text';
+import { useAuth } from "../../contexts/AuthContext";
 import './Home.css';
 
 
@@ -26,7 +28,7 @@ export async function loader() {
         const popularRes = await fetch(API_URL.POPULAR);
         let popularMovies = await popularRes.json();
         popularMovies = popularMovies.results;
-        
+
         return {
             upcomingMovies,
             nowPlayingMovies,
@@ -40,6 +42,8 @@ export async function loader() {
 
 export default function Home() {
     const navigate = useNavigate();
+    const { currentUser }  = useAuth();
+    const favorites = useRef(null);
 
     const [{
         query, 
@@ -53,7 +57,6 @@ export default function Home() {
     useEffect(() => {
         window.scroll(0,1);
         setDetailsShowing(false);
-        setLoading(false);
     // eslint-disable-next-line
     }, []);
     const { 
@@ -66,6 +69,22 @@ export default function Home() {
     const popular = formatMovies(popularMovies);
     const upcoming = formatMovies(upcomingMovies);
 
+    // Get user's favorite movies
+    useEffect(() => {
+        async function getUserFavorites() {
+            const favoriteRes = await fetch(`${API_URL.FAVORITES}/${currentUser.uid}`);
+            const favorites = await favoriteRes.json();
+            console.log(favorites);
+        }
+
+        if (currentUser.uid !== undefined) {
+            getUserFavorites();
+            setLoading(false);
+        }
+    }, [currentUser]);
+
+
+    // State for backdrop image slideshow
     const [backdropIndex, setBackdropIndex] = useState(0);
     useEffect(() => {
         const interval = setInterval(() => {
@@ -117,27 +136,39 @@ export default function Home() {
 
     return (
         <div id="home">
-            <img
-                id="home-backdrop"
-                className="home-backdrop" 
-                src={`${TMDB.IMG_URL}${TMDB.IMG_SIZE.BACKDROP}${popularMovies[backdropIndex].backdrop_path}`} 
-                alt={popularMovies[backdropIndex].title}
-            />
-            <Search 
-                query={query} 
-                handleSearchChange={handleSearchChange}
-                getSearchResults={getSearchResults}
-            />
+            <div className="home-backdrop">
+                <h2 className="home-backdrop-title">{popularMovies[backdropIndex].title}</h2>
+                <div className="home-backdrop-img-screen"></div>
+                <img
+                    className="home-backdrop-img" 
+                    src={`${TMDB.IMG_URL}${TMDB.IMG_SIZE.BACKDROP}${popularMovies[backdropIndex].backdrop_path}`} 
+                    alt={popularMovies[backdropIndex].title}
+                />
+                <Search 
+                    query={query} 
+                    handleSearchChange={handleSearchChange}
+                    getSearchResults={getSearchResults}
+                />
+            </div>
+            
+            <div className="home-results">
+            {
+                !searchResults && favorites.Length > 0 &&
+                <>
+                    <h2 className="section-title">Favorites</h2>
+                    <Carousel carouselId="favorite-movies" items={favorites.current} />
+                </>
+            }
             {
                 // Initial page load, no search requests made or empty search bar
                 !searchResults && 
                 <>
-                <h2 className="section-title">Upcoming</h2>
-                <Carousel carouselId="upcoming-movies" items={upcoming} />
-                <h2 className="section-title">Now Playing</h2>
-                <Carousel carouselId="now-playing-movie" items={nowPlaying} />
-                <h2 className="section-title">Popular</h2>
-                <Carousel carouselId="popular-movies" items={popular} />
+                    <h2 className="section-title">Upcoming</h2>
+                    <Carousel carouselId="upcoming-movies" items={upcoming} />
+                    <h2 className="section-title">Now Playing</h2>
+                    <Carousel carouselId="now-playing-movie" items={nowPlaying} />
+                    <h2 className="section-title">Popular</h2>
+                    <Carousel carouselId="popular-movies" items={popular} />
                 </>
             }
             {
@@ -158,6 +189,7 @@ export default function Home() {
                     </div>
                 </>
             }
+            </div>
         </div>
     )
 }

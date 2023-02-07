@@ -2,10 +2,29 @@
     padding-bottom: 2rem;
 }
 .home-backdrop {
+    position: relative;
+}
+.home-backdrop-title {
+    bottom: 0;
+    color: white;
+    display: flex;
+    font-size: 1rem;
+    margin: 1rem;
+    position: absolute;
+    right: 0;
+    text-shadow: 0 0 10rem black;
+    z-index: 1;
+}
+.home-backdrop-img {
     background-color: black;
     object-fit: contain;
-    position: absolute;
     height: 80vh;
+    width: 100%;
+}
+.home-backdrop-img-screen {
+    background: rgba(0,0,0,0.5);
+    height: 100%;
+    position: absolute;
     width: 100%;
 }
 .section-title {
