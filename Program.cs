@@ -28,14 +28,22 @@ builder.Services.AddHttpClient("TMDB", httpClient =>
 {
     httpClient.BaseAddress = new Uri(builder.Configuration["TMDB_URL"]);
 });
-// Register database contexts
+// Register database context
 builder.Services.AddSqlite<TrailerContext>("Data Source=TrailerFlix.db");
-builder.Services.AddSqlite<FavoriteContext>("Data Source=TrailerFlix.db");
+// If using other MySql, make sure to add
+// MySql.Data
+// Pomelo.EntityFrameworkCore.MySql
+// in project file.
+// builder.Services.AddDbContext<TrailerContext>(
+//     options => options.UseMySql(
+//         builder.Configuration.GetConnectionString("DefaultConnection"),
+//         new MySqlServerVersion(new Version(8,0,31))
+//     )
+// );
 // Register services
 builder.Services.AddScoped<MovieService>();
 builder.Services.AddScoped<TrailerService>();
 builder.Services.AddScoped<FavoriteService>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -8,10 +8,10 @@ using TrailerFlix.Util;
 public class FavoriteService
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private FavoriteContext _context;
+    TrailerContext _context;
     private readonly string? TMDBApiKey;
 
-    public FavoriteService(FavoriteContext context, IHttpClientFactory httpClientFactory)
+    public FavoriteService(TrailerContext context, IHttpClientFactory httpClientFactory)
     {
         // Set context and client factory
         _context = context;
