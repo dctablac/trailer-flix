@@ -28,7 +28,7 @@ button {
     font: inherit;
 }
 .content {
-    min-height: 80vh;
+    min-height: 100vh;
 }
 
 @font-face {

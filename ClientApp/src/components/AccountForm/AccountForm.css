@@ -10,6 +10,9 @@
     position: absolute;
     margin: 2rem;
 }
+.account-form-logo-short {
+    display: none;
+}
 .account-form {
     align-self: center;
     background-color: rgba(0,0,0,0.95);
@@ -78,4 +81,14 @@
 }
 .account-form-link:hover {
     text-decoration: underline;
+}
+
+@media (max-height: 750px) {
+    .account-form-logo {
+        display: none;
+    }
+    .account-form-logo-short {
+        display: flex;
+        justify-content: center;
+    }
 }

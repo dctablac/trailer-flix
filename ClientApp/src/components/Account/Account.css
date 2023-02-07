@@ -9,7 +9,7 @@
 .account-details-container {
     padding: 1rem;
     min-height: 80vh;
-    width: 75%;
+    width: 80%;
 }
 .account-details-container h1 {
     border-bottom: 1px solid var(--tf-gray);
@@ -45,4 +45,11 @@
 .btn-log-out:hover {
     background-color: var(--tf-red);
     color: white;
+}
+
+@media (max-width: 1000px) {
+    .account-details-container,
+    .account-detail {
+        width: 100%;
+    }
 }

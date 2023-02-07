@@ -9,14 +9,15 @@
 }
 
 .search-bar {
+    animation: searchFadeIn 0.2s ease;
     background-color: rgba(51, 51, 51, 0.98);
     border-radius: 2rem;
     border: none;
     box-shadow: 0 0 5px 1px black;
     color: white;
-    font-size: 1.5rem;
-    height: 4rem;
-    max-width: 600px;
+    font-size: 1.2rem;
+    height: 1rem;
+    max-width: 800px;
     padding: 2rem;
     width: 100%;
 }
@@ -27,19 +28,18 @@
     color: rgba(146, 146, 146, 0.7);
 }
 .search-bar-nav {
-    animation: fadeIn 0.2s;
-    position: relative;
-    width: 100%;
+    animation: fadeIn 0.2s ease;
+    box-shadow: none;
 }
 .search-bar-nav-form {
-    width: 50%;
+    display: flex;
+    justify-content: center;
+    margin-right: 1rem;
+    width: 100%;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
+@media (max-width: 1000px) {
+    .search-bar {
+        width: 90%;
     }
 }

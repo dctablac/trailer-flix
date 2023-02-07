@@ -16,7 +16,7 @@
     z-index: 1;
 }
 .home-backdrop-img {
-    animation: fadeIn 4s ease;
+    animation: homeBackdropFadeIn 4s ease;
     background-color: black;
     object-fit: contain;
     height: 80vh;
@@ -65,8 +65,7 @@
     opacity: 1;
 }
 
-
-@keyframes fadeIn {
+@keyframes homeBackdropFadeIn {
     0% {
         opacity: 0;
     }
@@ -75,5 +74,11 @@
     }
     100% {
         opacity: 0.5;
+    }
+}
+
+@media (max-width: 1050px) {
+    .home-backdrop-img {
+        object-fit: cover;
     }
 }

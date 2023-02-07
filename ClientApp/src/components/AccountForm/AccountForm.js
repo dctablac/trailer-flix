@@ -117,6 +117,7 @@ export default function AccountForm(props) {
         <div id={formType} className="content">
             <Outlet />
             <Form className="account-form" onSubmit={handleSubmit}>
+                <h1 id="logo" className="account-form-logo-short">TRAILERFLIX</h1>
                 <h2 className="account-form-title">{formActionText()}</h2>
                 {
                     errorMsg && 

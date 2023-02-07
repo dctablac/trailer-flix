@@ -51,13 +51,12 @@ export default function Navbar(props) {
     }, []);
 
     function navToHome() {
-        console.log(window.location);
         navigate(ROUTE.BROWSE);
     }
     
     return (
     <nav id="navbar" className={scrolled ? "navbar scrolled" : "navbar"}>
-        <h1 id="logo" onClick={navToHome}>TRAILERFLIX</h1>
+        <h1 id="logo" className={searchScrolled && "logo"} onClick={navToHome}>TRAILERFLIX</h1>
         {
             // Navbar is scrolled past search bar
             searchScrolled && 

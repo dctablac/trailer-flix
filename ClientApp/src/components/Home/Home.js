@@ -50,7 +50,8 @@ export default function Home() {
         searchResults,
         getSearchResults,
         setDetailsShowing,
-        setLoading
+        setLoading,
+        searchScrolled
     }] = useOutletContext();
     useEffect(() => {
         window.scroll(0,1);
@@ -148,11 +149,14 @@ export default function Home() {
                     src={`${TMDB.IMG_URL}${TMDB.IMG_SIZE.BACKDROP}${popularMovies[backdropIndex].backdrop_path}`} 
                     alt={popularMovies[backdropIndex].title}
                 />
-                <Search 
-                    query={query} 
-                    handleSearchChange={handleSearchChange}
-                    getSearchResults={getSearchResults}
-                />
+                {
+                    !searchScrolled &&
+                    <Search 
+                        query={query} 
+                        handleSearchChange={handleSearchChange}
+                        getSearchResults={getSearchResults}
+                    />
+                }
             </div>
             
             <div className="home-results">
