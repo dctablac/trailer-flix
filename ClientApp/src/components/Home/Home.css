@@ -16,11 +16,13 @@
     z-index: 1;
 }
 .home-backdrop-img {
+    animation: fadeIn 4s ease;
     background-color: black;
     object-fit: contain;
     height: 80vh;
     width: 100%;
 }
+
 .home-backdrop-img-screen {
     background: rgba(0,0,0,0.5);
     height: 100%;
@@ -61,4 +63,17 @@
 }
 .movie-poster-fill-title:hover {
     opacity: 1;
+}
+
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    40% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 0.5;
+    }
 }

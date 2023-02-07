@@ -51,6 +51,7 @@ export default function Navbar(props) {
     }, []);
 
     function navToHome() {
+        console.log(window.location);
         navigate(ROUTE.BROWSE);
     }
     

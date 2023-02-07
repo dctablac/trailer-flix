@@ -63,9 +63,9 @@ export default function Home() {
         upcomingMovies
     } = useLoaderData();
 
-    const nowPlaying = formatMovies(nowPlayingMovies);
-    const popular = formatMovies(popularMovies);
-    const upcoming = formatMovies(upcomingMovies);
+    const [nowPlaying] = useState(formatMovies(nowPlayingMovies));
+    const [popular] = useState(formatMovies(popularMovies));
+    const [upcoming] = useState(formatMovies(upcomingMovies));
 
     // Get user's favorite movies
     const [favorites, setFavorites] = useState(null);
@@ -78,6 +78,7 @@ export default function Home() {
         }
 
         if (currentUser.uid !== undefined) {
+            setLoading(true);
             getUserFavorites();
             setLoading(false);
         }
@@ -89,16 +90,17 @@ export default function Home() {
     const [backdropIndex, setBackdropIndex] = useState(0);
     useEffect(() => {
         const interval = setInterval(() => {
-            if (backdropIndex === popularMovies.length - 1) {
-                setBackdropIndex(() => 0);
-            } else {
-                setBackdropIndex((prevBackdropIndex) => { return prevBackdropIndex + 1; });
-            }
+            setBackdropIndex((prevBackdropIndex) => {
+                if (prevBackdropIndex === popularMovies.length - 1) {
+                    return 0;
+                }
+                return prevBackdropIndex + 1;
+            });
         }, 4000);
 
         return () => clearInterval(interval);
         // eslint-disable-next-line
-    }, [backdropIndex]);
+    }, []);
 
     // Navigate to movie details
     function goToMovieDetails(movieId) {
@@ -141,6 +143,7 @@ export default function Home() {
                 <h2 className="home-backdrop-title">{popularMovies[backdropIndex].title}</h2>
                 <div className="home-backdrop-img-screen"></div>
                 <img
+                    key={backdropIndex}
                     className="home-backdrop-img" 
                     src={`${TMDB.IMG_URL}${TMDB.IMG_SIZE.BACKDROP}${popularMovies[backdropIndex].backdrop_path}`} 
                     alt={popularMovies[backdropIndex].title}
