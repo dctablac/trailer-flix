@@ -16,11 +16,11 @@ public static class Extensions
                 // Create a reference to the context
                 var trailerContext = services.GetRequiredService<TrailerContext>();
                 // Createa a new database if one doesn't exist. Applies migration.
-                trailerContext.Database.Migrate();
+                // trailerContext.Database.Migrate();
                 // Creates a new database if one doesn't exist. The new database is not
                 // . configured for migrations, so use this with caution.
                 
-                // trailerContext.Database.EnsureCreated();
+                trailerContext.Database.EnsureCreated();
             }
         }
     }
