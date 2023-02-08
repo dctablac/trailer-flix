@@ -49,8 +49,8 @@ public class FavoriteService
         List<MoviePoster> favorites = new();
         foreach (int id in favoriteIds)
         {
-            Uri favoriteUri = new Uri($"/movie/{id}?api_key={TMDBApiKey}");
-            var res = Request.Get(httpClient, favoriteUri.LocalPath.Substring(1));
+            string favoriteUri = $"movie/{id}?api_key={TMDBApiKey}";
+            var res = Request.Get(httpClient, favoriteUri);
             if (res.IsSuccessStatusCode)
             {
                 var favorite = res.Content.ReadFromJsonAsync<MoviePoster>().Result;

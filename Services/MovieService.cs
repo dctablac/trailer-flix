@@ -38,32 +38,32 @@ public class MovieService
     public MoviePosters? GetUpcoming()
     {
         HttpClient httpClient = _httpClientFactory.CreateClient("TMDB");
-        Uri upcomingUri = new Uri($"/movie/upcoming?api_key={TMDBApiKey}");
-        return _GetMovieData<MoviePosters>(httpClient, upcomingUri.LocalPath.Substring(1));
+        string upcomingUri = $"movie/upcoming?api_key={TMDBApiKey}";
+        return _GetMovieData<MoviePosters>(httpClient, upcomingUri);
     }
 
     // Get now playing movies
     public MoviePosters? GetNowPlaying()
     {
         HttpClient httpClient = _httpClientFactory.CreateClient("TMDB");
-        Uri nowPlayingUri = new Uri($"/movie/now_playing?api_key={TMDBApiKey}");
-        return _GetMovieData<MoviePosters>(httpClient, nowPlayingUri.LocalPath.Substring(1));
+        string nowPlayingUri = $"movie/now_playing?api_key={TMDBApiKey}";
+        return _GetMovieData<MoviePosters>(httpClient, nowPlayingUri);
     }
     
     // Get all popular movies
     public MoviePosters? GetPopular()
     {
         HttpClient httpClient = _httpClientFactory.CreateClient("TMDB");
-        Uri popularUri = new Uri($"/movie/popular?api_key={TMDBApiKey}");
-        return _GetMovieData<MoviePosters>(httpClient, popularUri.LocalPath.Substring(1));
+        string popularUri = $"movie/popular?api_key={TMDBApiKey}";
+        return _GetMovieData<MoviePosters>(httpClient, popularUri);
     }
 
     // Get movies by search query
     public MoviePosters? GetSearch(string query)
     {
         HttpClient httpClient = _httpClientFactory.CreateClient("TMDB");
-        Uri searchUri = new Uri($"/search/movie?api_key={TMDBApiKey}&query={query}");
-        return _GetMovieData<MoviePosters>(httpClient, searchUri.LocalPath.Substring(1));
+        string searchUri = $"search/movie?api_key={TMDBApiKey}&query={query}";
+        return _GetMovieData<MoviePosters>(httpClient, searchUri);
     }
 
     // Get movie details by id
@@ -71,13 +71,13 @@ public class MovieService
     {
         HttpClient httpClient = _httpClientFactory.CreateClient("TMDB");
         // Get movie info
-        Uri infoUri = new Uri($"/movie/{movieId}?api_key={TMDBApiKey}");
-        MovieInfo? movieInfo = _GetMovieData<MovieInfo>(httpClient, infoUri.LocalPath.Substring(1));
+        string infoUri = $"movie/{movieId}?api_key={TMDBApiKey}";
+        MovieInfo? movieInfo = _GetMovieData<MovieInfo>(httpClient, infoUri);
         if (movieInfo is null) { return null; }
 
         // Get cast and crew
-        Uri creditsUri = new Uri($"/movie/{movieId}/credits?api_key={TMDBApiKey}");
-        MovieCreditsRaw? creditsInfo = _GetMovieData<MovieCreditsRaw>(httpClient, creditsUri.LocalPath.Substring(1));
+        string creditsUri = $"movie/{movieId}/credits?api_key={TMDBApiKey}";
+        MovieCreditsRaw? creditsInfo = _GetMovieData<MovieCreditsRaw>(httpClient, creditsUri);
         if (creditsInfo is null) { return null; }
 
         // Condensed redundant CrewMembers into one object with a list of their jobs
@@ -152,8 +152,7 @@ public class MovieService
     private string? _GetVideoId(HttpRequest request, MovieInfo info)
     {
         HttpClient httpClient = _httpClientFactory.CreateClient();
-        Uri trailerUri = new Uri($"https://{request.Host}/api/movies/trailer");
-
+        string trailerUri = $"https://{request.Host}/api/movies/trailer";
         try // See if we have the trailer's videoId in the db already
         {
             var cacheRes = Request.Get(httpClient, $"{trailerUri}/{info.Id}");
@@ -184,7 +183,7 @@ public class MovieService
     }
 
     // Store the videoId in our db
-    private void _CacheVideoId(HttpClient httpClient, Uri trailerUri, int movieId, string videoId)
+    private void _CacheVideoId(HttpClient httpClient, string trailerUri, int movieId, string videoId)
     {
         // Create a new trailer to send as a request body
         Trailer trailer = new Trailer(movieId, videoId);
@@ -192,7 +191,7 @@ public class MovieService
         // Serialize req body as a json string
         var stringContent = new StringContent(reqBody, UnicodeEncoding.UTF8, "application/json");
         // Send the request
-        var cacheRes = Request.Post(httpClient, trailerUri.AbsoluteUri, stringContent);
+        var cacheRes = Request.Post(httpClient, trailerUri, stringContent);
         // Output the response
         // string cacheResString = cacheRes.Content.ReadAsStringAsync().Result;
     }
