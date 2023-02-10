@@ -18,9 +18,6 @@
 .search-bar {
     box-shadow: 0 0 5px 1px black;
 }
-.search-bar-nav {
-    box-shadow: none;
-}
 .search-bar,
 .search-bar-nav {
     animation: fadeIn 0.2s ease;

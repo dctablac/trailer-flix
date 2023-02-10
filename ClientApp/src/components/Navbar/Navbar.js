@@ -51,27 +51,29 @@ export default function Navbar(props) {
     }, []);
     
     return (
-        <nav className={scrolled ? "navbar scrolled" : "navbar"}>
-            <h1 className="logo" onClick={() => navigate(ROUTE.BROWSE)}>
-                TRAILERFLIX
-            </h1>
-            {
-                // Navbar is scrolled past search bar
-                searchScrolled && 
-                <Search 
-                    getSearchResults={getSearchResults}
-                    handleSearchChange={handleSearchChange}
-                    query={query}
-                    searchScrolled={searchScrolled} 
-                />
-            }
-            {
-                // If logged in
-                currentUser && 
-                <Link className="account-settings-icon" to={ROUTE.ACCOUNT}>
-                    <PersonGear />
-                </Link>
-            }
-        </nav> 
+        <header>
+            <nav className={scrolled ? "navbar scrolled" : "navbar"}>
+                <h1 className="logo" onClick={() => navigate(ROUTE.BROWSE)}>
+                    TRAILERFLIX
+                </h1>
+                {
+                    // Navbar is scrolled past search bar
+                    searchScrolled && 
+                    <Search 
+                        getSearchResults={getSearchResults}
+                        handleSearchChange={handleSearchChange}
+                        query={query}
+                        searchScrolled={searchScrolled} 
+                    />
+                }
+                {
+                    // If logged in
+                    currentUser && 
+                    <Link className="account-settings-icon" to={ROUTE.ACCOUNT}>
+                        <PersonGear />
+                    </Link>
+                }
+            </nav> 
+        </header>
     )
 }

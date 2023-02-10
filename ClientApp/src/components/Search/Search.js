@@ -17,7 +17,7 @@ export default function Search(props) {
             onSubmit={getSearchResults}>
                 <input
                     id="q" 
-                    className={searchScrolled ? "search-bar search-bar-nav" : "search-bar"}
+                    className={searchScrolled ? "search-bar-nav" : "search-bar"}
                     onChange={handleSearchChange}
                     placeholder="Search titles or genres"
                     type="search"

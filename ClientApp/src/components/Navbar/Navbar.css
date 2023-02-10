@@ -1,14 +1,19 @@
+header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+}
+
 .navbar {
     align-items: center;
+    background-color: black;
+    box-shadow: 0 0 2px 2px black;
     display: flex;
     height: 10vh;
     justify-content: space-between;
     padding: 2rem;
-    position: sticky;
-    top: 0;
     transition: background-color 0.1s;
     width: 100%;
-    z-index: 3;
 }
 
 .logo {
@@ -19,10 +24,10 @@
     grid-area: search-bar-nav;
 }
 
-.scrolled {
+/* .scrolled {
     background-color: black;
     transition: background-color 0.3s;
-}
+} */
 
 .account-settings-icon {
     background: none;
