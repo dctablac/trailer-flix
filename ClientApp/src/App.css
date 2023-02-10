@@ -1,3 +1,4 @@
+/* ---------- Classes used in multiple places ---------- */
 .poster-fill {
     align-items: center;
     background: var(--footer-color);
@@ -8,7 +9,7 @@
     min-width: 185px;
 }
 
-#logo {
+.logo {
     color: var(--tf-red);
     cursor: pointer;
     font-size: 2rem;
@@ -17,7 +18,7 @@
     user-select: none;
     z-index: 1;
 }
-
+/* ---------- Keyframes ---------- */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -26,7 +27,7 @@
         opacity: 1;
     }
 }
-
+/* ---------- Media Queries ---------- */
 @media (max-width: 1200px) {
     .logo {
         display: none;

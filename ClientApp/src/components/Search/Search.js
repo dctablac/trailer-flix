@@ -7,16 +7,17 @@ export default function Search(props) {
     const { 
         getSearchResults,
         handleSearchChange,
-        query
+        query,
+        searchScrolled
     } = props;
     return (
         <Form 
-            id="search" 
+            className={searchScrolled ? "search-bar-nav-form" : "search-bar-form"} 
             action={ROUTE.BROWSE}
             onSubmit={getSearchResults}>
                 <input
                     id="q" 
-                    className={"search-bar"}
+                    className={searchScrolled ? "search-bar search-bar-nav" : "search-bar"}
                     onChange={handleSearchChange}
                     placeholder="Search titles or genres"
                     type="search"

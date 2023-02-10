@@ -3,15 +3,15 @@ import React, {
     useEffect
 } from "react";
 import { 
-    useNavigate, 
     useLoaderData,
     useOutletContext
  } from "react-router-dom";
-import Search from '../Search';
-import Carousel from "../Carousel";
-import { API_URL, ROUTE, TMDB } from '../../text';
-import { useAuth } from "../../contexts/AuthContext";
-import './Home.css';
+ import { API_URL } from '../../text';
+ import { useAuth } from "../../contexts/AuthContext";
+ import HomeBackdrop from "./HomeBackdrop/HomeBackdrop";
+ import HomeResults from "./HomeResults/HomeResults";
+ import './Home.css';
+import MoviePoster from "../MoviePoster/MoviePoster";
 
 
 export async function loader() {
@@ -40,52 +40,29 @@ export async function loader() {
 }
 
 export default function Home() {
-    const navigate = useNavigate();
     const { currentUser }  = useAuth();
-
     const [{
-        query, 
+        getSearchResults,
         handleSearchChange, 
+        query, 
         prevQuery, 
         searchResults,
-        getSearchResults,
+        searchScrolled,
         setDetailsShowing,
-        setLoading,
-        searchScrolled
+        setLoading
     }] = useOutletContext();
-    useEffect(() => {
-        window.scroll(0,1);
-        setDetailsShowing(false);
-    // eslint-disable-next-line
-    }, []);
     const { 
         nowPlayingMovies,
         popularMovies, 
         upcomingMovies
     } = useLoaderData();
 
-    const [nowPlaying] = useState(formatMovies(nowPlayingMovies));
-    const [popular] = useState(formatMovies(popularMovies));
-    const [upcoming] = useState(formatMovies(upcomingMovies));
-
-    // Get user's favorite movies
-    const [favorites, setFavorites] = useState(null);
+    // Hide navbar and reset page scroll
     useEffect(() => {
-        async function getUserFavorites() {
-            const favoriteRes = await fetch(`${API_URL.FAVORITES}/${currentUser.uid}`);
-            const favoriteMovies = await favoriteRes.json();
-            const favoriteFormatted = formatMovies(favoriteMovies.results);
-            setFavorites(favoriteFormatted);
-        }
-
-        if (currentUser.uid !== undefined) {
-            setLoading(true);
-            getUserFavorites();
-            setLoading(false);
-        }
+        window.scroll(0,1);
+        setDetailsShowing(false);
     // eslint-disable-next-line
-    }, [currentUser]);
-
+    }, []);
 
     // State for backdrop image slideshow
     const [backdropIndex, setBackdropIndex] = useState(0);
@@ -103,102 +80,57 @@ export default function Home() {
         // eslint-disable-next-line
     }, []);
 
-    // Navigate to movie details
-    function goToMovieDetails(movieId) {
-        setLoading(true);
-        navigate(`${ROUTE.DETAILS}/${movieId}`);
-    }
+    // Get user's favorite movies
+    const [favorites, setFavorites] = useState(null);
+    useEffect(() => {
+        async function getUserFavorites() {
+            const favoriteRes = await fetch(`${API_URL.FAVORITES}/${currentUser.uid}`);
+            const favoriteMovies = await favoriteRes.json();
+            const favoriteFormatted = formatMovies(favoriteMovies.results, "favorite");
+            setFavorites(favoriteFormatted);
+        }
+
+        if (currentUser.uid !== undefined) {
+            setLoading(true);
+            getUserFavorites();
+            setLoading(false);
+        }
+    // eslint-disable-next-line
+    }, [currentUser]);
+
+    const [nowPlaying] = useState(formatMovies(nowPlayingMovies, "now-playing"));
+    const [popular] = useState(formatMovies(popularMovies, "popular"));
+    const [upcoming] = useState(formatMovies(upcomingMovies, "upcoming"));
 
     // Movie poster format
-    function formatMovies(movies) {
+    function formatMovies(movies, keyString) {
         return movies.map((movie, i) => {
             return (
-                <div className="movie-poster-container" key={movie.id}>
-                    {
-                        movie.poster_path &&
-                        <img
-                            className="movie-poster" 
-                            src={`${TMDB.IMG_URL}${TMDB.IMG_SIZE.POSTER}${movie.poster_path}`} 
-                            alt={movie.title}
-                            onClick={() => goToMovieDetails(movie.id)}
-                        />
-                    }
-                    {
-                        !movie.poster_path &&
-                        <div className="movie-poster poster-fill"
-                        onClick={() => goToMovieDetails(movie.id)}>
-                            <p className="movie-poster-fill-title">{movie.title}</p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="5rem" height="5rem" fill="grey" className="bi bi-film" viewBox="0 0 16 16">
-                                <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>
-                            </svg>
-                        </div>
-                    }
-                </div>
+                <MoviePoster key={`${keyString}-${movie.id}`} movie={movie} setLoading={setLoading}/>
             );
         });
     }
 
     return (
         <div id="home">
-            <div className="home-backdrop">
-                <h2 className="home-backdrop-title">{popularMovies[backdropIndex].title}</h2>
-                <div className="home-backdrop-img-screen"></div>
-                <img
-                    key={backdropIndex}
-                    className="home-backdrop-img" 
-                    src={`${TMDB.IMG_URL}${TMDB.IMG_SIZE.BACKDROP}${popularMovies[backdropIndex].backdrop_path}`} 
-                    alt={popularMovies[backdropIndex].title}
-                />
-                {
-                    !searchScrolled &&
-                    <Search 
-                        query={query} 
-                        handleSearchChange={handleSearchChange}
-                        getSearchResults={getSearchResults}
-                    />
-                }
-            </div>
+            <HomeBackdrop 
+                backdropIndex={backdropIndex}
+                getSearchResults={getSearchResults}
+                handleSearchChange={handleSearchChange}
+                popularMovies={popularMovies}
+                query={query}
+                searchScrolled={searchScrolled}
+            />
             
-            <div className="home-results">
-            {
-                // 
-                !searchResults && favorites != null && favorites.length > 0 &&
-                <>
-                    <h2 className="section-title">Favorites</h2>
-                    <Carousel carouselId="favorite-movies" items={favorites} />
-                </>
-            }
-            {
-                // Initial page load, no search requests made or empty search bar
-                !searchResults && 
-                <>
-                    <h2 className="section-title">Upcoming</h2>
-                    <Carousel carouselId="upcoming-movies" items={upcoming} />
-                    <h2 className="section-title">Now Playing</h2>
-                    <Carousel carouselId="now-playing-movie" items={nowPlaying} />
-                    <h2 className="section-title">Popular</h2>
-                    <Carousel carouselId="popular-movies" items={popular} />
-                </>
-            }
-            {
-                // Search request success but no results
-                searchResults && searchResults.length === 0 &&
-                <h2 className="section-title">No results for "{prevQuery}"</h2>
-            }
-            {
-                // Search request success with movies to show
-                searchResults && searchResults.length > 0 &&
-                <>
-                    <h2 className="section-title">Results for "{prevQuery}"</h2>
-                    <div className="movie-results">
-                        {
-                            searchResults && 
-                            formatMovies(searchResults)
-                        }
-                    </div>
-                </>
-            }
-            </div>
+            <HomeResults
+                favorites={favorites}
+                formatMovies={formatMovies} 
+                nowPlaying={nowPlaying}
+                popular={popular}
+                prevQuery={prevQuery}
+                searchResults={searchResults}
+                upcoming={upcoming}
+            />
         </div>
     )
 }
