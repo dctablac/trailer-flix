@@ -1,5 +1,7 @@
 import React from "react";
-import { useFetcher } from "react-router-dom";
+import { 
+    useFetcher
+} from "react-router-dom";
 import Star from "../../SVG/Star";
 import StarFill from "../../SVG/StarFill";
 
@@ -10,8 +12,16 @@ export default function Favorite(props) {
     } = props;
     const fetcher = useFetcher();
 
+    // Handle star state on fetcher submit
+    if (fetcher.state === "submitting") {
+        isFavorite.current = !isFavorite.current;
+    }
+
     return (
-        <fetcher.Form className="favorite-form" method={isFavorite ? "delete" : "post"}>
+        <fetcher.Form 
+            className="favorite-form" 
+            method={isFavorite.current ? "delete" : "post"}
+        >
             <button 
                 type="submit" 
                 className="star-container" 
@@ -19,7 +29,7 @@ export default function Favorite(props) {
                 value={currentUser.uid}
             >
             {
-                isFavorite ?
+                isFavorite.current ?
                 <StarFill /> :
                 <Star />
             }

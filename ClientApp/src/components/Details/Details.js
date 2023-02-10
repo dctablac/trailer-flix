@@ -5,8 +5,7 @@ import React, {
 } from "react";
 import { 
     useOutletContext,
-    useLoaderData,
-    useFetcher
+    useLoaderData
 } from 'react-router-dom';
 import { API_URL, TMDB } from "../../text";
 import { useAuth } from "../../contexts/AuthContext";
@@ -38,6 +37,7 @@ export async function action({ request, params }) {
     switch (request.method) {
         case "POST":
             // Add as favorite
+            console.log('posting');
             await fetch(`${API_URL.FAVORITES}`, {
                 method: 'POST',
                 headers : {
@@ -51,6 +51,7 @@ export async function action({ request, params }) {
             break;
         case "DELETE":
             // Remove as favorite
+            console.log('deleting');
             await fetch(`${API_URL.FAVORITES}/${uid}/${params.movieId}`, {
                 method: 'DELETE'
             });
@@ -69,7 +70,6 @@ export default function Details() {
         credits, 
         youtubeId 
     } = useLoaderData();
-    const fetcher = useFetcher();
     const isFavorite = useRef(false);
 
      // Remove navbar on page mount and set background image
@@ -101,14 +101,10 @@ export default function Details() {
     // eslint-disable-next-line
     }, [currentUser]);
 
-    // Handle star state on fetcher submit
-    if (fetcher.state === "submitting") {
-        isFavorite.current = !isFavorite.current;
-    }
-
+    // Helper to format cast and crew
     function formatPeople(people) {
         return people.map((person, i) => {
-            return <div key={i} className="person-poster-container">
+            return <div key={`${person.name}-${i}`} className="person-poster-container">
                         { // Poster path is available
                             person.profile_path &&
                             <img 
@@ -142,7 +138,7 @@ export default function Details() {
                 backgroundImg={backgroundImg}
                 currentUser={currentUser}
                 info={info}
-                isFavorite={isFavorite.current}
+                isFavorite={isFavorite}
                 youtubeId={youtubeId}
             />
             <InfoTable info={info} />
@@ -156,7 +152,7 @@ export default function Details() {
             {
                 credits.crew.length > 0 &&
                 <>
-                <h3 className="detail-title section-title">Crew</h3>
+                <h3 className="section-title">Crew</h3>
                 <Carousel carouselId="crew" items={formatPeople(credits.crew)}/>
                 </>
             }
