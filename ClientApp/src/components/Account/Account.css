@@ -2,10 +2,9 @@
     align-items: center;
     color: white;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    min-height: 80vh;
 }
-
 .account-details-container {
     padding: 1rem;
     min-height: 80vh;
@@ -15,10 +14,6 @@
     border-bottom: 1px solid var(--tf-gray);
     font-weight: normal;
     padding-bottom: 1.5rem;
-}
-.account-details-container h2 {
-    font-weight: lighter;
-    padding: 1rem;
 }
 .account-detail {
     display: flex;
@@ -46,7 +41,7 @@
     background-color: var(--tf-red);
     color: white;
 }
-
+/* ---------- Media Queries ---------- */
 @media (max-width: 1000px) {
     .account-details-container,
     .account-detail {

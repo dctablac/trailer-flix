@@ -27,9 +27,3 @@
         opacity: 1;
     }
 }
-/* ---------- Media Queries ---------- */
-@media (max-width: 1200px) {
-    .logo {
-        display: none;
-    }
-}

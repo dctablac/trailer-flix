@@ -2,7 +2,8 @@ import React from "react";
 import { 
     useNavigate, 
     useOutletContext,
-    Link 
+    Link, 
+    useFetcher
 } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { ROUTE } from "../../text";
@@ -13,9 +14,11 @@ export default function Account() {
     const [{ loading, setRegisterOrLoginShowing }] = useOutletContext();
     const { logOut } = useAuth();
     const navigate = useNavigate();
+    const fetcher = useFetcher();
     
     // Handle log out of user
-    async function handleLogOut() {
+    async function handleLogOut(e) {
+        e.preventDefault();
         try {
             await logOut();
             setRegisterOrLoginShowing(true);
@@ -29,23 +32,26 @@ export default function Account() {
         <>
         {
             !loading &&
-            <div id="account">
-                <div className="account-details-container">
+            <main id="account">
+                <section className="account-details-container">
                     <h1>Account</h1>
-                    {/* <h2>Account Details</h2> */}
-                    <div className="account-detail">
+                    <article className="account-detail">
                         <p>test@test.com</p>
                         <Link className="reset-link" to="/account">Change account email</Link>
-                    </div>
-                    <div className="account-detail">
+                    </article>
+                    <article className="account-detail">
                         <p>Password: ********</p>
                         <Link className="reset-link" to="/account">Change password</Link>
-                    </div>
-                    <div className="account-detail">
-                        <button className="btn btn-log-out" onClick={handleLogOut}>Sign Out</button>
-                    </div>
-                </div>
-            </div>
+                    </article>
+                    <article className="account-detail">
+                        <fetcher.Form onSubmit={handleLogOut}>
+                            <button type="submit" className="btn btn-log-out">
+                                Sign Out
+                            </button>
+                        </fetcher.Form>
+                    </article>
+                </section>
+            </main>
         }
         {
             loading && <Loader />
