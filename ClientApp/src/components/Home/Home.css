@@ -64,21 +64,3 @@
 .movie-poster-fill-title:hover {
     opacity: 1;
 }
-
-@keyframes homeBackdropFadeIn {
-    0% {
-        opacity: 0;
-    }
-    40% {
-        opacity: 0.5;
-    }
-    100% {
-        opacity: 0.5;
-    }
-}
-
-@media (max-width: 1050px) {
-    .home-backdrop-img {
-        object-fit: cover;
-    }
-}

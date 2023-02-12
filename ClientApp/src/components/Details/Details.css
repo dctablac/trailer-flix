@@ -92,15 +92,3 @@
     color: white;
     text-shadow: 0 0 2px black;
 }
-
-@media (max-width: 900px) {
-    .info-container { 
-        width: 80%;
-    }
-}
-
-@media (max-width: 650px) {
-    .info-container {
-        width: 100%;
-    }
-}

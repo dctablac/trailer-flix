@@ -58,6 +58,35 @@ button:disabled {
         padding: 1rem;
     }
 }
+
+@media (max-width: 1050px) {
+    .home-backdrop-img {
+        object-fit: cover;
+    }
+}
+
+@media (max-width: 1000px) {
+    .account-details,
+    .account-detail {
+        width: 100%;
+    }
+
+    .search-bar {
+        width: 90%;
+    }
+}
+
+@media (max-width: 900px) {
+    .info-container { 
+        width: 80%;
+    }
+}
+
+@media (max-width: 650px) {
+    .info-container {
+        width: 100%;
+    }
+}
 /* ---------- Keyframes ---------- */
 @keyframes fadeIn {
     from {
@@ -67,6 +96,7 @@ button:disabled {
         opacity: 1;
     }
 }
+
 @keyframes slideDown {
     from {
         opacity: 0;
@@ -75,5 +105,23 @@ button:disabled {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes homeBackdropFadeIn {
+    0% {
+        opacity: 0;
+    }
+    40% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
 }

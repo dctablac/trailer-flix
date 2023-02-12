@@ -89,10 +89,3 @@
     margin-left: 1rem;
     text-decoration: none;
 }
-/* ---------- Media Queries ---------- */
-@media (max-width: 1000px) {
-    .account-details,
-    .account-detail {
-        width: 100%;
-    }
-}

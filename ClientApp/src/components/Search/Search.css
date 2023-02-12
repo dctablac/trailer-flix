@@ -37,9 +37,3 @@
 .search-bar::placeholder {
     color: rgba(146, 146, 146, 0.7);
 }
-/* ---------- Media Queries ---------- */
-@media (max-width: 1000px) {
-    .search-bar {
-        width: 90%;
-    }
-}
