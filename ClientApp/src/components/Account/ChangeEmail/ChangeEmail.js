@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, useOutletContext } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
+import { authErrorMessages } from "../../../firebase";
 import './ChangeEmail.css';
 
 export default function ChangeEmail() {
@@ -43,7 +44,7 @@ export default function ChangeEmail() {
             setSuccessMsg('Email updated successfully.');
         } catch(err) {
             console.error(err);
-            setErrorMsg('Error updating email.');
+            setErrorMsg(authErrorMessages[err.code] || 'Error updating email.');
         }
         setLoading(false);
     }
@@ -69,7 +70,7 @@ export default function ChangeEmail() {
     return (
         <section className="change-email">
             <Form className="change-email-form" onSubmit={handleSubmit}>
-                <h1 className="change-email-title">Change Email</h1>
+                <h1 className="account-page-title">Change Email</h1>
                 {
                     errorMsg !== "" &&
                     <p className="change-email-form-msg error">{errorMsg}</p>

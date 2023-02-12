@@ -9,7 +9,8 @@ import {
     signInWithEmailAndPassword,
     signOut,
     updateEmail,
-    updatePassword
+    updatePassword,
+    deleteUser
 } from 'firebase/auth';
 
 export const AuthContext = React.createContext();
@@ -41,6 +42,9 @@ export function AuthProvider({ children }) {
     function changeEmail(user, newEmail) {
         return updateEmail(user, newEmail);
     }
+    function deleteAccount(user) {
+        return deleteUser(user);
+    }
     // Credential object caller
     // eg. credential(currentUser.email, password)
     const credential = EmailAuthProvider.credential;
@@ -67,7 +71,8 @@ export function AuthProvider({ children }) {
         reauthenticate,
         credential,
         resetPassword,
-        changeEmail
+        changeEmail,
+        deleteAccount
     }
 
     return (

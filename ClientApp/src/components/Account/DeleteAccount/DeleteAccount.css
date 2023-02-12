@@ -1,0 +1,26 @@
+.delete-account {
+    animation: fadeIn 0.2s ease;
+    padding: 2rem;
+    min-height: 80vh;
+}
+.delete-account-form {
+    margin: auto;
+    width: 400px;
+}
+.delete-account-form-row {
+    display: grid;
+    margin: 1rem 0;
+}
+.delete-account-label {
+    color: white;
+    padding-bottom: 0.5rem;
+}
+.delete-account-input {
+    background-color: var(--input-bg);
+    border-radius: 0.2rem;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    outline-color: transparent;
+    padding: 0.8rem;
+}

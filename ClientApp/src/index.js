@@ -26,6 +26,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
 
 import './index.css';
+import DeleteAccount from './components/Account/DeleteAccount';
 
 
 const rootElement = document.getElementById('root');
@@ -109,11 +110,11 @@ const router = createBrowserRouter([
           {
             path: 'change-email',
             element: <ChangeEmail />
+          },
+          {
+            path: 'delete-account',
+            element: <DeleteAccount />
           }
-          // {
-          //   path: 'delete-account',
-          //   element: <DeleteAccount />
-          // }
         ]
       }
     ]

@@ -51,4 +51,11 @@ public class FavoritesController: ControllerBase
         }
         return NotFound();
     }
+
+    [HttpDelete("{userId}")]
+    public IActionResult RemoveUserFavorites(string userId)
+    {
+        _service.DeleteAllFavorites(userId);
+        return NoContent();
+    }
 }

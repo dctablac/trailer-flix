@@ -8,7 +8,6 @@
     height: 278px;
     min-width: 185px;
 }
-
 .logo {
     color: var(--tf-red);
     cursor: pointer;
@@ -17,6 +16,10 @@
     text-shadow: 0 0 1rem black;
     user-select: none;
     z-index: 1;
+}
+button:disabled {
+    cursor: not-allowed;
+    color: grey;
 }
 /* ---------- Keyframes ---------- */
 @keyframes fadeIn {

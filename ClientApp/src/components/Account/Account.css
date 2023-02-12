@@ -11,6 +11,17 @@
     min-height: 80vh;
     width: 80%;
 }
+.account-page-title {
+    color: white;
+    font-size: 2rem;
+}
+.critical {
+    color: var(--tf-red);
+}
+.account-page-form-msg {
+    animation: fadeIn 0.5s ease;
+    margin-top: 1rem;
+}
 .account-details-container h1 {
     border-bottom: 1px solid var(--tf-gray);
     font-weight: normal;
@@ -30,7 +41,7 @@
 .reset-link:hover {
     text-decoration: underline;
 }
-.btn-log-out {
+.btn-account-page {
     background: none;
     border: 1px solid var(--tf-red);
     border-radius: 0.2rem;
@@ -38,9 +49,22 @@
     padding: 0.8rem;
     transition: background-color 0.1s, color 0.1s;
 }
-.btn-log-out:hover {
+.btn-account-page:hover {
     background-color: var(--tf-red);
     color: white;
+}
+.btn-account-page-submit {
+    background: orange;
+    border: none;
+    border-radius: 0.2rem;
+    color: white;
+    padding: 0.8rem;
+}
+.btn-account-page-submit:disabled {
+    background: hsl(39, 100%, 20%);
+}
+.link-delete-account {
+    margin-left: 1rem;
 }
 /* ---------- Media Queries ---------- */
 @media (max-width: 1000px) {

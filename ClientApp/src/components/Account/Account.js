@@ -44,9 +44,14 @@ export default function Account() {
                     </div>
                     <div className="account-detail">
                         <Form onSubmit={handleLogOut}>
-                            <button type="submit" className="btn btn-log-out">
+                            <button type="submit" className="btn-account-page">
                                 Sign Out
                             </button>
+                            <Link className="link-delete-account" to="delete-account">
+                                <button className="btn-account-page">
+                                    Delete Account
+                                </button>
+                            </Link>
                         </Form>
                     </div>
                 </section>

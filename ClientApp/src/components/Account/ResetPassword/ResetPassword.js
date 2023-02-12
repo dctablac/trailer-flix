@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, useOutletContext } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
+import { authErrorMessages } from "../../../firebase";
 import './ResetPassword.css';
 
 export default function ResetPassword() {
@@ -40,7 +41,7 @@ export default function ResetPassword() {
             setNewPasswordConfirm('');
             setSuccessMsg('Password was changed successfully.');
         } catch(err) {
-            setErrorMsg('Error updating password.');
+            setErrorMsg(authErrorMessages[err.code] || 'Error updating password.');
         }
         setLoading(false);
     }
@@ -70,7 +71,7 @@ export default function ResetPassword() {
     return (
         <section className="reset-password">
             <Form className="reset-password-form" onSubmit={handleSubmit}>
-                <h1 className="reset-password-title">Password Reset</h1>
+                <h1 className="account-page-title">Password Reset</h1>
                 {
                     errorMsg !== "" &&
                     <p className="reset-password-form-msg error">{errorMsg}</p>

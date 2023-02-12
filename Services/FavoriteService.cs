@@ -40,6 +40,7 @@ public class FavoriteService
     {
         // Get id list of favorite movies
         List<int> favoriteIds =  _context.Favorites
+                                    .AsNoTracking()
                                     .Where(f => f.UserId == userId)
                                     .Select(f => f.MovieId)
                                     .ToList();
@@ -95,5 +96,20 @@ public class FavoriteService
             _context.Favorites.Remove(favoriteToDelete);
             _context.SaveChanges();
         }
+    }
+
+    // Delete all favorites from a user. (account deletion)
+    public void DeleteAllFavorites(string id) {
+        // Query all favorites of the user
+        var favorites = _context.Favorites
+                            .AsNoTracking()
+                            .Where(f => f.UserId == id)
+                            .ToList();
+        // Delete the favorites
+        foreach (Favorite f in favorites)
+        {    
+            _context.Favorites.Remove(f);
+        }
+        _context.SaveChanges();
     }
 }
