@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Form, useOutletContext } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import { authErrorMessages } from "../../../firebase";
-import './ChangeEmail.css';
 
 export default function ChangeEmail() {
     const [{ setLoading }] = useOutletContext();
@@ -68,39 +67,41 @@ export default function ChangeEmail() {
     }
 
     return (
-        <section className="change-email">
-            <Form className="change-email-form" onSubmit={handleSubmit}>
-                <h1 className="account-page-title">Change Email</h1>
-                {
-                    errorMsg !== "" &&
-                    <p className="change-email-form-msg error">{errorMsg}</p>
-                }
-                {
-                    successMsg !== "" &&
-                    <p className="change-email-form-msg success">{successMsg}</p>
-                }
-                <div className="change-email-form-row">
-                    <label className="change-email-label" htmlFor="new-email">New Email</label>
-                    <input className="change-email-input" 
-                        type="email" 
-                        id="new-email"
-                        value={email} 
-                        onChange={(e) => handleChange(e, "email")}
-                    />
-                </div>
-                <div className="change-email-form-row">
-                    <label className="change-email-label" htmlFor="password">Password</label>
-                    <input className="change-email-input"
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => handleChange(e, "password")}
-                    />
-                </div>
-                <button className="change-email-form-btn" type="submit">
-                    Submit
-                </button>  
-            </Form>
-        </section>
+        <main id="change-email">
+            <section className="account-page">
+                <Form className="account-page-form" onSubmit={handleSubmit}>
+                    <h1 className="account-page-title">Change Email</h1>
+                    {
+                        errorMsg !== "" &&
+                        <p className="account-page-form-msg error">{errorMsg}</p>
+                    }
+                    {
+                        successMsg !== "" &&
+                        <p className="account-page-form-msg success">{successMsg}</p>
+                    }
+                    <div className="account-page-form-row">
+                        <label className="account-page-form-label" htmlFor="new-email">New Email</label>
+                        <input className="account-page-form-input" 
+                            type="email" 
+                            id="new-email"
+                            value={email} 
+                            onChange={(e) => handleChange(e, "email")}
+                        />
+                    </div>
+                    <div className="account-page-form-row">
+                        <label className="account-page-form-label" htmlFor="password">Password</label>
+                        <input className="account-page-form-input"
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => handleChange(e, "password")}
+                        />
+                    </div>
+                    <button className="btn-account-page-submit" type="submit">
+                        Submit
+                    </button>  
+                </Form>
+            </section>
+        </main>
     );
 }

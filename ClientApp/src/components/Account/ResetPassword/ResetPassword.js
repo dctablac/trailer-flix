@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Form, useOutletContext } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import { authErrorMessages } from "../../../firebase";
-import './ResetPassword.css';
 
 export default function ResetPassword() {
     const [{ setLoading }] = useOutletContext();
@@ -69,51 +68,53 @@ export default function ResetPassword() {
     }
 
     return (
-        <section className="reset-password">
-            <Form className="reset-password-form" onSubmit={handleSubmit}>
-                <h1 className="account-page-title">Password Reset</h1>
-                {
-                    errorMsg !== "" &&
-                    <p className="reset-password-form-msg error">{errorMsg}</p>
-                }
-                {
-                    successMsg !== "" &&
-                    <p className="reset-password-form-msg success">{successMsg}</p>
-                }
-                <div className="reset-password-form-row">
-                    <label className="reset-password-label">Current Password</label>
-                    <input 
-                    className="reset-password-input" 
-                    type="password"
-                    name="old-password"
-                    value={oldPassword}
-                    onChange={(e) => handleChange(e, "oldPassword")}
-                    />
-                </div>
-                <div className="reset-password-form-row">    
-                    <label className="reset-password-label">New Password</label>
-                    <input 
-                    className="reset-password-input" 
-                    type="password"
-                    name="new-password"
-                    value={newPassword}
-                    onChange={(e) => handleChange(e, "newPassword")}
-                    />
-                </div>
-                <div className="reset-password-form-row">
-                    <label className="reset-password-label">Confirm New Password</label>
-                    <input 
-                    className="reset-password-input" 
-                    type="password"
-                    name="new-password-confirm"
-                    value={newPasswordConfirm}
-                    onChange={(e) => handleChange(e, "newPasswordConfirm")}
-                    />
-                </div>
-                <button className="reset-password-form-btn" type="submit">
-                    Reset
-                </button>  
-            </Form>
-        </section>
+        <main id="reset-password">
+            <section className="account-page">
+                <Form className="account-page-form" onSubmit={handleSubmit}>
+                    <h1 className="account-page-title">Password Reset</h1>
+                    {
+                        errorMsg !== "" &&
+                        <p className="account-page-form-msg error">{errorMsg}</p>
+                    }
+                    {
+                        successMsg !== "" &&
+                        <p className="account-page-form-msg success">{successMsg}</p>
+                    }
+                    <div className="account-page-form-row">
+                        <label className="account-page-form-label">Current Password</label>
+                        <input 
+                        className="account-page-form-input" 
+                        type="password"
+                        name="old-password"
+                        value={oldPassword}
+                        onChange={(e) => handleChange(e, "oldPassword")}
+                        />
+                    </div>
+                    <div className="account-page-form-row">
+                        <label className="account-page-form-label">New Password</label>
+                        <input 
+                        className="account-page-form-input" 
+                        type="password"
+                        name="new-password"
+                        value={newPassword}
+                        onChange={(e) => handleChange(e, "newPassword")}
+                        />
+                    </div>
+                    <div className="account-page-form-row">
+                        <label className="account-page-form-label">Confirm New Password</label>
+                        <input 
+                        className="account-page-form-input" 
+                        type="password"
+                        name="new-password-confirm"
+                        value={newPasswordConfirm}
+                        onChange={(e) => handleChange(e, "newPasswordConfirm")}
+                        />
+                    </div>
+                    <button className="btn-account-page-submit" type="submit">
+                        Reset
+                    </button>  
+                </Form>
+            </section>
+        </main>
     )
 }

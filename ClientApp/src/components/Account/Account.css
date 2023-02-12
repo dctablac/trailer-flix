@@ -1,31 +1,53 @@
 #account {
     align-items: center;
-    animation: fadeIn 0.2s ease;
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
-.account-details-container {
-    padding: 2rem;
-    min-height: 80vh;
+.account-details {
     width: 80%;
+}
+.account-details h1 {
+    border-bottom: 1px solid var(--tf-gray);
+    font-weight: normal;
+    padding-bottom: 1.5rem;
+}
+.account-page {
+    animation: fadeIn 0.2s ease;
+    min-height: 78vh;
+    padding: 2rem;
 }
 .account-page-title {
     color: white;
     font-size: 2rem;
 }
-.critical {
-    color: var(--tf-red);
+.account-page-form {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 400px;
 }
 .account-page-form-msg {
     animation: fadeIn 0.5s ease;
     margin-top: 1rem;
 }
-.account-details-container h1 {
-    border-bottom: 1px solid var(--tf-gray);
-    font-weight: normal;
-    padding-bottom: 1.5rem;
+.account-page-form-row {
+    display: grid;
+    margin: 1rem 0;
+}
+.account-page-form-label {
+    color: white;
+    padding-bottom: 0.5rem;
+}
+.account-page-form-input {
+    background-color: var(--input-bg);
+    border-radius: 0.2rem;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    outline-color: transparent;
+    padding: 0.8rem;
 }
 .account-detail {
     display: flex;
@@ -65,10 +87,11 @@
 }
 .link-delete-account {
     margin-left: 1rem;
+    text-decoration: none;
 }
 /* ---------- Media Queries ---------- */
 @media (max-width: 1000px) {
-    .account-details-container,
+    .account-details,
     .account-detail {
         width: 100%;
     }

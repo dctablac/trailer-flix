@@ -21,6 +21,15 @@ button:disabled {
     cursor: not-allowed;
     color: grey;
 }
+.critical {
+    color: var(--tf-red);
+}
+.error {
+    color: orange;
+}
+.success {
+    color: green;
+}
 /* ---------- Keyframes ---------- */
 @keyframes fadeIn {
     from {

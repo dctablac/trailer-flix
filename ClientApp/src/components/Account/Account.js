@@ -7,11 +7,10 @@ import {
 } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { ROUTE } from "../../text";
-import Loader from "../Loader";
 import './Account.css';
 
 export default function Account() {
-    const [{ loading, setRegisterOrLoginShowing }] = useOutletContext();
+    const [{ setRegisterOrLoginShowing }] = useOutletContext();
     const { currentUser, logOut } = useAuth();
     const navigate = useNavigate();
     
@@ -28,38 +27,30 @@ export default function Account() {
     }
 
     return (
-        <>
-        {
-            !loading &&
-            <main id="account">
-                <section className="account-details-container">
-                    <h1>Account</h1>
-                    <div className="account-detail">
-                        <p>{currentUser.email}</p>
-                        <Link className="reset-link" to="change-email">Change email</Link>
-                    </div>
-                    <div className="account-detail">
-                        <p>Password: ********</p>
-                        <Link className="reset-link" to="reset-password">Reset password</Link>
-                    </div>
-                    <div className="account-detail">
-                        <Form onSubmit={handleLogOut}>
-                            <button type="submit" className="btn-account-page">
-                                Sign Out
+        <main id="account">
+            <section className="account-page account-details">
+                <h1>Account</h1>
+                <div className="account-detail">
+                    <p>{currentUser.email}</p>
+                    <Link className="reset-link" to="change-email">Change email</Link>
+                </div>
+                <div className="account-detail">
+                    <p>Password: ********</p>
+                    <Link className="reset-link" to="reset-password">Reset password</Link>
+                </div>
+                <div className="account-detail">
+                    <Form onSubmit={handleLogOut}>
+                        <button type="submit" className="btn-account-page">
+                            Sign Out
+                        </button>
+                        <Link className="link-delete-account" to="delete-account">
+                            <button className="btn-account-page">
+                                Delete Account
                             </button>
-                            <Link className="link-delete-account" to="delete-account">
-                                <button className="btn-account-page">
-                                    Delete Account
-                                </button>
-                            </Link>
-                        </Form>
-                    </div>
-                </section>
-            </main>
-        }
-        {
-            loading && <Loader />
-        }
-        </>
+                        </Link>
+                    </Form>
+                </div>
+            </section>
+        </main>
     )
 }

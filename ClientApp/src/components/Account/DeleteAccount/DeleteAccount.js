@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Form, useNavigate, useOutletContext } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext';
-import './DeleteAccount.css';
 import { API_URL, ROUTE } from '../../../text';
 import { authErrorMessages } from '../../../firebase';
 
@@ -19,6 +18,9 @@ export default function DeleteAccount() {
         e.preventDefault();
         if (password === '') {
             return setErrorMsg('Please enter your password.');
+        }
+        if (email === '') {
+            return setErrorMsg('Please enter your email.');
         }
         
         try {
@@ -68,34 +70,36 @@ export default function DeleteAccount() {
     }
 
     return (
-        <section className="delete-account">
-            <Form className="delete-account-form" onSubmit={handleSubmit}>
-                <h1 className="account-page-title">Delete Account</h1>
-                <p className="account-page-form-msg critical">WARNING: This action cannot be undone.</p>
-                {
-                    errorMsg !== '' &&
-                    <p className="account-page-form-msg error">{errorMsg}</p>
-                }
-                <div className="delete-account-form-row">
-                    <label className="delete-account-label">Email</label>
-                    <input type="email" 
-                        className="delete-account-input" 
-                        value={email}
-                        onChange={(e) => handleChange(e,'email')}
-                    />
-                </div>
-                <div className="delete-account-form-row">
-                    <label className="delete-account-label">Password</label>
-                    <input type="password" 
-                        className="delete-account-input" 
-                        value={password}
-                        onChange={(e) => handleChange(e,'password')}
-                    />
-                </div>
-                <button type="submit" className="btn-account-page-submit" disabled={disabledBtn}>
-                    Delete
-                </button>
-            </Form>
-        </section>
+        <main id="delete-account">
+            <section className="account-page">
+                <Form className="account-page-form" onSubmit={handleSubmit}>
+                    <h1 className="account-page-title">Delete Account</h1>
+                    <p className="account-page-form-msg critical">WARNING: This action cannot be undone.</p>
+                    {
+                        errorMsg !== '' &&
+                        <p className="account-page-form-msg error">{errorMsg}</p>
+                    }
+                    <div className="account-page-form-row">
+                        <label className="account-page-form-label">Email</label>
+                        <input type="email" 
+                            className="account-page-form-input" 
+                            value={email}
+                            onChange={(e) => handleChange(e,'email')}
+                        />
+                    </div>
+                    <div className="account-page-form-row">
+                        <label className="account-page-form-label">Password</label>
+                        <input type="password" 
+                            className="account-page-form-input" 
+                            value={password}
+                            onChange={(e) => handleChange(e,'password')}
+                        />
+                    </div>
+                    <button type="submit" className="btn-account-page-submit" disabled={disabledBtn}>
+                        Delete
+                    </button>
+                </Form>
+            </section>
+        </main>
     );
 }
