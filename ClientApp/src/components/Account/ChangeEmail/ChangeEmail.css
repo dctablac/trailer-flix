@@ -1,47 +1,41 @@
-.reset-password {
+.change-email {
     animation: fadeIn 0.2s ease;
     min-height: 80vh;
     padding: 2rem;
 }
-.reset-password-title {
+.change-email-title {
     color: white;
     font-size: 2rem;
 }
-.reset-password-form {
+.change-email-form {
     display: flex;
     flex-direction: column;
     margin: auto;
     padding: 2rem;
     width: 400px;
 }
-.reset-password-form-msg {
+.change-email-form-msg {
     animation: fadeIn 0.5s ease;
     margin-top: 1rem;
 }
-.error {
-    color: orange;
-}
-.success {
-    color: green;
-}
-.reset-password-form-row {
+.change-email-form-row {
     display: grid;
     margin: 1rem 0;
 }
-.reset-password-label {
+.change-email-label {
     color: white;
     padding-bottom: 0.5rem;
 }
-.reset-password-input {
+.change-email-input {
     background-color: var(--input-bg);
     border-radius: 0.2rem;
     border: none;
     color: white;
-    font-size: 1.5rem;
+    font-size: 1rem;
     outline-color: transparent;
     padding: 0.8rem;
 }
-.reset-password-form-btn {
+.change-email-form-btn {
     background-color: orange;
     border-radius: 0.2rem;
     color: white;
@@ -49,11 +43,11 @@
     border: none;
     padding: 0.5rem;
     transition: all 0.2s;
-    width: 30%;
+    width: 40%;
 }
-.reset-password-form-btn:hover {
+.change-email-form-btn:hover {
     transform: scale(1.05);
 }
-.reset-password-form-btn:active {
+.change-email-form-btn:active {
     transform: scale(1);
 }

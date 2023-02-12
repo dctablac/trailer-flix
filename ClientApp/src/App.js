@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import { AuthProvider } from './contexts/AuthContext';
 import Loader from './components/Loader';
 import { API_URL } from './text';
+import './App.css';
 
 export default function App() {
   const [query, setQuery] = useState('');

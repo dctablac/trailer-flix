@@ -1,5 +1,6 @@
 #account {
     align-items: center;
+    animation: fadeIn 0.2s ease;
     color: white;
     display: flex;
     flex-direction: column;

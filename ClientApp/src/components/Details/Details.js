@@ -37,7 +37,6 @@ export async function action({ request, params }) {
     switch (request.method) {
         case "POST":
             // Add as favorite
-            console.log('posting');
             await fetch(`${API_URL.FAVORITES}`, {
                 method: 'POST',
                 headers : {
@@ -51,7 +50,6 @@ export async function action({ request, params }) {
             break;
         case "DELETE":
             // Remove as favorite
-            console.log('deleting');
             await fetch(`${API_URL.FAVORITES}/${uid}/${params.movieId}`, {
                 method: 'DELETE'
             });

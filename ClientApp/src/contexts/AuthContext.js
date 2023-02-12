@@ -8,6 +8,7 @@ import {
     reauthenticateWithCredential,
     signInWithEmailAndPassword,
     signOut,
+    updateEmail,
     updatePassword
 } from 'firebase/auth';
 
@@ -37,7 +38,11 @@ export function AuthProvider({ children }) {
     function resetPassword(user, password) {
         return updatePassword(user, password);
     }
+    function changeEmail(user, newEmail) {
+        return updateEmail(user, newEmail);
+    }
     // Credential object caller
+    // eg. credential(currentUser.email, password)
     const credential = EmailAuthProvider.credential;
 
     useEffect(() => {
@@ -61,7 +66,8 @@ export function AuthProvider({ children }) {
         logOut,
         reauthenticate,
         credential,
-        resetPassword
+        resetPassword,
+        changeEmail
     }
 
     return (

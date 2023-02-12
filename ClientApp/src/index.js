@@ -17,14 +17,16 @@ import Details, {
   action as detailsAction
 } from './components/Details';
 import ErrorPage from './components/ErrorPage';
-import './App.css';
-import './index.css';
 import AccountFormBackdrop, {
   loader as accountFormBackdropLoader
 } from './components/AccountFormBackdrop';
+import ResetPassword from './components/Account/ResetPassword';
+import ChangeEmail from './components/Account/ChangeEmail';
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
-import ResetPassword from './components/Account/ResetPassword/ResetPassword';
+
+import './index.css';
+
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
@@ -103,7 +105,15 @@ const router = createBrowserRouter([
           {
             path: 'reset-password',
             element: <ResetPassword />
+          },
+          {
+            path: 'change-email',
+            element: <ChangeEmail />
           }
+          // {
+          //   path: 'delete-account',
+          //   element: <DeleteAccount />
+          // }
         ]
       }
     ]
