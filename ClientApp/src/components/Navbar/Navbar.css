@@ -34,9 +34,6 @@ header {
     grid-area: account-settings-icon;
     transition: all 0.2s;
 }
-.account-settings-icon:hover {
-    transform: scale(1.1);
-}
 
 @media (max-width: 1200px) {
     .account-settings-icon {

@@ -4,8 +4,11 @@ import {
 } from '../firebase.js';
 import { 
     createUserWithEmailAndPassword,
+    EmailAuthProvider,
+    reauthenticateWithCredential,
     signInWithEmailAndPassword,
-    signOut
+    signOut,
+    updatePassword
 } from 'firebase/auth';
 
 export const AuthContext = React.createContext();
@@ -28,6 +31,14 @@ export function AuthProvider({ children }) {
         localStorage.removeItem('user');
         return signOut(auth);
     }
+    function reauthenticate(user, userCredential) {
+        return reauthenticateWithCredential(user, userCredential);
+    }
+    function resetPassword(user, password) {
+        return updatePassword(user, password);
+    }
+    // Credential object caller
+    const credential = EmailAuthProvider.credential;
 
     useEffect(() => {
         // Upon app load, global auth observer is instantiated
@@ -47,7 +58,10 @@ export function AuthProvider({ children }) {
         currentUser,
         signUp, 
         logIn, 
-        logOut
+        logOut,
+        reauthenticate,
+        credential,
+        resetPassword
     }
 
     return (

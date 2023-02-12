@@ -24,6 +24,7 @@ import AccountFormBackdrop, {
 } from './components/AccountFormBackdrop';
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
+import ResetPassword from './components/Account/ResetPassword/ResetPassword';
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
@@ -98,6 +99,10 @@ const router = createBrowserRouter([
           {
             path: '',
             element: <Account />
+          },
+          {
+            path: 'reset-password',
+            element: <ResetPassword />
           }
         ]
       }

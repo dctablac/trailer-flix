@@ -22,7 +22,7 @@ export const authErrorMessages = {
   'auth/email-already-in-use': 'Email already in use.',
   'auth/invalid-email': 'Invalid email or password.',
   'auth/user-not-found': 'Invalid email or password.',
-  'auth/wrong-password': 'Invalid email or password.',
+  'auth/wrong-password': 'Invalid password.',
   'auth/too-many-requests': 'Too many login attempts made. Please try again later.'
 };
 
