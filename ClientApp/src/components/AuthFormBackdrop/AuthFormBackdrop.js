@@ -1,7 +1,7 @@
 import React from "react";
 import { useLoaderData } from "react-router-dom";
 import { API_URL, TMDB } from "../../text";
-import './AccountFormBackdrop.css';
+import './AuthFormBackdrop.css';
 
 export async function loader() {
     const res = await fetch(API_URL.POPULAR);
@@ -9,7 +9,7 @@ export async function loader() {
     return data.results;
 }
 
-export default function AccountFormBackdrop() {
+export default function AuthFormBackdropauth() {
     const popularMovies = useLoaderData();
 
     function formatPopularMovies() {
@@ -17,7 +17,7 @@ export default function AccountFormBackdrop() {
             if (movie.poster_path) {
                 return <img
                         key={movie.id}
-                        className="account-form-backdrop-img"
+                        className="auth-form-backdrop-img"
                         src={`${TMDB.IMG_URL}${TMDB.IMG_SIZE.POSTER}${movie.poster_path}`}
                         alt={movie.title}
                         />
@@ -27,8 +27,8 @@ export default function AccountFormBackdrop() {
     }
 
     return (
-        <div id="account-form-backdrop">
-            <div className="account-form-backdrop-screen"></div>
+        <div id="auth-form-backdrop">
+            <div className="auth-form-backdrop-screen"></div>
             {formatPopularMovies()}
         </div>
     )

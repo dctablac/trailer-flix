@@ -6,12 +6,13 @@
     justify-content: center;
     position: relative;
 }
-.account-form-logo {
-    position: absolute;
-    margin: 2rem;
-    top: 0;
+.auth-page {
+    min-height: 100vh;
 }
-.account-form {
+.auth-form-logo {
+    text-align: center;
+}
+.auth-form {
     align-self: center;
     background-color: rgba(0,0,0,0.8);
     box-shadow: 0 0 2px 2px black;
@@ -25,18 +26,18 @@
     z-index: 0;
 }
 
-.account-form-title {
+.auth-form-title {
     color: white;
     font-size: 2rem;
     font-weight: normal;
     margin: 2rem 0;
 }
-.account-form-error {
+.auth-form-error {
     color: orange;
     font-style: italic;
     margin-bottom: 1rem;
 }
-.account-form-input {
+.auth-form-input {
     background-color: var(--input-bg);
     border: none;
     border-radius: 0.25rem;
@@ -45,23 +46,23 @@
     margin-bottom: 1rem;
     padding: 1rem;
 }
-.account-form-input-error,
+.auth-form-input-error,
 .mismatch {
     border: 1px solid orange;
 }
-.account-form-label {
+.auth-form-label {
     color: white;
     margin-bottom: 0.5rem;
 }
-.account-form-input::placeholder {
+.auth-form-input::placeholder {
     color: #8c8c8c;
 }
-.account-form-input:focus {
+.auth-form-input:focus {
     background-color: var(--input-bg-active);
     outline: 1px solid grey;
 }
 
-.account-form-btn {
+.auth-form-btn {
     background-color: var(--tf-red);
     border: none;
     border-radius: 0.25rem;
@@ -70,21 +71,15 @@
     font-size: 1.2rem;
     padding: 1rem;
 }
-.account-form-btn:hover {
+.auth-form-btn:hover {
     background-color: var(--tf-red-hover);
 }
 
-.account-form-link {
+.auth-form-link {
     color: white;
     margin: auto;
     margin-top: 2rem;
 }
-.account-form-link:hover {
+.auth-form-link:hover {
     text-decoration: underline;
-}
-
-@media (max-height: 750px) {
-    .account-form-logo {
-        display: none;
-    }
 }

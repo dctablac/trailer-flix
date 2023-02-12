@@ -14,7 +14,7 @@ export default function TrailerWrapper(props) {
     } = props;
     
     return (
-        <div className="trailer-wrapper">
+        <section className="trailer-wrapper">
             {
                 backgroundImg &&
                 <img 
@@ -27,11 +27,11 @@ export default function TrailerWrapper(props) {
             <div className="browse-return-container">
                 <Link to={ROUTE.BROWSE} className="browse-return">{'< '}Back to Browse</Link>
             </div>
-            <h2 className="details-title">
+            <h1 className="details-title">
                 {info.original_title}
                 <FavoriteBtn currentUser={currentUser} isFavorite={isFavorite}/>
-            </h2>
+            </h1>
             <Trailer youtubeId={youtubeId}/>
-        </div>
+        </section>
     );
 }

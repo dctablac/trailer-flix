@@ -14,7 +14,7 @@ export default function HomeBackdrop(props) {
     } = props;
 
     return (
-        <div className="home-backdrop">
+        <section className="home-backdrop">
             <h2 className="home-backdrop-title">{popularMovies[backdropIndex].title}</h2>
             <div className="home-backdrop-img-screen"></div>
             <img
@@ -31,6 +31,6 @@ export default function HomeBackdrop(props) {
                     query={query} 
                 />
             }
-        </div>
+        </section>
     );
 }

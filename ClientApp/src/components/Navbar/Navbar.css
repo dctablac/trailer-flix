@@ -34,39 +34,3 @@ header {
     grid-area: account-settings-icon;
     transition: all 0.2s;
 }
-
-@media (max-width: 1200px) {
-    .account-settings-icon {
-        justify-self: end;
-        padding-right: 2rem;
-    }
-    .logo {
-        padding-left: 2rem;
-    }
-    .navbar {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-areas:
-            "logo account-settings-icon"
-            "search-bar-nav search-bar-nav";
-        padding: 1rem 0;
-    }
-    .search-bar-nav-form {
-        animation: slideDown 0.2s ease;
-        background-color: black;
-        grid-column-start: 1;
-        grid-column-end: 3;
-        padding: 1rem;
-    }
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}

@@ -129,9 +129,9 @@ export default function Details() {
     }
 
     return (
-        <>
+        <main>
         {info && credits &&
-        <div id="details">
+        <section id="details">
             <TrailerWrapper 
                 backgroundImg={backgroundImg}
                 currentUser={currentUser}
@@ -154,8 +154,8 @@ export default function Details() {
                 <Carousel carouselId="crew" items={formatPeople(credits.crew)}/>
                 </>
             }
-        </div>
+        </section>
         }
-        </>
+        </main>
     );
 }

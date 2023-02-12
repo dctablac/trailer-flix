@@ -19,7 +19,7 @@ export default function Search(props) {
                     id="q" 
                     className={searchScrolled ? "search-bar-nav" : "search-bar"}
                     onChange={handleSearchChange}
-                    placeholder="Search titles or genres"
+                    placeholder="Search movie titles"
                     type="search"
                     value={query}
                 />

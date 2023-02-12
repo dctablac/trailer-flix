@@ -13,7 +13,7 @@ export default function HomeResults(props) {
     } = props;
 
     return (
-        <div className="home-results">
+        <section className="home-results">
             {
                 // 
                 !searchResults && favorites != null && favorites.length > 0 &&
@@ -52,6 +52,6 @@ export default function HomeResults(props) {
                     </div>
                 </>
             }
-        </div>
+        </section>
     );
 }

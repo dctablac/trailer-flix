@@ -1,4 +1,4 @@
-#account-form-backdrop {
+#auth-form-backdrop {
     display: grid;
     gap: 0.5rem;
     grid-template-columns: repeat(10, 1fr);
@@ -11,12 +11,12 @@
     width: 100%;
 }
 
-.account-form-backdrop-img {
+.auth-form-backdrop-img {
     height: 402px;
     width: 250px;
 }
 
-.account-form-backdrop-screen {
+.auth-form-backdrop-screen {
     background-color: rgba(0,0,0,0.4);
     height: 100%;
     position: absolute;

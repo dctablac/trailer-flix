@@ -112,7 +112,7 @@ export default function Home() {
     }
 
     return (
-        <div id="home">
+        <main id="home">
             <HomeBackdrop 
                 backdropIndex={backdropIndex}
                 getSearchResults={getSearchResults}
@@ -131,6 +131,6 @@ export default function Home() {
                 searchResults={searchResults}
                 upcoming={upcoming}
             />
-        </div>
+        </main>
     )
 }

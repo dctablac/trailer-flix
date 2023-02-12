@@ -12,9 +12,9 @@ import {
 import { useAuth } from "../../contexts/AuthContext";
 import { authErrorMessages } from "../../firebase.js";
 import { FORM_TYPE, FORM_TEXT, ROUTE, FORM_MSG } from "../../text";
-import './AccountForm.css';
+import './AuthForm.css';
 
-export default function AccountForm(props) {
+export default function AuthForm(props) {
     const { formType } = props;
     const [{ setLoading, setRegisterOrLoginShowing }] = useOutletContext();
     const { signUp, logIn } = useAuth();
@@ -87,7 +87,6 @@ export default function AccountForm(props) {
             }
         // Catch invalid emails, passwords, or already in use, or server error
         } catch(err) {
-            console.error(err.code);
             setErrorMsg(authErrorMessages[err.code]);
             setLoading(false);
         }
@@ -112,50 +111,49 @@ export default function AccountForm(props) {
     }
 
     return (
-        <>
-        <h1 id="logo" className="account-form-logo">TRAILERFLIX</h1>
-        <div id={formType} className="content">
-            <Outlet />
-            <Form className="account-form" onSubmit={handleSubmit}>
-                {/* <h1 id="logo" className="account-form-logo-short">TRAILERFLIX</h1> */}
-                <h2 className="account-form-title">{formActionText()}</h2>
-                {
-                    errorMsg && 
-                    <p className="account-form-error">{errorMsg}</p>
-                }
-                <label htmlFor="email" className="account-form-label">Email</label>
-                <input 
-                    id="email" 
-                    className={`account-form-input ${errorMsg && email === '' && "account-form-input-error"}`}
-                    type="email" 
-                    onChange={(e) => handleChange(e.target.value, "email")}
-                    value={email}
-                />
-                <label htmlFor="password" className="account-form-label">Password</label>
-                <input 
-                    id="password" 
-                    className={`account-form-input ${errorMsg && password === '' ? "account-form-input-error" : mismatch && "mismatch"}`} // 
-                    type="password" 
-                    onChange={(e) => handleChange(e.target.value, "password")}
-                    value={password}
-                />
-                { // Show Confirm Password field in Sign Up
-                    formType === FORM_TYPE.REGISTER &&
-                    <>
-                    <label htmlFor="confirm-password" className="account-form-label">Confirm password</label>
-                    <input
-                        id="confirm-password"
-                        className={`account-form-input ${errorMsg && confirmPassword === '' ? "account-form-input-error" : mismatch && "mismatch"}`}
-                        type="password"
-                        onChange={(e) => handleChange(e.target.value, "confirm-password")}
-                        value={confirmPassword}
+        <main>
+            <section id={formType} className="auth-page">
+                <Outlet />
+                <Form className="auth-form" onSubmit={handleSubmit}>
+                    <h1 className="logo auth-form-logo">TRAILERFLIX</h1>
+                    <h2 className="auth-form-title">{formActionText()}</h2>
+                    {
+                        errorMsg && 
+                        <p className="auth-form-error">{errorMsg}</p>
+                    }
+                    <label htmlFor="email" className="auth-form-label">Email</label>
+                    <input 
+                        id="email" 
+                        className={`auth-form-input ${errorMsg && email === '' && "auth-form-input-error"}`}
+                        type="email" 
+                        onChange={(e) => handleChange(e.target.value, "email")}
+                        value={email}
                     />
-                    </>
-                }
-                <button className="account-form-btn">{formActionText()}</button>
-                <Link className="account-form-link" to={formAltActionLink()}>{formAltActionText()}</Link>
-            </Form>
-        </div>
-        </>
+                    <label htmlFor="password" className="auth-form-label">Password</label>
+                    <input 
+                        id="password" 
+                        className={`auth-form-input ${errorMsg && password === '' ? "auth-form-input-error" : mismatch && "mismatch"}`} // 
+                        type="password" 
+                        onChange={(e) => handleChange(e.target.value, "password")}
+                        value={password}
+                    />
+                    { // Show Confirm Password field in Sign Up
+                        formType === FORM_TYPE.REGISTER &&
+                        <>
+                        <label htmlFor="confirm-password" className="auth-form-label">Confirm password</label>
+                        <input
+                            id="confirm-password"
+                            className={`auth-form-input ${errorMsg && confirmPassword === '' ? "auth-form-input-error" : mismatch && "mismatch"}`}
+                            type="password"
+                            onChange={(e) => handleChange(e.target.value, "confirm-password")}
+                            value={confirmPassword}
+                        />
+                        </>
+                    }
+                    <button className="auth-form-btn">{formActionText()}</button>
+                    <Link className="auth-form-link" to={formAltActionLink()}>{formAltActionText()}</Link>
+                </Form>
+            </section>
+        </main>
     )
 }

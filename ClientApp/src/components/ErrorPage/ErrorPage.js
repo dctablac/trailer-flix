@@ -12,15 +12,17 @@ export default function ErrorPage() {
     console.error(error);
 
     return (
-        <div id="error-page" className="error-page">
-            <div className="error-page-content">
-                <h1 className="logo" onClick={() => navigate(ROUTE.BROWSE)}>TRAILERFLIX</h1>
-                <h2>Oops!</h2>
-                <p>Sorry, an unexpected error has occurred.</p>
-                <p>
-                    <i>{error.statusText || error.message}</i>
-                </p>
+        <main>
+            <div id="error-page" className="error-page">
+                <div className="error-page-content">
+                    <h1 className="logo" onClick={() => navigate(ROUTE.BROWSE)}>TRAILERFLIX</h1>
+                    <h2>Oops!</h2>
+                    <p>Sorry, an unexpected error has occurred.</p>
+                    <p>
+                        <i>{error.statusText || error.message}</i>
+                    </p>
+                </div>
             </div>
-        </div>
+        </main>
     );
 }

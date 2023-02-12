@@ -8,7 +8,6 @@ import {
 import { FORM_TYPE, ROUTE } from './text';
 import App from './App';
 import Account from './components/Account';
-import AccountForm from './components/AccountForm';
 import Home, { 
   loader as homeLoader
 } from './components/Home';
@@ -17,16 +16,16 @@ import Details, {
   action as detailsAction
 } from './components/Details';
 import ErrorPage from './components/ErrorPage';
-import AccountFormBackdrop, {
-  loader as accountFormBackdropLoader
-} from './components/AccountFormBackdrop';
+import AuthForm from './components/AuthForm';
+import AuthFormBackdrop, {
+  loader as authFormBackdropLoader
+} from './components/AuthFormBackdrop';
 import ResetPassword from './components/Account/ResetPassword';
 import ChangeEmail from './components/Account/ChangeEmail';
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
-
-import './index.css';
 import DeleteAccount from './components/Account/DeleteAccount';
+import './index.css';
 
 
 const rootElement = document.getElementById('root');
@@ -44,12 +43,12 @@ const router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <AccountForm formType={FORM_TYPE.REGISTER}/>,
+            element: <AuthForm formType={FORM_TYPE.REGISTER}/>,
             children: [
               {
                 path: '',
-                element: <AccountFormBackdrop />,
-                loader: accountFormBackdropLoader
+                element: <AuthFormBackdrop />,
+                loader: authFormBackdropLoader
               }
             ]
           }
@@ -61,12 +60,12 @@ const router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <AccountForm formType={FORM_TYPE.LOGIN} />,
+            element: <AuthForm formType={FORM_TYPE.LOGIN} />,
             children: [
               {
                 path: '',
-                element: <AccountFormBackdrop />,
-                loader: accountFormBackdropLoader
+                element: <AuthFormBackdrop />,
+                loader: authFormBackdropLoader
               }
             ]
           }
